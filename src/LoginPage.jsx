@@ -2,6 +2,11 @@ import React from 'react';
 import './LoginPage.css';
 
 const LoginPage = () => {
+
+    const googleAuth = () => {
+        window.location.href = 'http://localhost:5000/auth/google';
+      };
+    
   return (
     <div className="login-page">
       {/* Section ซ้าย */}
@@ -51,6 +56,7 @@ const LoginPage = () => {
             <div className="extra-links">
                 <a href="/register">ลงทะเบียนผู้ใช้ใหม่</a> |{' '}
                 <a href="/contact">ติดต่อเจ้าหน้าที่</a>
+                <button onClick={googleAuth}>Login with Google</button>
             </div>
         </div>
       </div>
