@@ -29,7 +29,6 @@
   } 
   .login-main_container {
     flex:6;
-
     align-content: center;
     border-radius: 0px 20px 20px 0px;
     position: relative;
@@ -121,12 +120,11 @@
   }
   
   .submit-button {
-    width: 100%;
-    padding: 10px;
+    width: 76px;
+    height: 70.77px;
     background: rgba(0, 103, 101, 0.8);
-    color: #fff;
     border: none;
-    border-radius: 10px;
+    border-radius: 20px;
     cursor: pointer;
     margin-top: 10px;
   }
