@@ -1,0 +1,60 @@
+.petition-content-container{
+    margin-left: 5%;
+    display: flex;
+    flex-direction: column;
+    min-width: 1400px;
+
+  }
+  .petition-header{
+    flex:1;
+    border: #e8e8e844 solid 1px;
+  }
+  .petition-header h1{
+    font-size: 30px;
+  }
+  .showing-petition-container{
+    flex:2;
+
+    border: #e8e8e844 solid 1px;
+  }
+  .showing-petition{
+    position: absolute;
+    width: 1400px;
+    height: 217px;
+    background: #FFFFFF;
+    border: #e8e8e844 solid 1px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+  }
+  .main-petition{
+    flex:6;
+    display: flex;
+    border: #e8e8e844 solid 1px;
+    padding-top: 30px;
+  }
+  .petition-menu{
+    position: absolute;
+    width: 408px;
+    height: 311px;
+
+    background: #FFFFFF;
+    border: #E8E8E8 solid 1px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    
+  }
+
+  .my-petition{
+    position: absolute;
+    width: 900px;
+    height: 725px;
+    left: 46%;
+
+    
+    background: #FFFFFF;
+    border: #E8E8E8 solid 1px;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    
+    
+  }
