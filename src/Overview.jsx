@@ -3,7 +3,7 @@ import Sidebar from "./Component/Sidebar";
 import Banner from "./Component/ฺBanner";
 import './Home.css';
 
-const Home = () => {
+const Overview = () => {
 
     return (
         <div className="background">
@@ -22,4 +22,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Overview;

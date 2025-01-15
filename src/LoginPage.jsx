@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
+import Logo from './Component/Logo';
 
 const LoginPage = () => {
 
@@ -18,8 +19,7 @@ const LoginPage = () => {
         e.preventDefault();
         try {
             console.log('Loging in')
-            const response = await axios.post("http://localhost:5000/login", { student_id, password });
-            
+            const response = await axios.post("http://localhost:5000/login", { student_id, password });         
             const { student_id: loggedInStudentId, token } = response.data;
 
             localStorage.setItem("studentId", loggedInStudentId);
@@ -41,14 +41,10 @@ const LoginPage = () => {
       {/* Section ซ้าย */}
       <div className="login-sidebar">
         <div className='role-container'>
-
+            <p className="role-change-text" >เข้าสู่ระบบโดยเป็น <a className="role-changer">นิสิต</a> </p>
         </div>
         <div className="login-main_container">
-            <div class="ku-coop-title">
-            <h1 class="text-base">
-                K<span class="text-overlay">U - CO</span>OP
-            </h1>
-            </div>
+            <Logo/>
 
             <p className="subtitle">
                 ระบบสหกิจศึกษา
@@ -83,7 +79,7 @@ const LoginPage = () => {
             </div>
             
             <button type="submit" className="submit-button">
-                <img src="src/image/right-arrow.png" alt="เข้าสู่ระบบ" style={{ width: '30px', height: '30px' }} />
+                <img src="public/right-arrow.png" alt="เข้าสู่ระบบ" style={{ width: '30px', height: '30px' }} />
             </button>
             {error && <p style={{ color: "red" }}>{error}</p>}
             <a href="/forgot-password" className="forgot-password-link">
@@ -98,7 +94,7 @@ const LoginPage = () => {
         </div>
       </div>
 
-
+    {/* Background */}
       <div className="login-background"></div>
     </div>
   );
