@@ -17,15 +17,24 @@ const Petition = () => {
                     </div>
                     <div className="showing-petition-container">
                         <div className="showing-petition">
-
+                            <div className="sub-header">
+                                <div className="sub-header-square"/>
+                                <h3>คำร้องบัจจุบัน</h3>
+                            </div>
                         </div>
                     </div>
                     <div className="main-petition">
                         <div className="petition-menu">
-                        
+                            <div className="sub-header">
+                                <div className="sub-header-square"/>
+                                <h3>คำร้องสหกิจ</h3>
+                            </div>
                         </div>
                         <div className="my-petition">
-                        
+                            <div className="sub-header">
+                                <div className="sub-header-square"/>
+                                <h3>คำร้องฉัน</h3>
+                            </div>
                         </div>
                     </div>
                 </div>
