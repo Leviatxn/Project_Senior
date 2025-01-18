@@ -5,6 +5,8 @@ import RegisterPage from './RegisterPage';
 import Home from './Home';
 import { Navigate } from 'react-router-dom';
 import Petition from './Petition';
+import RequestA from './RequestA';
+import RequestB from './RequestB';
 
 
 const PrivateRoute = ({ children }) => {
@@ -18,7 +20,9 @@ function App() {
       <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={<Home />} />
-      <Route path="/cooperative" element={<Petition />} />
+      <Route path="/petition" element={<Petition />} />
+      <Route path="/petition/request-a" element={<RequestA />} />
+      <Route path="/petition/request-b" element={<RequestB />} />
     </Routes>
   );
 }

@@ -3,15 +3,44 @@
     display: flex;
     flex-direction: column;
     min-width: 1400px;
-
   }
   .petition-header{
     flex:1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+  }
+  .request-header{
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+  }
+  .request-header h1{
+    font-size: 30px;
+  }
+  .request-container{
+    flex:9;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
 
   }
   .petition-header h1{
     font-size: 30px;
+  }
+
+  .petition-detail{
+    margin-left: 8%;
+    width: 80%;
+    text-align: right;
     
+  }
+  .petition-detail a{
+    text-decoration: underline;
+    color: #000000;
   }
   .showing-petition-container{
     flex:2;
@@ -26,13 +55,18 @@
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 20px;
   }
+  .showing-petition a{
+    margin-left: 1%;
+    text-decoration: underline;
+    color: #006765;
+  }
   .main-petition{
     flex:6;
     display: flex;
 
     padding-top: 40px;
   }
-  .petition-menu{
+  .petition-menu-box{
     position: absolute;
     width: 408px;
     height: 311px;
@@ -43,6 +77,49 @@
     border-radius: 20px;
     
   }
+  .petition-menu{
+    position: absolute;
+    width: 100%;
+    height: 60%;
+
+    
+  }
+  .petition-menu nav{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 10px;
+    
+  }
+  .petition-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .petition-menu li {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .petition-menu a {
+    text-align: right;
+    display: block; 
+    text-decoration: underline;
+    color: #000000;
+    font-weight: 400;
+    padding: 10px 70px;
+    border-radius: 0px 15px 15px 15px;
+    transition: background-color 0.3s ease; 
+  }
+  
+  .petition-menu a:hover {
+    background: linear-gradient(90deg, rgba(0, 166, 162, 0.4) 30.5%, rgba(0, 103, 101, 0.4) 100%);
+    border-radius: 15px;
+    
+  }
+
 
   .my-petition{
     position: absolute;
@@ -58,7 +135,7 @@
   
   }
   .sub-header{
-    margin: 30px;
+    margin: 30px 0px 20px 30px ;
   }
   .sub-header h3{
     font-size: 20px;
@@ -72,4 +149,55 @@
 
     background: #006765;
     border-radius: 5px;
+  }
+  .petition-underline {
+    padding: 2px;
+    margin-top: 5%;
+    width: 100%;
+    height: 0px;
+    border: 1px solid rgba(226, 226, 226, 0.418);
+  }
+  .request-back{
+    margin-left: 8%;
+    width: 70%;
+    text-align: right;
+   }
+    
+  .request-box{
+    display: flex;
+    flex-direction: column;
+    padding: 30px auto;
+    box-sizing: border-box;
+    width: 1256px;
+    height: 80%;
+    background: rgba(255, 255, 255, 0.6);
+    border: 1px solid #E3E3E3;
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+  }
+  .request-box-header{
+   flex:1;
+   border-bottom: 1px solid #E3E3E3;
+  }
+  .request-box-content{
+    flex:6;
+    margin-left: 40px;
+  }
+  .request-box-footer{
+    flex:1;
+
+  }
+  .request-sub-header{
+    margin: 30px 0px 30px 30px ;
+  }
+  .request-sub-header h3{
+    font-size: 20px;
+    font-weight :500;
+    margin-left:20px;
+  }
+  .request-sub-header a{
+    text-decoration: underline;
+    font-size: 20px;
+    font-weight :400;
+    margin-left:20px;
   }

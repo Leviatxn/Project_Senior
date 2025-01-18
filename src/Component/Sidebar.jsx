@@ -40,14 +40,53 @@ const Sidebar = () => {
     }, []);
 
     if (!user) {
-        return <p>Loading...</p>;
+        return (
+          <div className="sidebar">
+          <div className="sidebar-header-container">
+            <div className="sidebar-header-content">
+              <div className="sidebar-header-img">
+                  <div className="sidebar-header-circle"/>
+              </div>
+              <div className="sidebar-header">
+                <p className="user-name">Loading..</p>
+                <p className="user-id">(นิสิต) Loading...</p>
+              </div>
+            </div>
+            <div className="sidebar-header-underline"/>
+          </div>
+          <div className="menu">
+            <div className="logo-container">
+              <div className="logo">
+                <Logo fontSize="40px"/>
+              </div>
+              <p className="sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
+            </div>
+            <nav>
+              <ul>
+              <li ><a href="/home">หน้าหลัก</a></li>
+              <li><a href="/cooperative">คำร้องสหกิจ</a></li>
+              <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
+              <li><a href="/overview">สถิติ</a></li>
+              <li><a href="/profile">ข้อมูลนิสิต</a></li>
+              <li><a href="/contact">ติดต่อสหกิจ</a></li>
+              </ul>
+            </nav>
+            
+          </div>
+    
+          <div className="logout">
+            <div className="sidebar-header-underline"/>
+              <a onClick={handleLogout}>ออกจากระบบ</a>
+          </div>
+        </div>
+        )
     }
   return (
     <div className="sidebar">
       <div className="sidebar-header-container">
         <div className="sidebar-header-content">
           <div className="sidebar-header-img">
-              <div className="sidebar-header-circle"/>
+            <div className="sidebar-header-circle"/>
           </div>
           <div className="sidebar-header">
             <p className="user-name">{user.username}</p>
@@ -66,7 +105,8 @@ const Sidebar = () => {
         <nav>
           <ul>
             <li><a href="/home">หน้าหลัก</a></li>
-            <li><a href="/cooperative">สหกิจศึกษา</a></li>
+            <li><a href="/petition">คำร้องสหกิจ</a></li>
+            <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
             <li><a href="/overview">สถิติ</a></li>
             <li><a href="/profile">ข้อมูลนิสิต</a></li>
             <li><a href="/contact">ติดต่อสหกิจ</a></li>
