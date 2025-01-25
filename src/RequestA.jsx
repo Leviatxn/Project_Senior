@@ -2,8 +2,10 @@ import React from "react";
 import Sidebar from "./Component/Sidebar";
 import Banner from "./Component/ฺBanner";
 import './Home.css';
+import './Main.css';
 import './Petition.css';
 import ReturnButton from "./Component/ReturnButton";
+import RequestAForm from "./Component/RequestAForm";
 
 const RequestA = () => {
 
@@ -26,14 +28,12 @@ const RequestA = () => {
                                 <div className="request-sub-header">
                                     <div className="sub-header-square"/>
                                     <h3>คำร้อง <a>เรื่องยื่นขอเป็นนิสิตสหกิจศึกษา ปีการศึกษา 2567</a></h3>
+                                    
                                 </div>
                             </div>
                             <div className="request-box-content">
-                                <p>ชื่อ-นามสกุล</p>
-                                <p>เลขประจำตัวนิสิต</p>
-                                <p>สาขาวิชาและชั้นปี</p>
-                                <p>อีเมล์*</p>
-                                <p>เบอร์โทรศัพท์ที่ติดต่อได้</p>
+                                <RequestAForm/>
+                                
                             </div>
                             <div className="request-box-footer">
 

@@ -33,7 +33,6 @@ const RequestB = () => {
                                 <p>เลขประจำตัวนิสิต</p>
                                 <p>สาขาวิชาและชั้นปี</p>
                                 <p>อีเมล์*</p>
-                                <p>เบอร์โทรศัพท์ที่ติดต่อได้</p>
                             </div>
                             <div className="request-box-footer">
 

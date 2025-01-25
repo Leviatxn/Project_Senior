@@ -1,21 +1,66 @@
-.background {
+  .home-background {
     background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 50%, #95E9E7 100%);
-    min-height: 130vh; /* เพื่อให้ background ครอบคลุมเต็มหน้าจอ */
+    height: 120vh;
     display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
     flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
   }
-  .main-container{
-    display: flex;
-    min-width: 1161px;
-    min-height: 100vh;
-  }
-  .Side-Space{
-    min-height: 100vh;
-    width: 280px;
-  }
-  .content-container{
+  .home-content-container{
+    margin-left: 5%;
     display: flex;
     flex-direction: column;
-    min-width: 1600px;
-    border: #13e200 solid 1px;
+    width: 80%;
+  }
+  .announcement-header{
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+  }
+  .announcement-header h1{
+    font-size: 30px;
+  }
+  .student-news-header{
+    flex:1;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+
+  }
+  .student-news-header h1{
+    font-size: 30px;
+  }
+  .announcement-container{
+    flex:6;
+    border : 1px solid #DDDDDD;
+  }
+  .student-news-container{
+    flex:5;
+    border : 1px solid #DDDDDD;
+  }
+  .announcement-box{
+    box-sizing: border-box;
+    position: absolute;
+    width: 60%;
+    height: 45%;
+
+    background: #006765;
+    opacity: 0.4;
+    border: 1px solid rgba(0, 103, 101, 0.8);
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    
+  }
+  .student-news-box{
+    box-sizing: border-box;
+    position: absolute;
+    width: 60%;
+    height: 35%;
+
+    background: #006765;
+    opacity: 0.4;
+    border: 1px solid rgba(0, 103, 101, 0.8);
+    box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+    
   }

@@ -2,6 +2,7 @@ import React from "react";
 import Sidebar from "./Component/Sidebar";
 import Banner from "./Component/ฺBanner";
 import './Home.css';
+import './Main.css';
 
 const Overview = () => {
 

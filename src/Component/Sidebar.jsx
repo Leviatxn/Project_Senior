@@ -26,7 +26,7 @@ const Sidebar = () => {
             try {
                 const response = await axios.get(`http://localhost:5000/user/${studentId}`, {
                     headers: {
-                        Authorization: `Bearer ${token}`, // เผื่อไว้สำหรับ Auth ในอนาคต
+                        Authorization: `Bearer ${token}`,
                     },
                 });
 

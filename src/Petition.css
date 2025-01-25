@@ -1,3 +1,11 @@
+.petition-background {
+  background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 50%, #95E9E7 100%);
+  min-height: 130vh;
+  display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
+  flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
+}
+
+
 .petition-content-container{
     margin-left: 5%;
     display: flex;
@@ -24,9 +32,8 @@
   .request-container{
     flex:9;
     display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-
+    flex-direction: column;
+    align-items: center;
   }
   .petition-header h1{
     font-size: 30px;
@@ -144,7 +151,7 @@
   }
   .sub-header-square{
     position: absolute;
-    width: 4.84px;
+    width: 5px;
     height: 26.97px;
 
     background: #006765;
@@ -158,17 +165,16 @@
     border: 1px solid rgba(226, 226, 226, 0.418);
   }
   .request-back{
-    margin-left: 8%;
-    width: 70%;
+
+    width: 80%;
     text-align: right;
    }
     
   .request-box{
     display: flex;
     flex-direction: column;
-    padding: 30px auto;
-    box-sizing: border-box;
-    width: 1256px;
+    padding: 30px 60px 30px 60px;
+    width: 1000px;
     height: 80%;
     background: rgba(255, 255, 255, 0.6);
     border: 1px solid #E3E3E3;
@@ -178,22 +184,27 @@
   .request-box-header{
    flex:1;
    border-bottom: 1px solid #E3E3E3;
+   
   }
   .request-box-content{
     flex:6;
-    margin-left: 40px;
+    padding: 10px;
+
   }
   .request-box-footer{
     flex:1;
 
   }
   .request-sub-header{
-    margin: 30px 0px 30px 30px ;
+    display: flex;
+    align-items: center;
+
   }
   .request-sub-header h3{
     font-size: 20px;
     font-weight :500;
-    margin-left:20px;
+    margin-left:40px;
+    
   }
   .request-sub-header a{
     text-decoration: underline;
