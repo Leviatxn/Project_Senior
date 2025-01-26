@@ -4,6 +4,7 @@ import Banner from "./Component/ฺBanner";
 import './Home.css';
 import './Petition.css';
 import ReturnButton from "./Component/ReturnButton";
+import RequestBForm from "./Component/RequestBForm";
 
 const RequestB = () => {
 
@@ -29,13 +30,7 @@ const RequestB = () => {
                                 </div>
                             </div>
                             <div className="request-box-content">
-                                <p>ชื่อ-นามสกุล</p>
-                                <p>เลขประจำตัวนิสิต</p>
-                                <p>สาขาวิชาและชั้นปี</p>
-                                <p>อีเมล์*</p>
-                            </div>
-                            <div className="request-box-footer">
-
+                                <RequestBForm/>
                             </div>
                         </div>
                     </div>

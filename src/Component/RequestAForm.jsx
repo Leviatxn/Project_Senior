@@ -92,9 +92,9 @@ const RequestAForm = () => {
   return (
     <Box sx={{ p: 4 }}>
       <form onSubmit={handleSubmit} encType="multipart/form-data">
-        <Grid container spacing={3}>
+        <Grid container spacing={3} justifyContent="center">
           {/* เลขประจําตัวนิสิต */}
-          <Grid item xs={12}>
+          <Grid item xs={8}>
             <TextField
               name="StudentID"
               label="เลขประจําตัวนิสิต"
@@ -107,7 +107,7 @@ const RequestAForm = () => {
           </Grid>
 
           {/* ชื่อ-นามสกุล */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={8}>
             <TextField
               name="FullName"
               label="ชื่อ-นามสกุล"
@@ -143,23 +143,38 @@ const RequestAForm = () => {
           </Grid>
 
           {/* ชั้นปี */}
-          <Grid item xs={12} sm={6}>
-            <TextField
-              name="Year"
-              label="ชั้นปี"
-              fullWidth
-              variant="outlined"
-              value={formValues.Year}
-              onChange={handleChange}
-              required
-            />
-          </Grid>
+        <Grid item xs={12} sm={2}>
+        <TextField
+            name="Year"
+            label="ชั้นปี"
+            type="number"
+            fullWidth
+            variant="outlined"
+            value={formValues.Year}
+            onChange={(e) => {
+            const value = parseInt(e.target.value, 10);
+            if (value >= 1 && value <= 8) {
+                handleChange(e); // ส่งค่ากลับไปเก็บใน state
+            } else if (!e.target.value) {
+                // ในกรณีที่ผู้ใช้ลบข้อความทั้งหมด ให้ส่งค่า "" ไปยัง state
+                handleChange({ target: { name: "Year", value: "" } });
+            }
+            }}
+            onBlur={(e) => {
+            const value = parseInt(e.target.value, 10);
+            if (value < 1 || value > 8 || isNaN(value)) {
+                handleChange({ target: { name: "Year", value: "" } });
+            }
+            }}
+            required
+        />
+        </Grid>
 
           {/* อีเมล */}
-          <Grid item xs={12} sm={6}>
+          <Grid item xs={8}>
             <TextField
               name="Email"
-              label="E-MAIL"
+              label="อีเมล"
               type="email"
               fullWidth
               variant="outlined"
@@ -170,7 +185,7 @@ const RequestAForm = () => {
           </Grid>
 
           {/* เบอร์โทรศัพท์ */}
-          <Grid item xs={12}>
+          <Grid item xs={8}>
             <TextField
               name="PhoneNumber"
               label="เบอร์โทรศัพท์ (ที่สะดวกติดต่อ)"
@@ -184,8 +199,8 @@ const RequestAForm = () => {
           </Grid>
 
           {/* แนบไฟล์ PDF */}
-          <Grid item xs={12}>
-            <Typography variant="body1">
+          <Grid item xs={8}>
+            <Typography variant="p">
               แนบไฟล์จำนวนหน่วยกิต (PDF เท่านั้น)
             </Typography>
             <TextField
@@ -195,19 +210,32 @@ const RequestAForm = () => {
               inputProps={{ accept: ".pdf" }} // จำกัดประเภทไฟล์เป็น PDF
               onChange={handleFileChange}
               required
+              sx={{ fontFamily :"Noto Sans Thai , sans-seriff"}}   
             />
           </Grid>
 
-          {/* ปุ่มส่ง */}
-          <Grid item xs={12}>
+          <Grid item xs={12} container justifyContent="center">
             <Button
               type="submit"
               variant="contained"
               color="primary"
-              fullWidth
-              sx={{ mt: 2 }}
+              
+              sx={{
+                mt: 2,
+                width: "181px",
+                backgroundColor: "#00A6A2",
+                color: "#FFFFFF", 
+                borderRadius: "16px",
+                fontSize: "16px",
+                fontFamily :"Noto Sans Thai , sans-seriff",
+                padding: "10px 20px",
+                textTransform: "none",
+                "&:hover": {
+                  backgroundColor: "#006765",
+                },
+              }}
             >
-              ยืนยันข้อมูล
+              ส่งคำร้อง
             </Button>
           </Grid>
         </Grid>

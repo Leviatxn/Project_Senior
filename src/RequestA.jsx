@@ -27,17 +27,14 @@ const RequestA = () => {
                             <div className="request-box-header">
                                 <div className="request-sub-header">
                                     <div className="sub-header-square"/>
-                                    <h3>คำร้อง <a>เรื่องยื่นขอเป็นนิสิตสหกิจศึกษา ปีการศึกษา 2567</a></h3>
-                                    
+                                    <h3>คำร้อง <a>ยื่นขอเป็นนิสิตสหกิจศึกษา ปีการศึกษา 2567</a></h3>
+
                                 </div>
                             </div>
                             <div className="request-box-content">
-                                <RequestAForm/>
-                                
+                                <RequestAForm/>                              
                             </div>
-                            <div className="request-box-footer">
 
-                            </div>
                         </div>
                     </div>
                 </div>
