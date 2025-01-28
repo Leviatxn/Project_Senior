@@ -1,0 +1,6 @@
+.prof-home-background {
+    background: linear-gradient(180deg, #00A6A2 0%, #58CCC9 16%, #CEFFFE 100%);
+    height: 120vh;
+    display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
+    flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
+  }

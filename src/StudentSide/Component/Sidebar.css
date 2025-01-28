@@ -37,9 +37,12 @@
 
   }
   .sidebar-header-circle {
-    width: 70%; /* กำหนดความกว้าง */
-    height: 70%; /* กำหนดความสูง */
-    background: linear-gradient(to bottom, lightblue, white); /* กำหนดสีไล่เฉด */
+    width: 60px; /* กำหนดความกว้าง */
+    height: 60px; /* กำหนดความสูง */
+    background:
+    url('/public/user.png') no-repeat;
+    background-size: cover; /* หรือใช้ contain ถ้าต้องการขยายรูป */
+    background-position: 20% 80%; /* เปลี่ยน top เป็น center, bottom, left, หรือ right *//* กำหนดสีไล่เฉด */
     border: #000000 solid 2px;
     border-radius: 50%; /* ทำให้เป็นวงกลม */
     margin: 5px auto; /* จัดให้อยู่กลาง */
@@ -53,7 +56,7 @@
   .sidebar-header-underline {
     width: 100%;
     height: 0px;
-    border: 1.5px solid rgba(0, 103, 101, 0.4);
+    border: 1px solid rgba(0, 103, 101, 0.3);
   }
   
   .profile-pic {
@@ -81,6 +84,7 @@
   .logo-container{
     text-align: center;
     margin-top: 20px;
+
   }
   .logo{
 
@@ -91,25 +95,37 @@
     margin-top: 0px;
   }
   .menu nav {
-    margin-top: 20%;
-
-
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
   }
+  
   .menu ul {
     list-style: none;
+    padding: 0;
+    margin: 0;
   }
   
   .menu li {
-    padding: 15px;
-    margin: 15px 0;
+    text-align: center;
+    margin: 20px 0;
   }
   
   .menu a {
+    display: block; 
     text-decoration: none;
-    color: #006765;
-    font-weight: bold;
+    color: #000000;
+    font-weight: 400;
+    padding: 15px 70px;
+    border-radius: 0px 15px 15px 15px;
+    transition: background-color 0.3s ease; 
   }
   
+  .menu a:hover {
+    background: linear-gradient(90deg, rgba(0, 166, 162, 0.5) 0%, rgba(255, 255, 255, 0.38) 88.5%);
+  }
   .logout {
     flex : 1;
     padding: 10px;
