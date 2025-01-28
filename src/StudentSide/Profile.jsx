@@ -4,7 +4,7 @@ import Banner from "./Component/ฺBanner";
 import './Home.css';
 import '../Main.css';
 import './Profile.css';
-import StudentInfoForm from "./Component/StudentInfoForm";
+import UserProfile from "./Component/UserProfile";
 const Profile = () => {
 
     return (
@@ -22,7 +22,7 @@ const Profile = () => {
                     </div> 
                     <div className="profile-container">
                         <div className="profile-box">
-                            <StudentInfoForm/>
+                            <UserProfile/>
                         </div>
                     </div> 
 

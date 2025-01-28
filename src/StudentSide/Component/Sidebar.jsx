@@ -24,7 +24,7 @@ const Sidebar = () => {
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/user/${studentId}`, {
+                const response = await axios.get(`http://localhost:5000/user/http://localhost:5000/user/${studentId}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
