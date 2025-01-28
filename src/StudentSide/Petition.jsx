@@ -3,7 +3,7 @@ import Sidebar from "./Component/Sidebar";
 import Banner from "./Component/ฺBanner";
 import axios from "axios";
 import "./Home.css";
-import "./Main.css";
+import "../Main.css";
 import "./Petition.css";
 import PetitionStepper from "./Component/Petition/PetitionStepper";
 

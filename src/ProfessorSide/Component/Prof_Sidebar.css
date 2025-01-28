@@ -1,0 +1,143 @@
+/* Sidebar */
+.prof-sidebar {
+    position: fixed;
+    display: flex;
+    flex-direction: column;
+    top: 0;
+    left: 0;
+    height: 900px;
+    width: 280px;
+    background-color: #312E2E;
+    z-index: 2;
+    margin-top: 10px;
+    box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgb(255, 255, 255);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 0px 20px 20px 0px;
+  }
+  
+  .prof-sidebar-header-container{
+    text-align: center;
+    padding: 10px;
+
+  }
+  .prof-sidebar-header-content{
+    display: flex;
+    flex : 1;
+    margin: 10px;
+    margin-top: 30px;
+    margin-bottom: 30px;
+    text-align: center;
+
+  }
+  .prof-sidebar-header-img{
+    flex : 1;
+    text-align: center;
+
+
+  }
+  .prof-sidebar-header-circle {
+    width: 60px; /* กำหนดความกว้าง */
+    height: 60px; /* กำหนดความสูง */
+    background:
+    url('/public/user.png') no-repeat;
+    background-size: cover; /* หรือใช้ contain ถ้าต้องการขยายรูป */
+    background-position: 20% 80%; /* เปลี่ยน top เป็น center, bottom, left, หรือ right *//* กำหนดสีไล่เฉด */
+    border: #c5c5c5 solid 2px;
+    border-radius: 50%; /* ทำให้เป็นวงกลม */
+    margin: 5px auto; /* จัดให้อยู่กลาง */
+  }
+  .prof-sidebar-header{
+    flex : 2;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+  }
+  .prof-sidebar-header-underline {
+    width: 100%;
+    height: 0px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
+  }
+  
+  .prof-profile-pic {
+    width: 80px;
+    height: 80px;
+    border-radius: 50%;
+  }
+  
+  .prof-user-name {
+    font-weight:600;
+    margin-top: 10px;
+    margin-bottom: 1px;
+  }
+  
+  .prof-user-id {
+    color: #fdfdfd;
+    margin-top: 2px;
+    font-size: 14px;
+  }
+
+  .prof-menu{
+    flex : 9;
+
+  }
+  .prof-logo-container{
+    text-align: center;
+    margin-top: 20px;
+
+  }
+  .prof-sub-logo{
+    font-size: 15 px;
+    font-weight: 300px;
+    color: #fff;
+    font-weight: 300;
+    margin-top: 0px;
+  }
+  .prof-menu nav {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    margin-top: 30px;
+  }
+  
+  .prof-menu ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .prof-menu li {
+    text-align: center;
+    margin: 20px 0;
+  }
+  
+  .prof-menu a {
+    display: block; 
+    text-decoration: none;
+    color: #fff;
+    font-weight: 300;
+    padding: 15px 60px;
+    border-radius: 0px 15px 15px 15px;
+    transition: background-color 0.3s ease; 
+  }
+  
+  .prof-menu a:hover {
+    background: linear-gradient(90deg, rgba(0, 166, 162, 0.5) 0%, rgba(255, 255, 255, 0.38) 88.5%);
+  }
+  .prof-logout {
+    flex : 1;
+    padding: 10px;
+
+  }
+  
+  .prof-logout a {
+    display: block;
+    text-align: right;
+    font-size: 14px;
+    margin-top: 20px;
+    padding:10px;
+    color: rgb(203, 248, 247);
+    text-decoration: none;
+  }
+  

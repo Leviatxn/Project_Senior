@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import {useNavigate } from 'react-router-dom';
-import './Sidebar.css';
-import Logo from "./Logo";
+import './Prof_Sidebar.css';
+import Logo from "../../MainComponent/Logo";
 
 const Sidebar = () => {
     const [user, setUser] = useState(null);
@@ -41,66 +41,66 @@ const Sidebar = () => {
 
     if (!user) {
         return (
-          <div className="sidebar">
-          <div className="sidebar-header-container">
-            <div className="sidebar-header-content">
-              <div className="sidebar-header-img">
-                  <div className="sidebar-header-circle"/>
+          <div className="prof-sidebar">
+          <div className="prof-sidebar-header-container">
+            <div className="prof-sidebar-header-content">
+              <div className="prof-sidebar-header-img">
+                  <div className="prof-sidebar-header-circle"/>
               </div>
-              <div className="sidebar-header">
-                <p className="user-name">Loading..</p>
-                <p className="user-id">(นิสิต) Loading...</p>
+              <div className="prof-sidebar-header">
+                <p className="prof-user-name">Loading..</p>
+                <p className="prof-user-id">(นิสิต) Loading...</p>
               </div>
             </div>
-            <div className="sidebar-header-underline"/>
+            <div className="prof-sidebar-header-underline"/>
           </div>
-          <div className="menu">
-            <div className="logo-container">
+          <div className="prof-menu">
+            <div className="prof-logo-container">
               <div className="logo">
-                <Logo fontSize="40px"/>
+                <Logo fontSize="40px" overlayColor = "#fff" />
+                <p className="prof-sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
               </div>
-              <p className="sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
             </div>
             <nav>
               <ul>
               <li ><a href="/home">หน้าหลัก</a></li>
-              <li><a href="/cooperative">คำร้องสหกิจ</a></li>
-              <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
-              <li><a href="/overview">สถิติ</a></li>
-              <li><a href="/profile">ข้อมูลนิสิต</a></li>
-              <li><a href="/contact">ติดต่อสหกิจ</a></li>
+              <li><a href="/cooperative">คำร้องสหกิจทั้งหมด</a></li>
+              <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
+              <li><a href="/overview">การนิเทศน์</a></li>
+              <li><a href="/profile">ติดตามการฝึกงาน</a></li>
+              <li><a href="/contact">สถิติ</a></li>
               </ul>
             </nav>
             
           </div>
     
-          <div className="logout">
-            <div className="sidebar-header-underline"/>
+          <div className="prof-logout">
+            <div className="prof-sidebar-header-underline"/>
               <a onClick={handleLogout}>ออกจากระบบ</a>
           </div>
         </div>
         )
     }
   return (
-    <div className="sidebar">
-      <div className="sidebar-header-container">
-        <div className="sidebar-header-content">
-          <div className="sidebar-header-img">
-            <div className="sidebar-header-circle"/>
+    <div className="prof-sidebar">
+      <div className="prof-sidebar-header-container">
+        <div className="prof-sidebar-header-content">
+          <div className="prof-sidebar-header-img">
+            <div className="prof-sidebar-header-circle"/>
           </div>
-          <div className="sidebar-header">
-            <p className="user-name">{user.username}</p>
-            <p className="user-id">(นิสิต) {user.student_id}</p>
+          <div className="prof-sidebar-header">
+            <p className="prof-user-name">{user.username}</p>
+            <p className="prof-user-id">(นิสิต) {user.student_id}</p>
           </div>
         </div>
-        <div className="sidebar-header-underline"/>
+        <div className="prof-sidebar-header-underline"/>
       </div>
-      <div className="menu">
-        <div className="logo-container">
-          <div className="logo">
+      <div className="prof-menu">
+        <div className="prof-logo-container">
+          <div className="prof-logo">
             <Logo fontSize="40px"/>
           </div>
-          <p className="sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
+          <p className="prof-sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
         </div>
         <nav>
           <ul>
@@ -115,8 +115,8 @@ const Sidebar = () => {
         
       </div>
 
-      <div className="logout">
-        <div className="sidebar-header-underline"/>
+      <div className="prof-logout">
+        <div className="prof-sidebar-header-underline"/>
           <a onClick={handleLogout}>ออกจากระบบ</a>
       </div>
     </div>

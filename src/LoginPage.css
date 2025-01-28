@@ -55,20 +55,60 @@
   }
 
   
+  .role-switcher {
+    position: relative;
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    margin-top: 10px;
+    padding: 10px;
+    border: 1px solid #0a0a0a69;
+    border-radius: 0px 20px 20px 20px;
+    background-color: #fff;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    z-index: 10;
+  }
+  
+  .dropdown-menu div {
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+  
+  .dropdown-menu div:hover {
+    background-color: #e6f7ff; /* สีพื้นหลังเมื่อ Hover */
+    color: #00A6A2; /* สีข้อความเมื่อ Hover */
+    border-radius: 4px;
+  }
+  .dropdown-icon {
+    width: 15px;
+    height: 15px;
+    margin-left: 5%;
+    transition: transform 0.3s ease; /* Animation นุ่มนวล */
+  }
+  
+  .dropdown-icon.rotated {
+    transform: rotate(270deg); /* หมุน 180 องศาเมื่อ Dropdown เปิด */
+  }
+  
+  
   .role-change-text {
     display: block;
     text-align: left;
     font-size: 16px;
     margin-left: 10px;
     padding: 10px;
-    color: rgba(0, 0, 0, 0.25);
+    color: rgba(122, 122, 122, 0.25);
     text-decoration: none;
+
   }
 
   .role-changer {
     font-size: 16px;
     color: #006765;
     text-decoration: underline;
+
   }
   
   .text-overlay {
@@ -108,7 +148,7 @@
     font-family: "Noto Sans Thai", sans-serif;
     text-align: center;
     font-size: 18px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
     color: #1e1e1e;
   }
   
@@ -126,7 +166,7 @@
   
   .input-group label {
     display: block;
-    font-size: 16px;
+    font-size: 14px;
     margin-bottom: 5px;
     color: rgba(0, 0, 0, 0.9);
   }
@@ -137,7 +177,11 @@
     border: 1px solid rgba(0, 103, 101, 0.62);
     border-radius: 10px;
   }
-  
+  .submit-container {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   .submit-button {
     width: 76px;
     height: 70.77px;
@@ -153,7 +197,7 @@
     text-align: right;
     font-size: 14px;
     margin-top: 10px;
-    color: rgba(0, 103, 101, 0.25);
+    color: rgba(4, 153, 151, 0.616);
     text-decoration: none;
   }
 

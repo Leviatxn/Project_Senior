@@ -1,13 +1,15 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import LoginPage from './LoginPage';
-import RegisterPage from './RegisterPage';
-import Home from './Home';
+import RegisterPage from './StudentSide/RegisterPage';
+import Home from './StudentSide/Home';
 import { Navigate } from 'react-router-dom';
-import Petition from './Petition';
-import RequestA from './RequestA';
-import RequestB from './RequestB';
-import Profile from './Profile';
+import Petition from './StudentSide/Petition';
+import RequestA from './StudentSide/RequestA';
+import RequestB from './StudentSide/RequestB';
+import Profile from './StudentSide/Profile';
+import Prof_LoginPage from './Prof_LoginPage';
+import Prof_Home from './ProfessorSide/Prof_Home';
 
 
 const PrivateRoute = ({ children }) => {
@@ -19,6 +21,8 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<LoginPage />} />
+      <Route path="/professor" element={<Prof_LoginPage />} />
+      <Route path="/professor/home" element={<Prof_Home/>} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/petition" element={<Petition />} />

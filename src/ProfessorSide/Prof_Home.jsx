@@ -1,12 +1,12 @@
 import React from "react";
-import Sidebar from "./Component/Sidebar";
+import Sidebar from "./Component/Prof_Sidebar";
 import Banner from "./Component/ฺBanner";
-import './Home.css';
-import './Main.css';
-const Home = () => {
+import './Prof_Home.css';
+import '../Main.css';
+const Prof_Home = () => {
 
     return (
-        <div className="home-background">
+        <div className="prof-home-background">
             <Sidebar/>
             <Banner/>
             <div className="main-container">
@@ -35,4 +35,4 @@ const Home = () => {
     );
 }
 
-export default Home;
+export default Prof_Home;

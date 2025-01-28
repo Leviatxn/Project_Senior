@@ -2,7 +2,7 @@ import React from "react";
 import Sidebar from "./Component/Sidebar";
 import Banner from "./Component/ฺBanner";
 import './Home.css';
-import './Main.css';
+import '../Main.css';
 import './Petition.css';
 import ReturnButton from "./Component/ReturnButton";
 import RequestAForm from "./Component/RequestAForm";
