@@ -5,27 +5,36 @@ import {
   Typography,
   FormControl,
   Button,
+  Select,
   Grid,
   InputLabel,
+  MenuItem,
   Grid2,
 } from "@mui/material";
+import axios from "axios";
+import {useNavigate } from 'react-router-dom';
 
 const RequestBForm = () => {
+
+  const navigate = useNavigate();
+  
   const [studentInfo, setStudentInfo] = useState({
-    fullName: "",
-    studentId: "",
-    major: "",
-    year: "",
-    email: "",
-    phone: "",
+    FullName: "",
+    StudentID: "",
+    Major: "",
+    Year: "",
+    Email: "",
+    PhoneNumber: "",
+    PetitionName:"คำร้องขอปฏิบัติงานสหกิจศึกษา"
+
   });
 
   const [companyInfo, setCompanyInfo] = useState({
-    companyNameTh: "",
-    companyNameEn: "",
-    location: "",
-    province: "",
-    companyPhone: "",
+    CompanyNameTH: "",
+    CompanyNameEN: "",
+    CompanyAddress: "",
+    CompanyProvince: "",
+    CompanyPhoneNumber: "",
     relatedFiles: [],
   });
 
@@ -65,17 +74,6 @@ const RequestBForm = () => {
     }));
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    if (companyInfo.relatedFiles.length === 0) {
-      setError("กรุณาอัปโหลดไฟล์ PDF อย่างน้อย 1 ไฟล์");
-      return;
-    }
-    console.log("Student Info:", studentInfo);
-    console.log("Company Info:", companyInfo);
-    alert("Form submitted!");
-  };
-
   const handleRemoveFile = (index) => {
     setCompanyInfo((prev) => ({
       ...prev,
@@ -83,6 +81,69 @@ const RequestBForm = () => {
     }));
   };
 
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+  
+    if (companyInfo.relatedFiles.length === 0) {
+      setError("กรุณาอัปโหลดไฟล์ PDF อย่างน้อย 1 ไฟล์");
+      return;
+    }
+  
+    // สร้าง FormData สำหรับส่งข้อมูล
+    const formData = new FormData();
+  
+    // เพิ่มข้อมูล studentInfo ลงใน formData
+    Object.keys(studentInfo).forEach((key) => {
+      formData.append(key, studentInfo[key]);
+    });
+  
+    // เพิ่มข้อมูล companyInfo (ยกเว้นไฟล์)
+    Object.keys(companyInfo).forEach((key) => {
+      if (key !== "relatedFiles") {
+        formData.append(key, companyInfo[key]);
+      }
+    });
+  
+    // เพิ่มไฟล์ PDF ลงใน formData
+    companyInfo.relatedFiles.forEach((file) => {
+      formData.append("relatedFiles", file);
+    });
+  
+    try {
+      // ส่งข้อมูลไปยัง Backend
+      const response = await axios.post("http://localhost:5000/coopapplicationsubmit", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+      // ตรวจสอบว่า response สำเร็จหรือไม่
+      if (response.status === 200) {
+        console.log("ส่งคำขอแรกสำเร็จ:", response.data);
+
+        // ส่งคำขอที่สองไปยัง `current_petition`
+        const info_response = await axios.post("http://localhost:5000/current_petition",formData,
+        {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+
+        if (info_response.status === 200) {
+          console.log("ส่งข้อมูลไปยัง current_petition สำเร็จ:", info_response.data);
+          alert("ส่งคำร้องสำเร็จ!");
+          navigate("/petition");
+        } else {
+          console.error("Failed to submit additional data:", info_response.data);
+          alert("เกิดข้อผิดพลาดในการส่งข้อมูลเพิ่มเติม");
+        }
+      }
+    } catch (error) {
+      console.error("Error submitting form:", error);
+      setError("เกิดข้อผิดพลาดในการส่งคำร้อง");
+    }
+  };
+  
   return (
     <Box sx={{ p: 4}}>
       <form onSubmit={handleSubmit}>
@@ -94,64 +155,74 @@ const RequestBForm = () => {
                 ข้อมูลนิสิต *
                 </Typography>
                 <TextField
-                name="fullName"
+                name="FullName"
                 label="ชื่อ-นามสกุล"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.fullName}
+                value={studentInfo.FullName}
                 onChange={handleStudentChange}
                 sx={{mt:2, mb: 3 }}
                 required
                 />
                 <TextField
-                name="studentId"
+                name="StudentID"
                 label="เลขประจำตัวนิสิต"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.studentId}
+                value={studentInfo.StudentID}
                 onChange={handleStudentChange}
                 sx={{ mb: 3 }}
                 required
                 />
+                <FormControl fullWidth>
+                  <InputLabel>สาขาวิชา</InputLabel>
+                  <Select
+                    name="Major"
+                    value={studentInfo.Major}
+                    onChange={handleStudentChange}
+                    sx={{ mb: 3 }}
+                    required
+                  >
+                  <MenuItem value="T12">T12 - วิศวกรรมคอมพิวเตอร์และสารสนเทศศาสตร์</MenuItem>
+                  <MenuItem value="T13">T13 - วิศวกรรมเครื่องกลและการออกแบบ</MenuItem>
+                  <MenuItem value="T14">T14 - วิศวกรรมไฟฟ้าและอิเล็กทรอนิกส์</MenuItem>
+                  <MenuItem value="T17">T17 - วิศวกรรมอุตสาหการและระบบ</MenuItem>
+                  <MenuItem value="T20">T20 - วิศวกรรมระบบการผลิตดิจิทัล</MenuItem>
+                  <MenuItem value="T23">T23 - วิศวกรรมดิจิทัลและอีเล็กทรอนิกส์อัจฉริยะ</MenuItem>
+                  <MenuItem value="T18">T18 - วิศวกรรมเครื่องกลและระบบการผลิต</MenuItem>
+                  <MenuItem value="T19">T19 - วิศวกรรมหุ่นยนต์และระบบอัตโนมัติ</MenuItem>
+                  <MenuItem value="T22">T22 - วิศวกรรมยานยนต์</MenuItem>
+                  </Select>
+                </FormControl>
                 <TextField
-                name="major"
-                label="สาขาวิชา"
-                fullWidth
-                variant="outlined"
-                value={studentInfo.major}
-                onChange={handleStudentChange}
-                sx={{ mb: 3 }}
-                required
-                />
-                <TextField
-                name="year"
+                name="Year"
                 label="ชั้นปี"
                 type="number"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.year}
+                value={studentInfo.Year}
                 onChange={handleStudentChange}
                 sx={{ mb: 3 }}
                 required
                 />
                 <TextField
-                name="email"
+                name="Email"
                 label="อีเมล"
                 type="email"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.email}
+                value={studentInfo.Email}
                 onChange={handleStudentChange}
                 sx={{ mb: 3 }}
                 required
                 />
                 <TextField
-                name="phone"
+                name="PhoneNumber"
                 label="เบอร์โทรศัพท์ (ที่สะดวกติดต่อ)"
                 type="tel"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.phone}
+                value={studentInfo.PhoneNumber}
                 onChange={handleStudentChange}
                 sx={{ mb: 3 }}
                 required
@@ -166,54 +237,54 @@ const RequestBForm = () => {
               ข้อมูลบริษัทและกำหนดการฝึกงาน *
             </Typography>
             <TextField
-              name="companyNameTh"
+              name="CompanyNameTH"
               label="ชื่อบริษัท (ภาษาไทย)"
               fullWidth
               variant="outlined"
-              value={companyInfo.companyNameTh}
+              value={companyInfo.CompanyNameTH}
               onChange={handleCompanyChange}
               sx={{mt:2, mb: 3 }}
               required
             />
             <TextField
-              name="companyNameEn"
+              name="CompanyNameEN"
               label="ชื่อบริษัท (ภาษาอังกฤษ)"
               fullWidth
               variant="outlined"
-              value={companyInfo.companyNameEn}
+              value={companyInfo.CompanyNameEN}
               onChange={handleCompanyChange}
               sx={{ mb: 3 }}
               required
             />
             <TextField
-              name="location"
+              name="CompanyAddress"
               label="ที่ตั้ง"
               multiline
               rows={3}
               fullWidth
               variant="outlined"
-              value={companyInfo.location}
+              value={companyInfo.CompanyAddress}
               onChange={handleCompanyChange}
               sx={{ mb: 3 }}
               required
             />
             <TextField
-              name="province"
+              name="CompanyProvince"
               label="จังหวัดที่ฝึกงาน"
               fullWidth
               variant="outlined"
-              value={companyInfo.province}
+              value={companyInfo.CompanyProvince}
               onChange={handleCompanyChange}
               sx={{ mb: 3 }}
               required
             />
             <TextField
-              name="companyPhone"
+              name="CompanyPhoneNumber"
               label="เบอร์โทรบริษัท"
               type="tel"
               fullWidth
               variant="outlined"
-              value={companyInfo.companyPhone}
+              value={companyInfo.CompanyPhoneNumber}
               onChange={handleCompanyChange}
               sx={{ mb: 3 }}
               required

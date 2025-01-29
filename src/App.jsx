@@ -10,6 +10,7 @@ import RequestB from './StudentSide/RequestB';
 import Profile from './StudentSide/Profile';
 import Prof_LoginPage from './Prof_LoginPage';
 import Prof_Home from './ProfessorSide/Prof_Home';
+import Prof_Petition from './ProfessorSide/Prof_Petition';
 
 
 const PrivateRoute = ({ children }) => {
@@ -29,6 +30,7 @@ function App() {
       <Route path="/petition/request-a" element={<RequestA />} />
       <Route path="/petition/request-b" element={<RequestB />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/professor/petition" element={<Prof_Petition/>} />
 
     </Routes>
   );

@@ -10,8 +10,13 @@ import {
   Button,
   Grid,
 } from "@mui/material";
+import {useNavigate } from 'react-router-dom';
+import axios from "axios";
 
 const RequestAForm = () => {
+
+    const navigate = useNavigate();
+  
   const [formValues, setFormValues] = useState({
     StudentID: "",
     FullName: "",
@@ -19,8 +24,8 @@ const RequestAForm = () => {
     Year: "",
     Email: "",
     PhoneNumber: "",
-    TotalCredits_File: null,
-    PetitionName:"คำร้องขอเป็นนิสิตปฏิบัติงานสหกิจศึกษา"
+    TotalCredits_File: "",
+    PetitionName:"คำร้องขอเป็นนิสิตสหกิจศึกษา"
   });
   
 
@@ -37,6 +42,7 @@ const RequestAForm = () => {
 
   // ฟังก์ชันสำหรับจัดการการอัปโหลดไฟล์
   const handleFileChange = (e) => {
+    console.log(formValues.TotalCredits_File);
     setFormValues((prevValues) => ({
       ...prevValues,
       TotalCredits_File: e.target.files[0], // เก็บไฟล์ใน state
@@ -48,7 +54,6 @@ const RequestAForm = () => {
     e.preventDefault();
     const formData = new FormData();
 
-
     Object.keys(formValues).forEach((key) => {
       formData.append(key, formValues[key]);
     });
@@ -58,31 +63,27 @@ const RequestAForm = () => {
         method: "POST",
         body: formData,
       });
+      // ตรวจสอบว่า response สำเร็จหรือไม่
+      if (response.status === 200) {
+        console.log("ส่งคำขอแรกสำเร็จ:", response.data);
 
-      if (response.ok) {
-        alert("Application submitted successfully!");
-        setFormValues({
-          StudentID: "",
-          FullName: "",
-          Major: "",
-          Year: "",
-          Email: "",
-          PhoneNumber: "",
-          TotalCredits_File: null,
-        });
-      } else {
-        alert("Failed to submit application.");
-      }
+        // ส่งคำขอที่สองไปยัง `current_petition`
+        const info_response = await axios.post("http://localhost:5000/current_petition",formData,
+        {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
 
-      const studentId = localStorage.getItem("studentId");
-      console.log(studentId);
-      const info_response = await fetch(`http://localhost:5000/current_petition/${studentId}`, {
-        method: "POST",
-        body: formData,
-      });
-
-      if (!info_response.ok) {
-        alert("Failed to submit additional data to user_info.");
+        if (info_response.status === 200) {
+          console.log("ส่งข้อมูลไปยัง current_petition สำเร็จ:", info_response.data);
+          alert("ส่งคำร้องสำเร็จ!");
+          navigate("/petition");
+        } else {
+          console.error("Failed to submit additional data:", info_response.data);
+          alert("เกิดข้อผิดพลาดในการส่งข้อมูลเพิ่มเติม");
+        }
       }
     } catch (error) {
       console.error("Error submitting application:", error);

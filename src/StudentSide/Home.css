@@ -42,7 +42,7 @@
     box-sizing: border-box;
     position: absolute;
     width: 60%;
-    height: 45%;
+    height: 45vh;
 
     background: #006765;
     opacity: 0.4;
@@ -55,7 +55,7 @@
     box-sizing: border-box;
     position: absolute;
     width: 60%;
-    height: 35%;
+    height: 30vh;
 
     background: #006765;
     opacity: 0.4;
