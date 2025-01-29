@@ -114,6 +114,7 @@ const UserProfile = () => {
                             value={updatedUser.lastName || lastName}
                             onChange={handleInputChange}
                             fullWidth
+                            disabled
                         />
                     </Grid>
 
