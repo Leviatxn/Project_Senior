@@ -6,13 +6,14 @@ import { Box, Typography, Grid, TextField, Button } from "@mui/material";
 const UserProfile = () => {
     const [user, setUser] = useState(null);
     const [updatedUser, setUpdatedUser] = useState({});
+    const [isEditing, setIsEditing] = useState(false); // สถานะสำหรับโหมดแก้ไข
     const navigate = useNavigate();
 
-    // ฟังก์ชันสำหรับออกจากระบบ
+    // ฟังก์ชันออกจากระบบ
     const handleLogout = () => {
-        localStorage.removeItem('authToken'); // ลบ Token ออกจาก localStorage
-        localStorage.removeItem('studentId'); // ลบ Student ID (ถ้ามี)
-        navigate("/"); // นำไปหน้า Login
+        localStorage.removeItem("authToken");
+        localStorage.removeItem("studentId");
+        navigate("/");
     };
 
     useEffect(() => {
@@ -22,87 +23,81 @@ const UserProfile = () => {
 
             if (!studentId || !token) {
                 console.error("ไม่พบ studentId หรือ token");
-                navigate("/login"); // หากไม่มีข้อมูลเหล่านี้จะนำไปหน้า Login
+                navigate("/login");
                 return;
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/user/${studentId}`, {
-                    headers: {
-                        Authorization: `Bearer ${token}`,
-                    },
+                const response = await axios.get(`http://localhost:5000/user_info/${studentId}`, {
+                    headers: { Authorization: `Bearer ${token}` },
                 });
 
                 if (response.data) {
-                    console.log("ข้อมูลผู้ใช้:", response.data);  // เช็คข้อมูลที่ดึงมา
                     setUser(response.data);
-                    setUpdatedUser(response.data);  // กำหนดค่าเริ่มต้นให้กับ updatedUser
+                    setUpdatedUser(response.data);
                 } else {
                     console.error("ไม่พบข้อมูลผู้ใช้");
-                    navigate("/login"); // หากไม่มีข้อมูลผู้ใช้จะนำไปหน้า Login
+                    navigate("/login");
                 }
             } catch (err) {
                 console.error("Error fetching user data:", err);
-                navigate("/login"); // หากเกิดข้อผิดพลาดจะนำไปหน้า Login
+                navigate("/login");
             }
         };
 
         fetchUserData();
     }, [navigate]);
 
-    // ฟังก์ชันที่ใช้สำหรับเปลี่ยนแปลงข้อมูลผู้ใช้
+    // ฟังก์ชันเปลี่ยนค่าในฟอร์ม
     const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setUpdatedUser((prev) => ({
-            ...prev,
-            [name]: value,
-        }));
+        setUpdatedUser((prev) => ({ ...prev, [name]: value }));
     };
 
-    // ฟังก์ชันที่ใช้สำหรับบันทึกข้อมูล
-    const handleSubmit = (e) => {
+    // ฟังก์ชันบันทึกข้อมูล
+    const handleSubmit = async (e) => {
         e.preventDefault();
         const studentId = localStorage.getItem("studentId");
         const token = localStorage.getItem("authToken");
 
+        console.log("Submitting...", updatedUser); // เพิ่ม log เพื่อตรวจสอบข้อมูลที่จะส่ง
+
         try {
-            axios.put(`http://localhost:5000/user/${studentId}`, updatedUser, {
-                headers: {
-                    Authorization: `Bearer ${token}`,
-                },
-            }).then(response => {
-                if (response.data) {
-                    setUser(response.data);
-                    console.log("ข้อมูลถูกบันทึกแล้ว");
-                } else {
-                    console.error("ไม่สามารถบันทึกข้อมูลได้");
-                }
+            const response = await axios.put(`http://localhost:5000/user_info/${studentId}`, updatedUser, {
+                headers: { Authorization: `Bearer ${token}` },
             });
+
+            // ตรวจสอบผลลัพธ์จาก API
+            console.log("Response from API:", response.data);
+
+            if (response.data) {
+                setUser(response.data);
+                setIsEditing(false); // ปิดโหมดแก้ไขหลังจากบันทึกสำเร็จ
+                alert("บันทึกข้อมูลเรียบร้อย!");
+            } else {
+                console.error("ไม่สามารถบันทึกข้อมูลได้");
+            }
         } catch (err) {
             console.error("Error saving user data:", err);
         }
     };
 
-    // หากยังไม่โหลดข้อมูล หรือมีข้อผิดพลาดจะแสดงข้อความ
     if (!user) return <p>กำลังโหลดข้อมูล...</p>;
-
-    const [firstName, lastName] = user.username ? user.username.split(' ') : ["", ""];
 
     return (
         <Box sx={{ p: 4 }}>
-            <Typography variant="h5" gutterBottom>
-                ข้อมูลส่วนตัว
-            </Typography>
+            <Typography variant="h5" gutterBottom>ข้อมูลส่วนตัว</Typography>
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2}>
                     {/* ชื่อ */}
                     <Grid item xs={12} sm={6}>
                         <TextField
                             label="ชื่อ"
-                            name="firstName"
-                            value={updatedUser.firstName || firstName}
+                            name="first_name"
+                            value={updatedUser.first_name || ""}
                             onChange={handleInputChange}
-                            fullWidth
+                            fullWidth 
+                            disabled={!isEditing}
                         />
                     </Grid>
 
@@ -110,11 +105,11 @@ const UserProfile = () => {
                     <Grid item xs={12} sm={6}>
                         <TextField
                             label="นามสกุล"
-                            name="lastName"
-                            value={updatedUser.lastName || lastName}
+                            name="last_name"
+                            value={updatedUser.last_name || ""}
                             onChange={handleInputChange}
                             fullWidth
-                            disabled
+                            disabled={!isEditing}
                         />
                     </Grid>
 
@@ -122,7 +117,7 @@ const UserProfile = () => {
                     <Grid item xs={12}>
                         <TextField
                             label="รหัสนักศึกษา"
-                            name="studentId"
+                            name="student_id"
                             value={user.student_id}
                             fullWidth
                             disabled
@@ -134,9 +129,10 @@ const UserProfile = () => {
                         <TextField
                             label="สาขาวิชา"
                             name="major"
-                            value={updatedUser.major || user.department}
+                            value={updatedUser.major || ""}
                             onChange={handleInputChange}
                             fullWidth
+                            disabled={!isEditing}
                         />
                     </Grid>
 
@@ -145,9 +141,10 @@ const UserProfile = () => {
                         <TextField
                             label="ชั้นปี"
                             name="year"
-                            value={updatedUser.year || user.year || 'ไม่ระบุ'}
+                            value={updatedUser.year || ""}
                             onChange={handleInputChange}
                             fullWidth
+                            disabled={!isEditing}
                         />
                     </Grid>
 
@@ -157,9 +154,10 @@ const UserProfile = () => {
                             label="E-mail"
                             name="email"
                             type="email"
-                            value={updatedUser.email || user.email}
+                            value={updatedUser.email || ""}
                             onChange={handleInputChange}
                             fullWidth
+                            disabled={!isEditing}
                         />
                     </Grid>
 
@@ -167,16 +165,34 @@ const UserProfile = () => {
                     <Grid item xs={12}>
                         <TextField
                             label="เบอร์โทรศัพท์"
-                            name="phoneNumber"
-                            value={updatedUser.phoneNumber || user.phone_num}
+                            name="phone_number"
+                            value={updatedUser.phone_number || ""}
                             onChange={handleInputChange}
                             fullWidth
+                            disabled={!isEditing}
                         />
                     </Grid>
                 </Grid>
-                <Button type="submit" variant="contained" sx={{ mt: 2 }}>
-                    บันทึกข้อมูล
-                </Button>
+
+                {/* ปุ่มแก้ไข & บันทึก */}
+                <Box sx={{ mt: 2 }}>
+                    {/* แสดงปุ่มแก้ไขเมื่อไม่ได้อยู่ในโหมดแก้ไข */}
+                    {!isEditing ? (
+                        <Button variant="contained" color="primary" onClick={() => setIsEditing(true)}>
+                            แก้ไขข้อมูล
+                        </Button>
+                    ) : (
+                        <>
+                            {/* แสดงปุ่มบันทึกและยกเลิกเมื่ออยู่ในโหมดแก้ไข */}
+                            <Button type="submit" variant="contained" color="success" sx={{ mr: 2 }}>
+                                บันทึกข้อมูล
+                            </Button>
+                            <Button variant="outlined" color="secondary" onClick={() => setIsEditing(false)}>
+                                ยกเลิก
+                            </Button>
+                        </>
+                    )}
+                </Box>
             </form>
         </Box>
     );
