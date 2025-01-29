@@ -12,6 +12,14 @@ const Prof_Home = () => {
             <div className="main-container">
                 <div className="Side-Space"/>
                 <div className="home-content-container">
+                    <div className="notification-header">
+                        <h1>แจ้งเตือน</h1>
+                    </div> 
+                    <div className="notification-container">
+                        <div className="notification-box">
+
+                        </div>
+                    </div> 
                     <div className="announcement-header">
                         <h1>ประชาสัมพันธ์</h1>
                     </div> 

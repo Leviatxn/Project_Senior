@@ -63,8 +63,8 @@ const Sidebar = () => {
             </div>
             <nav>
               <ul>
-              <li ><a href="/home">หน้าหลัก</a></li>
-              <li><a href="/cooperative">คำร้องสหกิจทั้งหมด</a></li>
+              <li ><a href="/professor/home">หน้าหลัก</a></li>
+              <li><a href="/professor/petition">คำร้องสหกิจทั้งหมด</a></li>
               <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
               <li><a href="/overview">การนิเทศน์</a></li>
               <li><a href="/profile">ติดตามการฝึกงาน</a></li>
@@ -98,18 +98,18 @@ const Sidebar = () => {
       <div className="prof-menu">
         <div className="prof-logo-container">
           <div className="prof-logo">
-            <Logo fontSize="40px"/>
+            <Logo fontSize="40px" overlayColor = "#fff" />
           </div>
           <p className="prof-sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
         </div>
         <nav>
           <ul>
-            <li><a href="/home">หน้าหลัก</a></li>
-            <li><a href="/petition">คำร้องสหกิจ</a></li>
-            <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
-            <li><a href="/overview">สถิติ</a></li>
-            <li><a href="/profile">ข้อมูลนิสิต</a></li>
-            <li><a href="/contact">ติดต่อสหกิจ</a></li>
+              <li ><a href="/professor/home">หน้าหลัก</a></li>
+              <li><a href="/professor/petition">คำร้องสหกิจทั้งหมด</a></li>
+              <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
+              <li><a href="/overview">การนิเทศน์</a></li>
+              <li><a href="/profile">ติดตามการฝึกงาน</a></li>
+              <li><a href="/contact">สถิติ</a></li>
           </ul>
         </nav>
         
