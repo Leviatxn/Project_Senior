@@ -1,15 +1,30 @@
 import React, { useEffect, useState } from "react";
+import "./PetitionTable.css"; // ไฟล์ CSS แยกต่างหาก
 
 const PetitionTable = () => {
-  const [data, setData] = useState([]);
+  const [data, setData] = useState([]); // เก็บข้อมูลทั้งหมด
+  const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  const filterTable = (term) => {
+    const lowerCaseTerm = term.toLowerCase();
+    const filtered = data.filter((item) =>
+      Object.values(item)
+        .join(" ")
+        .toLowerCase()
+        .includes(lowerCaseTerm)
+    );
+    setFilteredData(filtered);
+  };
 
   // ดึงข้อมูลจาก Backend
   useEffect(() => {
     fetch("http://localhost:5000/allpetitions")
       .then((response) => response.json())
-      .then((data) => {
-        setData(data);
+      .then((fetchedData) => {
+        setData(fetchedData);
+        setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
         setLoading(false);
       })
       .catch((error) => {
@@ -18,52 +33,66 @@ const PetitionTable = () => {
       });
   }, []);
 
+  // ฟังก์ชันจัดการการเปลี่ยนแปลงใน Search Bar
+  const handleSearch = (event) => {
+    const term = event.target.value;
+    setSearchTerm(term);
+    filterTable(term);
+  };
+
   if (loading) {
-    return <div className="text-center mt-10">กำลังโหลดข้อมูล...</div>;
+    return <div className="loading-text">กำลังโหลดข้อมูล...</div>;
   }
 
   return (
-    <div className="p-4">
-      <h1 className="text-xl font-bold mb-4 text-center">
-        รายการคำร้องของนักศึกษา
-      </h1>
-      <div className="overflow-x-auto">
-        <table className="table-auto border-collapse border border-gray-200 w-full text-sm text-left">
-          <thead className="bg-gray-100">
+    <div className="table-container">
+      <div className="table-header">
+        <div className="sub-header-square" />
+        <h1 className="table-title">คำร้องทั้งหมด</h1>
+        {/* Search Bar */}
+        <input
+          type="text"
+          id="searchInput"
+          className="search-bar"
+          placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
+          value={searchTerm}
+          onChange={handleSearch}
+        />
+      </div>
+      <table className="petition-table" id="petitionTable">
+        <thead>
+          <tr>
+            <th>สถานะ</th>
+            <th>รหัสนิสิต</th>
+            <th>ชื่อ - นามสกุล</th>
+            <th>สาขาวิชา</th>
+            <th>ชั้นปี</th>
+            <th>รายละเอียดคำร้อง</th>
+
+          </tr>
+        </thead>
+        <tbody>
+          {filteredData.length === 0 ? (
             <tr>
-              <th className="border border-gray-300 px-4 py-2 text-gray-600">Student ID</th>
-              <th className="border border-gray-300 px-4 py-2 text-gray-600">Full Name</th>
-              <th className="border border-gray-300 px-4 py-2 text-gray-600">Major</th>
-              <th className="border border-gray-300 px-4 py-2 text-gray-600">Year</th>
-              <th className="border border-gray-300 px-4 py-2 text-gray-600">Petition Name</th>
+              <td colSpan="8" className="no-data">
+                ไม่พบข้อมูลคำร้อง
+              </td>
             </tr>
-          </thead>
-          <tbody>
-            {data.length === 0 ? (
-              <tr>
-                <td colSpan="5" className="text-center text-gray-500 py-4">
-                  ไม่พบข้อมูลคำร้อง
+          ) : (
+            filteredData.map((item, index) => (
+              <tr key={index} className={index % 2 === 0 ? "row-even" : "row-odd"}>
+                <td>{item.Progress_State}</td>
+                <td>{item.StudentID}</td>
+                <td>{item.FullName}</td>
+                <td>{item.Major}</td>
+                <td>{item.Year}</td>
+                <td>{item.Petition_name} ฉบับที่ {item.Petition_version}
                 </td>
               </tr>
-            ) : (
-              data.map((item, index) => (
-                <tr
-                  key={index}
-                  className={`${
-                    index % 2 === 0 ? "bg-white" : "bg-gray-50"
-                  } hover:bg-gray-100`}
-                >
-                  <td className="border border-gray-300 px-4 py-2">{item.StudentID}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.FullName}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.Major}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.Year}</td>
-                  <td className="border border-gray-300 px-4 py-2">{item.Petition_name}</td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
-      </div>
+            ))
+          )}
+        </tbody>
+      </table>
     </div>
   );
 };

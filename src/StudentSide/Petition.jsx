@@ -10,6 +10,8 @@ import PetitionStepper from "./Component/Petition/PetitionStepper";
 const Petition = () => {
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้ทั้งหมด
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
+    const [fullName, setFullname] = useState(""); 
+
     const steps = [
         "ยื่นเอกสาร",
         "เข้าที่ประชุม",
