@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
 
-import "./PetitionTable.css"; // ไฟล์ CSS แยกต่างหาก
+import "./MyPetitionTable.css"; // ไฟล์ CSS แยกต่างหาก
 
-const PetitionTable = () => {
+const MyPetitionTable = () => {
   const [data, setData] = useState([]); // เก็บข้อมูลทั้งหมด
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -59,6 +59,7 @@ const PetitionTable = () => {
       <div className="table-header">
         <div className="sub-header-square" />
         <h1 className="table-title">คำร้องทั้งหมด</h1>
+        {/* Search Bar */}
         <input
           type="text"
           id="searchInput"
@@ -109,4 +110,4 @@ const PetitionTable = () => {
   );
 };
 
-export default PetitionTable;
+export default MyPetitionTable;
