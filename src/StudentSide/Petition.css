@@ -1,6 +1,6 @@
 .petition-background {
   background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 50%, #95E9E7 100%);
-  min-height: 130vh;
+  min-height: 100vh;
   display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
   flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
 }
@@ -131,7 +131,7 @@
   .my-petition{
     position: absolute;
     width: 900px;
-    height: 725px;
+    height: auto;
     margin-left: 500px;
 
     

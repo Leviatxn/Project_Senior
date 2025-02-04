@@ -1,6 +1,6 @@
 /* ตัวจัดการ container */
 .table-container {
-    padding: 20px;
+    padding:0px 20px;
     max-width: 1200px;
     margin: auto;
 
@@ -26,87 +26,77 @@
     }
     
     /* การตั้งค่าตาราง */
-    .petition-table {
+    .mypetition-table {
         width: 100%;
         border-collapse: collapse;
-        margin-top: 10px;
         background-color: #f9f9f9;
-        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        border-radius: 10px;
         overflow: hidden;
+        border: 1px solid #ddd;
+
     }
     
-    .petition-table th, 
-    .petition-table td {
+    .mypetition-table th, 
+    .mypetition-table td {
         padding: 10px 20px;
         border: 1px solid #ddd;
-        text-align: center;
         overflow: hidden;
         white-space: nowrap; 
+
+
     }
     
-    .petition-table th {
-        background-color: #006765;
-        color: white;
-        text-transform: uppercase;
-        font-size: 14px;
+    .mypetition-table th {
+        background-color: #ffffff;
+        color: rgb(0, 0, 0);
+        text-align: center;
+        font-size: 16px;
         font-weight: 400;
     }
-    .petition-table th:first-child,
-    .petition-table td:first-child {
+    .mypetition-table th:first-child,
+    .mypetition-table td:first-child {
         width: 50px;
         text-align: center;
-    }
-    .petition-table th:nth-child(2),
-    .petition-table td:nth-child(2) {
-        width: 200px;
-        text-align: center;
-    }
-    .petition-table th:nth-child(3),
-    .petition-table td:nth-child(3) {
-        width: 200px;
-        text-align: center;
-    }
-    .petition-table th:nth-child(4),
-    .petition-table td:nth-child(4) {
-        width: 50px;
-        text-align: center;
-    }
-    .petition-table th:nth-child(5),
-    .petition-table td:nth-child(5) {
-        width: 50px;
-        text-align: center;
-    }
 
-    .petition-table th:first-child,
-    .petition-table td:first-child {
-
-        width: 50px;
-        text-align: center;
     }
-    .petition-table tr:nth-child(even) {
+    .mypetition-table th:nth-child(2),
+    .mypetition-table td:nth-child(2) {
+        width: 200px;
+    }
+    .mypetition-table th:nth-child(3),
+    .mypetition-table td:nth-child(3) {
+        width: 30px;
+        text-align: center;
+
+    }
+    .mypetition-table th:nth-child(4),
+    .mypetition-table td:nth-child(4) {
+        width: 30px;
+        text-align: center;
+
+    }
+    .mypetition-table tr:nth-child(even) {
         background-color: #f2f2f2;
     }
     
-    .petition-table tr:hover {
+    .mypetition-table tr:hover {
         background-color: #cefffeb7;
     }
 
-    .petition-table tbody {
+    .mypetition-table tbody {
         display: block; 
         max-height: 600px; 
         overflow-y: auto; 
         overflow-x: hidden; 
 
     }
-    .petition-table thead,
-    .petition-table tbody tr {
+    .mypetition-table thead,
+    .mypetition-table tbody tr {
       display: table; 
       width: 100%; 
       table-layout: fixed;
     }
     
-    .petition-table tbody tr:nth-child(even) {
+    .mypetition-table tbody tr:nth-child(even) {
       background-color: #f9f9f9;
     }    
     .no-data {
