@@ -11,7 +11,7 @@ import Profile from './StudentSide/Profile';
 import Prof_LoginPage from './Prof_LoginPage';
 import Prof_Home from './ProfessorSide/Prof_Home';
 import Prof_Petition from './ProfessorSide/Prof_Petition';
-
+import Prof_PetitionDetail from './ProfessorSide/Prof_PetitionDetail';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('authToken'); // ตรวจสอบ Token
@@ -31,7 +31,7 @@ function App() {
       <Route path="/petition/request-b" element={<RequestB />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/professor/petition" element={<Prof_Petition/>} />
-
+      <Route path="/professor/petition-detail" element={<Prof_PetitionDetail/>} />
     </Routes>
   );
 }
