@@ -63,7 +63,7 @@ const UserProfile = () => {
         console.log("Submitting...", updatedUser); // เพิ่ม log เพื่อตรวจสอบข้อมูลที่จะส่ง
 
         try {
-            const response = await axios.put(`http://localhost:5000/user_info/${studentId}`, updatedUser, {
+            const response = await axios.put(`http://localhost:5000/studentsinfo/${studentId}`, updatedUser, {
                 headers: { Authorization: `Bearer ${token}` },
             });
 
