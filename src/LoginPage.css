@@ -25,7 +25,9 @@
 
   }
   .register-container {
-    border-top: #00676542 solid 2px;
+    margin-left: 20px;
+    margin-right: 20px;
+    border-top: #00676542 solid 1px;
     flex : 1;
 
   } 
@@ -84,7 +86,7 @@
   .dropdown-icon {
     width: 15px;
     height: 15px;
-    margin-left: 5%;
+    margin-left: 50px;
     transition: transform 0.3s ease; /* Animation นุ่มนวล */
   }
   
