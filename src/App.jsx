@@ -14,6 +14,8 @@ import Prof_Petition from './ProfessorSide/Prof_Petition';
 import Prof_PetitionDetail from './ProfessorSide/Prof_PetitionDetail';
 import Admin_LoginPage from './Admin_LoginPage';
 import Admin_Register from './AdminSide/Admin_Register';
+import Student_Register from './StudentSide/Student_Register';
+import GoogleLogin from './StudentSide/GoogleLogin';
 
 const PrivateRoute = ({ children }) => {
   const token = localStorage.getItem('authToken'); // ตรวจสอบ Token
@@ -26,7 +28,8 @@ function App() {
       <Route path="/" element={<LoginPage />} />
       <Route path="/professor" element={<Prof_LoginPage />} />
       <Route path="/professor/home" element={<Prof_Home/>} />
-      <Route path="/register" element={<RegisterPage />} />
+      <Route path="/register" element={<Student_Register />} />
+      <Route path="/Loging-in" element={<GoogleLogin />} />
       <Route path="/home" element={<Home />} />
       <Route path="/petition" element={<Petition />} />
       <Route path="/petition/request-a" element={<RequestA />} />

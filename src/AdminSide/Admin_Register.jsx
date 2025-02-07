@@ -41,9 +41,9 @@ const Admin_Register = () => {
     <div className="login-page" style={{justifyContent:'center',alignItems: 'center'}}>
       {/* Section ซ้าย */}
       <div className="admin-register-sidebar">
-        <div className="login-main_container" style={{display: 'flex',padding:'200px 80px 200px 80px'}}>
-            <div style={{flex:'1',border:'1px solid black',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center'}}>
-                <Logo overlayColor = "#fff"/>
+        <div className="login-main_container" style={{display: 'flex',padding:'80px 40px 80px 40px'}}>
+            <div style={{flex:'1',borderRight:'1px solid rgba(215, 215, 215, 0.28)',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',padding: '200px 100px 200px 100px'}}>
+                <Logo overlayColor = "#ffff"/>
                 <p className="prof-subtitle">
                     ระบบสหกิจศึกษา
                 </p>
@@ -52,11 +52,11 @@ const Admin_Register = () => {
                 </p>
             </div>
 
-            <div style={{flex:'3',border:'1px solid black'}}>
+            <div style={{flex:'3',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',paddingTop:'100px'}}>
                 <form className="login-form" onSubmit={handleLogin}>
-                <div className="admin-input-group">
-                    <div style={{width: '29%'}}>
-                        <label htmlFor="Email">อีเมล์</label>
+                <div className="admin-register-input-group">
+                    <div style={{width: '570px'}}>
+                        <label htmlFor="Email">อีเมล์ ( โปรดใช้เมล์ของมหาวิทยาลัย) *</label>
                     </div>
                     <input
                     type="email"
@@ -66,34 +66,53 @@ const Admin_Register = () => {
                     onChange={(e) => setStuden_ID(e.target.value)}
                     />
                 </div>
-                <div className="admin-input-group">
-                    <div style={{width: '29%'}}>
-                        <label htmlFor="password">รหัสผ่าน</label>
+                <div className="admin-register-input-group">
+                    <div style={{width: '570px'}}>
+                        <label htmlFor="fullname">ชื่อ - นามสกุล *</label>
+                    </div>
+                    <input 
+                    type="text" 
+                    id="fullname" 
+                    placeholder="ชื่อ - นามสกุล" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="admin-register-input-group">
+                    <div style={{width: '570px'}}>
+                        <label htmlFor="fullname">รหัสผ่าน *</label>
                     </div>
                     <input 
                     type="password" 
                     id="password" 
-                    placeholder="รหัส" 
+                    placeholder="รหัสผ่าน" 
+                    value={password}
+                    onChange={(e) => setPassword(e.target.value)}
+                    />
+                </div>
+                <div className="admin-register-input-group">
+                    <div style={{width: '570px'}}>
+                        <label htmlFor="password">ยืนยันรหัสผ่าน</label>
+                    </div>
+                    <input 
+                    type="password" 
+                    id="password" 
+                    placeholder="ยืนยันรหัสผ่าน *" 
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
                     />
                 </div>
                 
-                <div className="submit-container" style={{marginTop:'80px '}}>
-                    <button type="submit" className="submit-button">
-                        <img src="public/right-arrow.png" alt="เข้าสู่ระบบ" style={{ width: '30px', height: '30px' }} />
+                <div className="register-submit-container" style={{marginTop:'100px '}}>
+                    <button type="submit" className="register-submit-button">
+                    <span>ลงทะเบียน</span>
+                    <svg width="15px" height="10px" viewBox="0 0 13 10">
+                        <path d="M1,5 L11,5" />
+                        <polyline points="8 1 12 5 8 9" />
+                    </svg>
                     </button>
                 </div>
-                {error && <p style={{ color: "red" }}>{error}</p>}
-                <a href="/forgot-password" className="forgot-password-link">
-                    ลืมรหัสผ่าน
-                </a>
                 </form>
-            </div>
-        </div>
-        <div className='register-container'>
-            <div className="extra-links">
-                <div onClick={googleAuth} style={{ color: "#fff",fontSize:'14px',fontWeight:'300' }}>ลงทะเบียน</div>
             </div>
         </div>
       </div>
