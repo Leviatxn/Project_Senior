@@ -7,36 +7,41 @@ import RoleSwitcher from '../MainComponent/RoleSwitcher';
 
 const Admin_Register = () => {
 
-    const [student_id, setStuden_ID] = useState("");
-    const [password, setPassword] = useState("");
-    const [error, setError] = useState("");
-    const navigate = useNavigate();
-
-    const googleAuth = () => {
-        navigate('/admin/register');
-      };
-
-    const handleLogin = async (e) => {
-        e.preventDefault();
-        try {
-            console.log('Loging in')
-            const response = await axios.post("http://localhost:5000/admin-login", { student_id, password });         
-            const { student_id: loggedInStudentId, token } = response.data;
-
-            localStorage.setItem("studentId", loggedInStudentId);
-            localStorage.setItem("authToken", token);
-
-            // ไปยังหน้า Home
-            navigate("/home");
-        } catch (err) {
-            if (err.response) {
-                setError(err.response.data.error);
-            } else {
-                setError("Error logging in");
-            }
-        }
-    };
+    const [formData, setFormData] = useState({
+        email: '',
+        username: '',
+        phone_num: '',
+        password: '',
+        confirmPassword: '',
+        role: 'admin',
+      });
+      const [message, setMessage] = useState('');
+      
     
+      const handleChange = (e) => {
+        setFormData({ ...formData, [e.target.name]: e.target.value });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        console.log(formData);
+        if (formData.password !== formData.confirmPassword) {
+          setMessage('Passwords do not match!');
+          return;
+        }
+    
+        try {
+          const res = await axios.post('http://localhost:5000/register', formData, { withCredentials: true });
+          setMessage(res.data.message);
+          console.log(res.data.message); // Registration complete!
+        } 
+        catch (err) {
+          setMessage('Registration failed. Please try again.');
+          console.error(err.res.data.message); // Error registering user.
+          alert(err.res.data.message); // แสดงข้อความเป็น alert
+        } 
+      };
+        
   return (
     <div className="login-page" style={{justifyContent:'center',alignItems: 'center'}}>
       {/* Section ซ้าย */}
@@ -53,17 +58,18 @@ const Admin_Register = () => {
             </div>
 
             <div style={{flex:'3',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',paddingTop:'100px'}}>
-                <form className="login-form" onSubmit={handleLogin}>
+            <form className="login-form" onSubmit={handleSubmit}>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
                         <label htmlFor="Email">อีเมล์ ( โปรดใช้เมล์ของมหาวิทยาลัย) *</label>
                     </div>
                     <input
-                    type="email"
+                    type="text"
                     id="email"
+                    name="email"
                     placeholder="อีเมล์"
-                    value={student_id}
-                    onChange={(e) => setStuden_ID(e.target.value)}
+                    value={formData.email}
+                    onChange={handleChange}
                     />
                 </div>
                 <div className="admin-register-input-group">
@@ -71,23 +77,35 @@ const Admin_Register = () => {
                         <label htmlFor="fullname">ชื่อ - นามสกุล *</label>
                     </div>
                     <input 
-                    type="text" 
-                    id="fullname" 
-                    placeholder="ชื่อ - นามสกุล" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                        type="text"
+                        name="username"
+                        placeholder="ชื่อ - นามสกุล *"
+                        value={formData.username}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="fullname">รหัสผ่าน *</label>
+                        <label htmlFor="Num">เบอร์โทรศัพท์ *</label>
                     </div>
                     <input 
-                    type="password" 
-                    id="password" 
-                    placeholder="รหัสผ่าน" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                        type="text"
+                        name="phone_num"
+                        placeholder="เบอร์โทรศัพท์"
+                        value={formData.phone_num}
+                        onChange={handleChange}
+                    />
+                </div>
+                <div className="admin-register-input-group">
+                    <div style={{width: '570px'}}>
+                        <label htmlFor="password">รหัสผ่าน *</label>
+                    </div>
+                    <input 
+                        type="password"
+                        name="password"
+                        placeholder="Password"
+                        value={formData.password}
+                        onChange={handleChange}
                     />
                 </div>
                 <div className="admin-register-input-group">
@@ -95,11 +113,11 @@ const Admin_Register = () => {
                         <label htmlFor="password">ยืนยันรหัสผ่าน</label>
                     </div>
                     <input 
-                    type="password" 
-                    id="password" 
-                    placeholder="ยืนยันรหัสผ่าน *" 
-                    value={password}
-                    onChange={(e) => setPassword(e.target.value)}
+                        type="password"
+                        name="confirmPassword"
+                        placeholder="Confirm Password"
+                        value={formData.confirmPassword}
+                        onChange={handleChange}
                     />
                 </div>
                 

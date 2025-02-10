@@ -27,7 +27,7 @@ const Prof_LoginPage = () => {
             localStorage.setItem("authToken", token);
 
             // ไปยังหน้า Home
-            navigate("/home");
+            navigate("/prof/home");
         } catch (err) {
             if (err.response) {
                 setError(err.response.data.error);

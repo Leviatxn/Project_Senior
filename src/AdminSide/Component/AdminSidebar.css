@@ -1,42 +1,42 @@
 /* Sidebar */
-.sidebar {
+.adminsidebar {
     position: fixed;
     display: flex;
     flex-direction: column;
     top: 0;
     left: 0;
-    height: 900px;
+    height: 100%;
     width: 260px;
-    background-color: #ffffff;
+    background-color: #312E2E;
     z-index: 2;
-    margin-top: 10px;
+
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
     border: 1px solid rgba(0, 103, 101, 0.25);
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-    border-radius: 0px 20px 20px 0px;
   }
   
-  .sidebar-header-container{
+  .adminsidebar-header-container{
     text-align: center;
     padding: 10px;
 
   }
-  .sidebar-header-content{
+  .adminsidebar-header-content{
     display: flex;
     flex : 1;
     margin: 10px;
-    margin-bottom: 30px;
+    margin-top: 10px;
+    margin-bottom: 10px;
     text-align: center;
 
   }
-  .sidebar-header-img{
+  .adminsidebar-header-img{
     flex : 1;
     text-align: center;
-    padding: 10px 10px 0px 10px;
+    padding: 10px ;
 
 
   }
-  .sidebar-header-circle {
+  .adminsidebar-header-circle {
     width: 60px; /* กำหนดความกว้าง */
     height: 60px; /* กำหนดความสูง */
     background:
@@ -47,7 +47,7 @@
     border-radius: 50%; /* ทำให้เป็นวงกลม */
     margin: 5px auto; /* จัดให้อยู่กลาง */
   }
-  .sidebar-header{
+  .adminsidebar-header{
     flex : 2;
     display: flex;
     flex-direction: column;
@@ -55,46 +55,47 @@
     padding: 10px 10px 0px 10px;
 
   }
-  .sidebar-header-underline {
+  .adminsidebar-header-underline {
     width: 100%;
     height: 0px;
-    border: 1px solid rgba(0, 103, 101, 0.3);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.3);
   }
   
-  .profile-pic {
+  .adminsidebar .profile-pic {
     width: 80px;
     height: 80px;
     border-radius: 50%;
   }
   
-  .user-name {
-    font-weight:600;
+  .adminsidebar .user-name {
+    font-weight:400;
     font-size: 13px;
-    margin-top: 10px;
-    margin-bottom: 1px;
+
+    color: #ffffff;
   }
   
-  .user-id {
-    color: #555;
+  .adminsidebar .user-id {
+    color: #a1a1a1;
     margin-top: 2px;
     font-size: 13px;
   }
 
-  .menu{
+  .adminsidebar .menu{
     flex : 9;
 
   }
-  .logo-container{
+  .adminsidebar .logo-container{
     text-align: center;
     margin-top: 20px;
 
   }
-  .sub-logo{
+
+  .adminsidebar .sub-logo{
     font-weight: 300px;
-    font-size:14px;
+
     margin-top: 0px;
   }
-  .menu nav {
+  .adminsidebar .menu nav {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -102,38 +103,39 @@
     margin-top: 30px;
   }
   
-  .menu ul {
+  .adminsidebar .menu ul {
     list-style: none;
     padding: 0;
     margin: 0;
   }
   
-  .menu li {
+  .adminsidebar .menu li {
+    
     text-align: center;
     margin: 20px 0;
   }
   
-  .menu a {
+  .adminsidebar .menu a {
     display: block; 
     text-decoration: none;
-    color: #000000;
-    font-weight: 400;
+    color: #ffffff;
     font-size: 13px;
+    font-weight: 300;
     padding: 15px 70px;
     border-radius: 0px 15px 15px 15px;
     transition: background-color 0.3s ease; 
   }
   
-  .menu a:hover {
+  .adminsidebar .menu a:hover {
     background: linear-gradient(90deg, rgba(0, 166, 162, 0.5) 0%, rgba(255, 255, 255, 0.38) 88.5%);
   }
-  .logout {
+  .adminsidebar .logout {
     flex : 1;
     padding: 10px;
-
+    margin-bottom: 30px;
   }
   
-  .logout a {
+  .adminsidebar .logout a {
     display: block;
     text-align: right;
     font-size: 14px;

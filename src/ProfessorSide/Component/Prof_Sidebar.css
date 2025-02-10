@@ -6,12 +6,15 @@
     top: 0;
     left: 0;
     height: 900px;
-    width: 280px;
+    width: 260px;
     background-color: #312E2E;
     z-index: 2;
     margin-top: 10px;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.1);
-    border: 1px solid rgb(255, 255, 255);
+    border-top: 1px solid rgba(255, 255, 255, 0.534);
+    border-right: 1px solid rgba(255, 255, 255, 0.479);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.534);
+
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
     border-radius: 0px 20px 20px 0px;
   }
@@ -25,7 +28,6 @@
     display: flex;
     flex : 1;
     margin: 10px;
-    margin-top: 30px;
     margin-bottom: 30px;
     text-align: center;
 
@@ -33,6 +35,7 @@
   .prof-sidebar-header-img{
     flex : 1;
     text-align: center;
+    padding: 10px 10px 0px 10px;
 
 
   }
@@ -51,7 +54,9 @@
     flex : 2;
     display: flex;
     flex-direction: column;
-    text-align: center;
+    text-align: start;
+    padding: 10px 10px 0px 10px;
+
   }
   .prof-sidebar-header-underline {
     width: 100%;
@@ -69,12 +74,16 @@
     font-weight:600;
     margin-top: 10px;
     margin-bottom: 1px;
+    font-size: 13px;
+
   }
   
   .prof-user-id {
     color: #fdfdfd;
     margin-top: 2px;
     font-size: 14px;
+    font-size: 13px;
+
   }
 
   .prof-menu{
@@ -87,7 +96,7 @@
 
   }
   .prof-sub-logo{
-    font-size: 15 px;
+    font-size: 14px;
     font-weight: 300px;
     color: #fff;
     font-weight: 300;
@@ -117,6 +126,8 @@
     text-decoration: none;
     color: #fff;
     font-weight: 300;
+    font-size: 13px;
+
     padding: 15px 60px;
     border-radius: 0px 15px 15px 15px;
     transition: background-color 0.3s ease; 
@@ -139,5 +150,6 @@
     padding:10px;
     color: rgb(203, 248, 247);
     text-decoration: none;
+    cursor: pointer;
   }
   

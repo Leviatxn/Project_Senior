@@ -10,7 +10,8 @@ const Student_Register = () => {
     student_id: '',
     phone_num: '',
     password: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    role: 'student',
   });
   const [message, setMessage] = useState('');
   

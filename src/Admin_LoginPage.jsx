@@ -7,7 +7,7 @@ import RoleSwitcher from './MainComponent/RoleSwitcher';
 
 const Admin_LoginPage = () => {
 
-    const [student_id, setStuden_ID] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
@@ -19,15 +19,16 @@ const Admin_LoginPage = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            console.log('Loging in')
-            const response = await axios.post("http://localhost:5000/admin-login", { student_id, password });         
-            const { student_id: loggedInStudentId, token } = response.data;
+            
+            console.log('11' - 1)
+            const response = await axios.post("http://localhost:5000/admin-login", { email, password });         
+            const { email: loggedInEmail, token } = response.data;
 
-            localStorage.setItem("studentId", loggedInStudentId);
+            localStorage.setItem("email", loggedInEmail);
             localStorage.setItem("authToken", token);
 
             // ไปยังหน้า Home
-            navigate("/home");
+            navigate("/admin/home");
         } catch (err) {
             if (err.response) {
                 setError(err.response.data.error);
@@ -66,8 +67,8 @@ const Admin_LoginPage = () => {
                     type="email"
                     id="email"
                     placeholder="อีเมล์"
-                    value={student_id}
-                    onChange={(e) => setStuden_ID(e.target.value)}
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
                     />
                 </div>
                 <div className="admin-input-group">
