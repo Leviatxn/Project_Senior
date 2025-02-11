@@ -3,8 +3,8 @@ import AdminSidebar from "./Component/AdminSidebar";
 import './Admin_Home.css';
 import '../Main.css';
 import AdminHeader from "./Component/AdminHeader";
-import '../ProfessorSide/Prof_Petition.css'
-import PetitionTable from "../ProfessorSide/Component/PetitionTable";
+import AdminPetitionTable from "./Component/AdminPetitionTable";
+
 
 const Admin_Pettion = () => {
 
@@ -15,11 +15,8 @@ const Admin_Pettion = () => {
             <div className="main-container">
                 <div className="Side-Space"/>
                 <div className="home-content-container">
-                    <div className="petition-table-container">
-                        <div className="petition-table-box"  style={{marginTop:'20px'}} >
-                            <PetitionTable/>
-                        </div>
-
+                    <div style={{border:"1px solid #ddd"}}>
+                        <AdminPetitionTable/>
                     </div>
                 </div>
             </div>

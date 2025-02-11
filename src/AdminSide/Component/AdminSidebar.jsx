@@ -67,7 +67,8 @@ const AdminSidebar = () => {
               <li><a href="/admin/petition">คำร้องสหกิจทั้งหมด</a></li>
               <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
               <li><a href="/overview">ข้อมูลนิสิต</a></li>
-              <li><a href="/profile">ข้อมูลอาจารย์</a></li>
+              <li><a href="/profile">ลงทะเบียนอาจารย์</a></li>
+              <li><a href="/profile">ลงทะเบียนเจ้าหน้าที่</a></li>
               <li><a href="/contact">สถิติ</a></li>
               </ul>
             </nav>
@@ -107,7 +108,8 @@ const AdminSidebar = () => {
             <li><a href="/admin/petition">คำร้องสหกิจทั้งหมด</a></li>
             <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
             <li><a href="/overview">ข้อมูลนิสิต</a></li>
-            <li><a href="/profile">ข้อมูลอาจารย์</a></li>
+            <li><a href="/profile">ลงทะเบียนอาจารย์</a></li>
+            <li><a href="/profile">ลงทะเบียนเจ้าหน้าที่</a></li>
             <li><a href="/contact">สถิติ</a></li>
           </ul>
         </nav>

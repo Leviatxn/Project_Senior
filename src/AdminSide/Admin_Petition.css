@@ -1,0 +1,36 @@
+.admin-petition .background {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 50%, #95E9E7 100%);
+    height: 120vh;
+    display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
+    flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
+  }
+
+  .admin-petition .admin-co-op-background {
+    background: linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 50%, #95E9E7 100%);
+    height: 130vh;
+    display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
+    flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
+  }
+
+  .admin-petition .petition-table-container {
+    flex: 1;
+}
+.admin-petition .admin-petition-table-box{
+    box-sizing: border-box;
+
+    justify-content: center;
+    align-items: center;
+    padding-bottom: 40px;
+    width: 1300px;
+    height: auto;
+    margin-top: 20px;
+
+    background: #ffffff93;
+    border: 1px solid rgba(0, 103, 101, 0.5);
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    border-radius: 20px;
+
+}
+.prof-petition .petition-table-header {
+
+}

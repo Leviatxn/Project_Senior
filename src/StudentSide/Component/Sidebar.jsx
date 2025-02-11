@@ -98,7 +98,7 @@ const Sidebar = () => {
       <div className="menu">
         <div className="logo-container">
           <div className="logo">
-            <Logo fontSize="40px"/>
+          <Logo fontSize="36px"/>
           </div>
           <p className="sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
         </div>
