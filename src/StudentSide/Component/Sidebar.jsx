@@ -57,14 +57,14 @@ const Sidebar = () => {
           <div className="menu">
             <div className="logo-container">
               <div className="logo">
-                <Logo fontSize="40px"/>
+                <Logo fontSize="36px"/>
               </div>
               <p className="sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
             </div>
             <nav>
               <ul>
               <li ><a href="/home">หน้าหลัก</a></li>
-              <li><a href="/cooperative">คำร้องสหกิจ</a></li>
+              <li><a href="/petition">คำร้องสหกิจ</a></li>
               <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
               <li><a href="/overview">สถิติ</a></li>
               <li><a href="/profile">ข้อมูลนิสิต</a></li>

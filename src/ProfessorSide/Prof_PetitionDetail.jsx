@@ -7,6 +7,7 @@ import './Prof_Petition.css';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import PetitionStepper from "../StudentSide/Component/Petition/PetitionStepper";
+import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
 
 
 const Prof_PetitionDetail = () => {
@@ -14,6 +15,9 @@ const Prof_PetitionDetail = () => {
     const { ApplicationID, Petition_name } = location.state || {}; // รับค่าที่ส่งมา
     const [data, setData] = useState(null); // เก็บข้อมูลทั้งหมด
     const [isVerified, setVerified] = useState(false);
+    const [isApprove, setIsApprove] = useState(null);
+    const navigate = useNavigate();
+
     const [statuses, setStatuses] = useState({
         approve: false,
         notApprove: false,
@@ -24,13 +28,16 @@ const Prof_PetitionDetail = () => {
         setStatuses((prevState) => {
         // ตรวจสอบว่ากำลังคลิก "อนุมัติ" หรือ "ไม่อนุมัติ"
         if (key === "approve") {
+            setIsApprove(1);
+
             return {
             ...prevState,
             approve: !prevState.approve, // สลับสถานะ "อนุมัติ"
             notApprove: false, // ยกเลิกสถานะ "ไม่อนุมัติ"
             };
         } else if (key === "notApprove") {
-            console.log(statuses.notApprove);
+            setIsApprove(0);
+
 
             return {
             ...prevState,
@@ -50,11 +57,18 @@ const Prof_PetitionDetail = () => {
         });
     };
     const studentcoopapplication_steps = [
-        "ยื่นคำร้อง",
-        "รอการตรวจสอบ",
-        "รอการอนุมัติ",
+        "ยื่นคำร้องรอการตรวจสอบ",
+        "ตรวจสอบแล้ว",
         "ส่งไปที่เจ้าหน้าที่",
         "คำร้องอนุมัติ",
+        "เสร็จสิ้น",
+    ];
+    const coopapplication_steps = [
+        "ยื่นเอกสารรอการตรวจสอบ",
+        "เข้าที่ประชุม",
+        "อนุมัติคำร้อง",
+        "ส่งไปที่เจ้าหน้าที่",
+        "ออกหนังสือส่งตัว",
     ];
 
       // ดึงข้อมูลจาก Backend
@@ -84,6 +98,63 @@ const Prof_PetitionDetail = () => {
         };
         fetchStudentPetition();
       }, []);
+
+     // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
+    const handleStudentUpdate = async () => {
+        if (isApprove === null) {
+        alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+        return;
+        }
+
+        try {
+        const response = await axios.put("http://localhost:5000/updateStudentApplication", {
+            ApplicationID: ApplicationID,
+            Is_approve: isApprove,
+            Progress_State: 2,
+        });
+
+        if (response.status === 200) {
+            alert("อัปเดตสถานะสำเร็จ!");
+            navigate(-1);
+
+        }
+        } catch (err) {
+        console.error("Error updating data:", err);
+        alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+        }
+        
+    };
+
+         // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
+    const handleCoopUpdate = async () => {
+            if (isApprove === null) {
+            alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+            return;
+            }
+            if (isVerified === false) {
+                alert("กรุณายืนยันการลงนาม");
+                return;
+            }
+    
+            try {
+            const response = await axios.put("http://localhost:5000/updateCoopApplication", {
+                ApplicationID: ApplicationID,
+                Is_approve: isApprove,
+                Progress_State: 2,
+            });
+    
+            if (response.status === 200) {
+                alert("อัปเดตสถานะสำเร็จ!");
+                navigate(-1);
+    
+            }
+            } catch (err) {
+            console.error("Error updating data:", err);
+            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+            }
+            
+    };
+
     if(!data){
         return (
             <div className="prof-petition">
@@ -172,7 +243,7 @@ const Prof_PetitionDetail = () => {
                                                     <PetitionStepper steps={studentcoopapplication_steps} activeStep={data.Progress_State}/>
                                                 </div>
                                                 <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
-                                                    <p className="pettion-subtitle" style={{fontSize:'18px',fontWeight:'400'}}>เรียนเจ้าหน้าที่ (นักวิชาการศึกษา กิจการนิสิต)</p>
+                                                    <p className="pettion-subtitle" style={{fontSize:'18px',fontWeight:'500'}}>เรียนเจ้าหน้าที่ (นักวิชาการศึกษา กิจการนิสิต)</p>
                                                     <div>
                                                         <div className="box-item">
                                                             <span className={`icon ${statuses.approve ? "success_active" : "success_inactive"}`} onClick={() => toggleStatus("approve")}>✔</span>
@@ -185,7 +256,15 @@ const Prof_PetitionDetail = () => {
                                                     </div>
                                                 </div>
                                                 <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
-                                                    <span  style={{marginRight:'20px'}}className={`icon ${statuses.signed ? "verified " : "verified_inactive"}`} onClick={() => toggleStatus("signed")}>✔</span>
+                                                    <div style={{marginRight:'10px',marginTop:'5px'}}>
+                                                        <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => toggleStatus("signed")}/>
+                                                        <label htmlFor="cbx2" className="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
+                                                            <polyline points="1 9 7 14 15 4" />
+                                                        </svg>
+                                                        </label>
+                                                    </div>
                                                     <p style={{fontSize:"12px"}}>ลงนามและผ่านการตรวจสอบโดย กลวิทย์ ออกผล (อาจารย์สหกิจศึกษาของภาควิชา)</p>
                                                 </div>
                                            </div>
@@ -193,7 +272,7 @@ const Prof_PetitionDetail = () => {
                                         </div>
                                     </div>
                                     <div className="petition-detail-footer ">
-                                        <div className="petition-submit-button"onClick={() => console.log(isVerified,statuses.approve,statuses.notApprove)} >ยืนยัน</div>
+                                        <div className="petition-submit-button" onClick={() => handleStudentUpdate()} >ยืนยัน</div>
                                     </div>
                                 </div>
                             </div>
@@ -209,7 +288,7 @@ const Prof_PetitionDetail = () => {
     else if(Petition_name == "คำร้องขอปฏิบัติงานสหกิจศึกษา"){
         return (
             <div className="prof-petition">
-                <div className="background">
+                <div className="co-op-background">
                 <Sidebar/>
                 <Banner/>
                 <div className="main-container">
@@ -231,6 +310,7 @@ const Prof_PetitionDetail = () => {
                                         <div className="petition-detail-content">
                                             <div>
                                                 <p className="infomation-header"> ชื่อ - นามสกุล</p>
+                                                
                                                 <p className="infomation-text"> {data.FullName} </p>
                                                 <p className="infomation-header"> เลขประจำตัวนิสิต</p>
                                                 <p className="infomation-text"> {data.StudentID} </p>
@@ -243,7 +323,6 @@ const Prof_PetitionDetail = () => {
                                             </div>
                                             
                                             <div style={{marginLeft:'30%',paddingLeft:'10%',borderLeft:'1px solid #ddd'}}>
-                                                
                                                 <p className="infomation-header"> ชื่อบริษัท (ภาษาไทย)</p>
                                                 <p className="infomation-text"> {data.CompanyNameTH} </p>
                                                 <p className="infomation-header"> ชื่อบริษัท (ภาษาอังกฤษ)</p>
@@ -255,8 +334,48 @@ const Prof_PetitionDetail = () => {
                                                 <p className="infomation-header"> เบอร์โทรบริษัท</p>
                                                 <p className="infomation-text"> {data.CompanyPhoneNumber} </p>
                                             </div>
+                                            
                                         </div>
                                     </div>
+                                    <div style={{display:'flex',borderTop:'1px solid #ddd',textAlign:'center',paddingTop:'20px'}}>
+                                        <div style={{flex:'1'}}>
+                                            <p className="pettion-subtitle">สถานะคำร้องบัจจุบัน</p>
+                                            <p className="table-subtitle">{coopapplication_steps[data.Progress_State]}</p>
+                                            <div style={{marginTop:'5%',alignContent:'center',justifyContent:'center',paddingLeft:'10%',paddingRight:'10%'}}>
+                                                <PetitionStepper steps={coopapplication_steps} activeStep={data.Progress_State}/>
+                                            </div>
+                                        </div>
+                                        <div style={{flex:'1'}}>
+                                            <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
+                                                    <p className="pettion-subtitle" style={{fontSize:'18px',fontWeight:'500'}}>เรียนเจ้าหน้าที่ (นักวิชาการศึกษา กิจการนิสิต)</p>
+                                                    <div>
+                                                        <div className="box-item">
+                                                            <span className={`icon ${statuses.approve ? "success_active" : "success_inactive"}`} onClick={() => toggleStatus("approve")}>✔</span>
+                                                            <p>อนุมัติคำร้องขอเป็นนิสิตสหกิจ</p>
+                                                        </div>
+                                                        <div className="box-item">
+                                                            <span  className={`icon ${statuses.notApprove ? "error_active" : "error_inactive"}`} onClick={() => toggleStatus("notApprove")}>✖</span>
+                                                            <p>ไม่อนุมัติคำร้องขอเป็นนิสิตสหกิจ</p>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
+                                                    <div style={{marginRight:'10px',marginTop:'5px'}}>
+                                                        <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => toggleStatus("signed")}/>
+                                                        <label htmlFor="cbx2" className="check">
+                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                            <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
+                                                            <polyline points="1 9 7 14 15 4" />
+                                                        </svg>
+                                                        </label>
+                                                    </div>
+                                                    <p style={{fontSize:"12px"}}>ลงนามและผ่านการตรวจสอบโดย กลวิทย์ ออกผล (อาจารย์สหกิจศึกษาของภาควิชา)</p>
+                                                </div>
+                                            </div>
+                                    </div>
+                                        <div className="petition-detail-footer " style={{marginTop:'20px'}}>
+                                            <div className="petition-submit-button" onClick={() => handleCoopUpdate()} >ยืนยัน</div>
+                                        </div>  
                                 </div>
                             </div>
                         </div>

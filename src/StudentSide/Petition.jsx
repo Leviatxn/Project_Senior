@@ -6,19 +6,21 @@ import "./Home.css";
 import "../Main.css";
 import "./Petition.css";
 import PetitionStepper from "./Component/Petition/PetitionStepper";
+import MyPetitionTable from "./Component/Petition/MyPetitionTable";
 
 const Petition = () => {
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้ทั้งหมด
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
-    const [fullName, setFullname] = useState(""); 
+    const [state, setState] = useState(0); 
 
     const steps = [
-        "ยื่นเอกสาร",
+        "ยื่นคำร้องรอการตรวจสอบ",
         "เข้าที่ประชุม",
-        "อนุมัติ",
         "ส่งไปที่เจ้าหน้าที่",
-        "ออกหนังสือส่งตัว",
+        "คำร้องอนุมัติ",
+        "เสร็จสิ้น",
     ];
+
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -32,7 +34,7 @@ const Petition = () => {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/user_info/${studentId}`,
+                    `http://localhost:5000/lastpetition/${studentId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -41,7 +43,8 @@ const Petition = () => {
                 );
 
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
-                setCurrentPetition(response.data.current_petition); // อัปเดต current_petition
+                setCurrentPetition(response.data.Petition_name); // อัปเดต current_petition
+                setState(response.data.Progress_State)
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
@@ -72,12 +75,12 @@ const Petition = () => {
                                     คำร้องบัจจุบัน:{" "}
                                     <a>
                                         {currentPetition
-                                            ? `${currentPetition} ฉบับที่ 1`
+                                            ? `${currentPetition} ฉบับที่ ${user.Petition_version}`
                                             : "ไม่มีคำร้องในระบบ"}
                                     </a>
                                 </h3>
                             </div>
-                            <PetitionStepper steps={steps} activeStep={1} />
+                            <PetitionStepper steps={steps} activeStep={state} />
                         </div>
                     </div>
                     <div className="main-petition">
@@ -110,6 +113,7 @@ const Petition = () => {
                                 <div className="sub-header-square" />
                                 <h3>คำร้องฉัน</h3>
                             </div>
+                            < MyPetitionTable/>
                         </div>
                     </div>
                 </div>

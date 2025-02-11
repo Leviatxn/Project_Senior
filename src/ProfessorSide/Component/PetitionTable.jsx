@@ -9,7 +9,15 @@ const PetitionTable = () => {
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate(); // ใช้สำหรับเปลี่ยนหน้า
+  
 
+const steps = [
+    "รอการตรวจสอบ",
+    "เข้าที่ประชุม",
+    "ส่งไปที่เจ้าหน้าที่",
+    "อนุมัติแล้ว",
+    "เสร็จสิ้น",
+];
   const filterTable = (term) => {
     const lowerCaseTerm = term.toLowerCase();
     const filtered = data.filter((item) =>
@@ -51,7 +59,14 @@ const PetitionTable = () => {
   };
 
   if (loading) {
-    return <div className="loading-text">กำลังโหลดข้อมูล...</div>;
+    return(
+    <div className="loading-text">กำลังโหลดข้อมูล...
+      <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
+        <div class="loader"></div>
+      </div>
+    </div>
+    )
+    
   }
 
   return (
@@ -93,7 +108,7 @@ const PetitionTable = () => {
               onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
               style={{ cursor: "pointer" }}
               >
-                <td>{item.Progress_State}</td>
+                <td style={{fontSize:'12px'}}>{steps[item.Progress_State]}</td>
                 <td>{item.StudentID}</td>
                 <td>{item.FullName}</td>
                 <td>{item.Major}</td>

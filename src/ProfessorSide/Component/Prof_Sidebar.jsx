@@ -57,7 +57,7 @@ const Sidebar = () => {
           <div className="prof-menu">
             <div className="prof-logo-container">
               <div className="logo">
-                <Logo fontSize="40px" overlayColor = "#fff" />
+                <Logo fontSize="36px" overlayColor = "#fff" />
                 <p className="prof-sub-logo">มหาวิทยาลัยเกษตรศาสตร์</p>
               </div>
             </div>

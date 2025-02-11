@@ -10,7 +10,7 @@ const RoleSwitcher = () => {
   const roles = [
     { name: "นิสิต", url: "/" },
     { name: "อาจารย์", url: "/professor" },
-    { name: "เจ้าหน้าที่", url: "/authority" },
+    { name: "เจ้าหน้าที่", url: "/admin" },
     { name: "บริษัท", url: "/company" },
   ];
 
@@ -41,7 +41,7 @@ const RoleSwitcher = () => {
           <img
             src="public/down-arrow.png"
             alt="drop-down"
-            style={{ width: "15px", height: "15px", marginLeft: "5%" }}
+            style={{ width: "15px", height: "15px", marginLeft: "30px" }}
           />
         </a>
       </p>
@@ -52,7 +52,7 @@ const RoleSwitcher = () => {
           style={{
             top: "0",
             marginTop: "10px",
-            marginLeft: "48%",
+            marginLeft: "230px",
             zIndex: 10,
           }}
         >

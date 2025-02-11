@@ -10,6 +10,23 @@ const MyPetitionTable = () => {
   const [searchTerm, setSearchTerm] = useState("");
   const navigate = useNavigate(); // ใช้สำหรับเปลี่ยนหน้า
 
+  const steps = [
+    "ยื่นคำร้องรอการตรวจสอบ",
+    "เข้าที่ประชุม",
+    "เจ้าหน้าที่รับคำร้อง",
+    "คำร้องอนุมัติ",
+    "เสร็จสิ้น",
+];
+
+  const formatDate = (isoDate) => {
+    const date = new Date(isoDate);
+    return date.toLocaleDateString("en-GB", {
+      day: "2-digit",
+      month: "2-digit",
+      year: "numeric",
+    }); // รูปแบบ DD/MM/YYYY
+  };
+
   const filterTable = (term) => {
     const lowerCaseTerm = term.toLowerCase();
     const filtered = data.filter((item) =>
@@ -23,7 +40,8 @@ const MyPetitionTable = () => {
 
   // ดึงข้อมูลจาก Backend
   useEffect(() => {
-    fetch("http://localhost:5000/allpetitions")
+    const studentId = localStorage.getItem("studentId");
+    fetch(`http://localhost:5000/petitions/${studentId}`)
       .then((response) => response.json())
       .then((fetchedData) => {
         setData(fetchedData);
@@ -56,28 +74,13 @@ const MyPetitionTable = () => {
 
   return (
     <div className="table-container">
-      <div className="table-header">
-        <div className="sub-header-square" />
-        <h1 className="table-title">คำร้องทั้งหมด</h1>
-        {/* Search Bar */}
-        <input
-          type="text"
-          id="searchInput"
-          className="search-bar"
-          placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
-          value={searchTerm}
-          onChange={handleSearch}
-        />
-      </div>
-      <table className="petition-table" id="petitionTable">
+      <table className="mypetition-table" id="petitionTable">
         <thead>
           <tr>
+            <th>วันที่</th>
+            <th>คำร้อง</th>
+            <th>ฉบับ</th>
             <th>สถานะ</th>
-            <th>รหัสนิสิต</th>
-            <th>ชื่อ - นามสกุล</th>
-            <th>สาขาวิชา</th>
-            <th>ชั้นปี</th>
-            <th>รายละเอียดคำร้อง</th>
 
           </tr>
         </thead>
@@ -94,13 +97,11 @@ const MyPetitionTable = () => {
               onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
               style={{ cursor: "pointer" }}
               >
-                <td>{item.Progress_State}</td>
-                <td>{item.StudentID}</td>
-                <td>{item.FullName}</td>
-                <td>{item.Major}</td>
-                <td>{item.Year}</td>
-                <td>{item.Petition_name} ฉบับที่ {item.Petition_version}
-                </td>
+                <td>{formatDate(item.SubmissionDate)}</td>
+                <td>{item.Petition_name}</td>
+                <td>{item.Petition_version}</td>
+                <td style={{fontSize:'12px'}}>{steps[item.Progress_State]}</td>
+
               </tr>
             ))
           )}
