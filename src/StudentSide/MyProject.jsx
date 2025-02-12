@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Sidebar from "./Component/Sidebar";
 import Banner from "./Component/ฺBanner";
 import "./Home.css";
@@ -9,7 +9,7 @@ import axios from "axios";
 
 const MyProject = () => {
     const [projectData, setProjectData] = useState({
-        student_id: 123, // ควรดึงจากระบบล็อกอิน
+        student_id: "", // เริ่มต้นเป็นค่าว่าง
         title: "",
         details: "",
         advisor: "",
@@ -17,6 +17,35 @@ const MyProject = () => {
         committee1: "",
         committee2: "",
     });
+
+    useEffect(() => {
+        const fetchProjectData = async () => {
+            const studentId = localStorage.getItem("studentId");
+            console.log(studentId)
+            setProjectData({student_id:studentId})
+
+            if (!studentId) {
+                console.error("ไม่พบ student_id ใน localStorage");
+                return;
+            }
+
+            try {
+                const response = await axios.get(`http://localhost:5000/coopproject/${studentId}`);
+
+                if (response.data) {
+                    setProjectData({
+                        ...response.data, // กำหนดค่าจากข้อมูลที่ดึงมา
+                    });
+                } else {
+                    console.error("ไม่พบข้อมูลโครงงาน");
+                }
+            } catch (err) {
+                console.error("Error fetching project data:", err);
+            }
+        };
+
+        fetchProjectData();
+    }, []); // คำสั่งนี้จะทำงานเมื่อโหลดคอมโพเนนต์
 
     const handleInputChange = (e) => {
         const { name, value } = e.target;
@@ -43,7 +72,7 @@ const MyProject = () => {
         }
 
         try {
-            const response = await axios.post("/api/submit-coop-project", formData);
+            const response = await axios.post("http://localhost:5000/api/coopproject", formData);
             console.log("ส่งข้อมูลสำเร็จ:", response.data);
         } catch (error) {
             console.error("เกิดข้อผิดพลาดในการส่งข้อมูล:", error);
@@ -64,11 +93,11 @@ const MyProject = () => {
                             </div>
                         </div>
                         <div className="myproject-box-content">
-                            <ProjectForm 
-                                handleSubmit={handleSubmit} 
-                                handleInputChange={handleInputChange} 
-                                handleFileChange={handleFileChange} 
-                                projectData={projectData} 
+                            <ProjectForm
+                                handleSubmit={handleSubmit}
+                                handleInputChange={handleInputChange}
+                                handleFileChange={handleFileChange}
+                                projectData={projectData}
                             />
                         </div>
                     </div>
