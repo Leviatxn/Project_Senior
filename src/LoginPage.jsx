@@ -2,6 +2,7 @@ import React, { useState,useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './LoginPage.css';
+import Swal from 'sweetalert2';
 import Logo from './MainComponent/Logo';
 import RoleSwitcher from './MainComponent/RoleSwitcher';
 
@@ -53,6 +54,11 @@ const LoginPage = () => {
             // ไปยังหน้า Home
             navigate("/home");
         } catch (err) {
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ",
+              });
             if (err.response) {
                 setError(err.response.data.error);
             } else {
@@ -60,6 +66,7 @@ const LoginPage = () => {
             }
         }
     };
+
     
   return (
     <div className="login-page">
@@ -121,7 +128,10 @@ const LoginPage = () => {
                 </button>
             </div>
 
-            {error && <p style={{ color: "red" }}>{error}</p>}
+            {error && 
+            <p style={{ color: "red" }}>{error}</p>
+            
+            }
             <a href="/forgot-password" className="forgot-password-link">
                 ลืมรหัสผ่าน
             </a>

@@ -12,6 +12,7 @@ import {
 } from "@mui/material";
 import {useNavigate } from 'react-router-dom';
 import axios from "axios";
+import Swal from 'sweetalert2';
 
 const RequestAForm = () => {
 
@@ -78,7 +79,12 @@ const RequestAForm = () => {
 
         if (info_response.status === 200) {
           console.log("ส่งข้อมูลไปยัง current_petition สำเร็จ:", info_response.data);
-          alert("ส่งคำร้องสำเร็จ!");
+          Swal.fire({
+            position: "top",
+            icon: "success",
+            title: "ส่งคำร้องสำเร็จ",
+            timer: 2000
+          });
           navigate("/petition");
         } else {
           console.error("Failed to submit additional data:", info_response.data);

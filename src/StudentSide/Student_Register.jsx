@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from "react-router-dom";
 import './Student_Register.css';
 import Logo from '../MainComponent/Logo';
+import Swal from 'sweetalert2';
 
 const Student_Register = () => {
   const [formData, setFormData] = useState({
@@ -32,11 +33,21 @@ const Student_Register = () => {
       const res = await axios.post('http://localhost:5000/register', formData, { withCredentials: true });
       setMessage(res.data.message);
       console.log(res.data.message); // Registration complete!
+      Swal.fire({
+        title: "Good job!",
+        text: "ลงทะเบียนเสร็จสิ้น",
+        icon: "success"
+      });
     } 
     catch (err) {
       setMessage('Registration failed. Please try again.');
-      console.error(err.res.data.message); // Error registering user.
-      alert(err.res.data.message); // แสดงข้อความเป็น alert
+      console.error(err.response.data.message); // Error registering user.
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ",
+        footer: err.response.data.message,
+      });
     } 
   };
     
