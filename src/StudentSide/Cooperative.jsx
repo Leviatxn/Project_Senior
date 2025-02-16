@@ -170,7 +170,7 @@ const Cooperative = () => {
                                     <h3>โครงงานสหกิจ</h3>
                                 </div>
                                 <h1 style={{marginLeft:'50px',marginBottom:'0',color:'#006765'}}>“ ชื่อหัวข้อโปรเจค ”</h1>
-                                <div style={{paddingLeft:'30px',marginTop:'0',marginTop:'20px'}}>
+                                <div style={{paddingLeft:'30px',marginTop:'20px'}}>
                                     <div className="coop-underline" />
                                 </div>
                                 < MyPetitionTable/>

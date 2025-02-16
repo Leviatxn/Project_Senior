@@ -65,11 +65,10 @@ const AdminSidebar = () => {
               <ul>
               <li ><a href="/admin/home">หน้าหลัก</a></li>
               <li><a href="/admin/petition">คำร้องสหกิจทั้งหมด</a></li>
-              <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
-              <li><a href="/overview">ข้อมูลนิสิต</a></li>
-              <li><a href="/profile">ลงทะเบียนอาจารย์</a></li>
-              <li><a href="/profile">ลงทะเบียนเจ้าหน้าที่</a></li>
-              <li><a href="/contact">สถิติ</a></li>
+              <li><a href="/admin/project">โครงงานสหกิจทั้งหมด</a></li>
+              <li><a href="/admin/cooperative">ข้อมูลสหกิจศึกษา</a></li>
+              <li><a href="/admin/user-management">จัดการผู้ใช้</a></li>
+              <li><a href="/admin/overview">สถิติ</a></li>
               </ul>
             </nav>
           </div>
@@ -106,11 +105,10 @@ const AdminSidebar = () => {
           <ul>
             <li ><a href="/admin/home">หน้าหลัก</a></li>
             <li><a href="/admin/petition">คำร้องสหกิจทั้งหมด</a></li>
-            <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
-            <li><a href="/overview">ข้อมูลนิสิต</a></li>
-            <li><a href="/profile">ลงทะเบียนอาจารย์</a></li>
-            <li><a href="/profile">ลงทะเบียนเจ้าหน้าที่</a></li>
-            <li><a href="/contact">สถิติ</a></li>
+            <li><a href="/admin/project">โครงงานสหกิจทั้งหมด</a></li>
+            <li><a href="/admin/cooperative">ข้อมูลสหกิจศึกษา</a></li>
+            <li><a href="/admin/user-management">จัดการผู้ใช้</a></li>
+            <li><a href="/admin/overview">สถิติ</a></li>
           </ul>
         </nav>
         

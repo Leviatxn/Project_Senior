@@ -1,4 +1,9 @@
 /* ตัวจัดการ container */
+.user-table-container {
+  padding: 20px 60px 20px 20px;
+  margin: auto;
+  
+}
 
 .table-container {
     padding: 20px;
