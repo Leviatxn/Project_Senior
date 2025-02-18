@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import axios from 'axios';
+import Swal from 'sweetalert2';
 
 const RegisterPage = () => {
   const [formData, setFormData] = useState({
@@ -31,7 +32,12 @@ const RegisterPage = () => {
     } catch (err) {
       setMessage('Registration failed. Please try again.');
       console.error(err.response.data.message); // Error registering user.
-      alert(err.response.data.message); // แสดงข้อความเป็น alert
+      Swal.fire({
+        icon: "error",
+        title: "Oops...",
+        text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ",
+        footer: err.response.data.message,
+      });
     } 
   };
 

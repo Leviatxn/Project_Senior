@@ -1,0 +1,59 @@
+/* ตัวจัดการ container สำหรับ ProjectDetail */
+.project-container {
+    padding: 0px 20px;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.project-header {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: center;
+}
+
+.project-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-left: 20px;
+    color: #333;
+}
+
+/* ข้อความขณะกำลังโหลด */
+.loading-text {
+    padding: 50px;
+    font-size: 18px;
+    color: #555;
+    text-align: center;
+}
+
+/* ข้อความหากไม่พบข้อมูล */
+.error-text {
+    padding: 50px;
+    font-size: 18px;
+    color: #ff0000;
+    text-align: center;
+}
+
+/* การตั้งค่าตารางใน ProjectDetail */
+.project-details {
+    padding: 20px;
+    font-size: 16px;
+    line-height: 1.5;
+}
+
+.project-details p {
+    margin: 10px 0;
+}
+
+.project-details strong {
+    color: #333;
+}
+
+/* การตั้งค่าการแสดงผลข้อมูล */
+.project-container h2 {
+    font-size: 28px;
+    color: #333;
+    text-align: center;
+    margin-bottom: 30px;
+}

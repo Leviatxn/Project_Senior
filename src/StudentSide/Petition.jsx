@@ -99,6 +99,11 @@ const Petition = () => {
                                             </a>
                                         </li>
                                         <li>
+                                            <a href="/project">
+                                                ยื่นโครงงานสหกิจ
+                                            </a>
+                                        </li>
+                                        <li>
                                             <a href="/petition/request-b">
                                                 ยื่นคำร้องปฏิบัติงานสหกิจ
                                             </a>

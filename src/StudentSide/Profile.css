@@ -29,9 +29,10 @@
   }
   .profile-container{
     flex:9;
+    padding-top: 20px;
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: flex-start   ;
   }
   .profile-header h1{
     font-size: 30px;
@@ -47,13 +48,9 @@
     text-decoration: underline;
     color: #000000;
   }
-  .profile-container{
-    flex:8;
-  }
+
   .profile-box{
-    position: absolute;
-    width: 74%;
-    height: 80%;
+    width: 80%;
     background: #FFFFFF;
     border: #e8e8e844 solid 1px;
     box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
