@@ -174,7 +174,7 @@ const Cooperative = () => {
                                 <h1 style={{marginLeft:'50px',marginBottom:'0',color:'#006765'}}>“ ชื่อหัวข้อโปรเจค ”</h1>
                                 <div className="coop-underline" />
                                 <div style={{paddingLeft:'30px',marginTop:'20px'}}>
-                                < MyProjectDetail/> 
+                                
                                     <div className="coop-underline" />
                                 </div>
                                 
