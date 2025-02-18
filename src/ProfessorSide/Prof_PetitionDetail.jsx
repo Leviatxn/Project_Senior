@@ -75,6 +75,7 @@ const Prof_PetitionDetail = () => {
       useEffect(() => {
         const fetchStudentPetition = async () => {
             if(Petition_name == "คำร้องขอเป็นนิสิตสหกิจศึกษา"){
+                console.log(ApplicationID)
                 try {
                     const response = await axios.get(`http://localhost:5000/studentcoopapplication/${ApplicationID}`);
                     console.log("คำร้องขอเป็นนิสิตสหกิจศึกษา")
