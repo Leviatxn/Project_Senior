@@ -21,7 +21,6 @@ import Admin_Pettion from './AdminSide/Admin_Pettion';
 import Admin_PetitionDetail from './AdminSide/Admin_PetitionDetail';
 import Cooperative from './StudentSide/Cooperative';
 import Admin_Cooperative from './AdminSide/Admin_Cooperative';
-import Admin_UserSignUp from './AdminSide/Admin_UserManagement';
 import Admin_UserManagement from './AdminSide/Admin_UserManagement';
 
 const PrivateRoute = ({ children }) => {
@@ -44,6 +43,7 @@ function App() {
       <Route path="/petition/request-b" element={<RequestB />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/cooperative" element={<Cooperative />} />
+      <Route path="/project" element={<MyProject />} />
       <Route path="/professor/petition" element={<Prof_Petition/>} />
       <Route path="/professor/petition-detail" element={<Prof_PetitionDetail/>} />
       <Route path="/admin" element={<Admin_LoginPage />} />
