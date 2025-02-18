@@ -7,6 +7,8 @@ import "../Main.css";
 import "./Cooperative.css";
 import PetitionStepper from "./Component/Petition/PetitionStepper";
 import MyPetitionTable from "./Component/Petition/MyPetitionTable";
+import MyProjectDetail from './Component/MyProjectDetail';
+
 
 const Cooperative = () => {
     const today = new Date().toLocaleDateString("th-TH", {
@@ -163,17 +165,19 @@ const Cooperative = () => {
                                     </div>
                             </div>
                         </div>
-                        <div style={{marginLeft:'30px'}}>
+                        <div style={{marginLeft:'30px',flex:'7'}}>
                             <div className="coop-project-box">
                                 <div className="sub-header">
                                     <div className="sub-header-square" />
                                     <h3>โครงงานสหกิจ</h3>
                                 </div>
                                 <h1 style={{marginLeft:'50px',marginBottom:'0',color:'#006765'}}>“ ชื่อหัวข้อโปรเจค ”</h1>
+                                <div className="coop-underline" />
                                 <div style={{paddingLeft:'30px',marginTop:'20px'}}>
+                                < MyProjectDetail/> 
                                     <div className="coop-underline" />
                                 </div>
-                                < MyPetitionTable/>
+                                
                                 <div style={{padding:'20px 30px 20px 30px',marginTop:'0',marginTop:'20px'}}>
                                     <div className="coop-underline" />
                                     <p style={{marginLeft:'30px'}}>สถานะโครงงาน :</p>

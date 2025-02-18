@@ -6,7 +6,7 @@ import Petition from './StudentSide/Petition';
 import RequestA from './StudentSide/RequestA';
 import RequestB from './StudentSide/RequestB';
 import Profile from './StudentSide/Profile';
-import MyProject from './StudentSide/MyProject';
+import Project from './StudentSide/Project'; // เปลี่ยนชื่อ import
 import Prof_LoginPage from './Prof_LoginPage';
 import Prof_Home from './ProfessorSide/Prof_Home';
 import Prof_Petition from './ProfessorSide/Prof_Petition';
@@ -41,7 +41,9 @@ function App() {
       <Route path="/petition/request-b" element={<RequestB />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/cooperative" element={<Cooperative />} />
+
       <Route path="/project" element={<MyProject />} />
+
       <Route path="/professor/petition" element={<Prof_Petition/>} />
       <Route path="/professor/petition-detail" element={<Prof_PetitionDetail/>} />
       <Route path="/admin" element={<Admin_LoginPage />} />
@@ -51,6 +53,9 @@ function App() {
       <Route path="/admin/petition-detail" element={<Admin_PetitionDetail />} />
       <Route path="/admin/cooperative" element={<Admin_Cooperative/>} />
       <Route path="/admin/user-management" element={<Admin_UserManagement/>} />
+
+      <Route path="/project" element={<Project />} /> {/* แก้ path จาก /MyProject เป็น /project */}
+
     </Routes>
   );
 }
