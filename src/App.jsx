@@ -23,6 +23,9 @@ function App() {
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/professor" element={<Prof_LoginPage />} />
+      <Route path="/professor/home" element={<Prof_Home/>} />
+      <Route path="/register" element={<Student_Register />} />
+      <Route path="/Loging-in" element={<GoogleLogin />} />
       <Route path="/professor/home" element={<Prof_Home />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={<Home />} />
@@ -30,6 +33,17 @@ function App() {
       <Route path="/petition/request-a" element={<RequestA />} />
       <Route path="/petition/request-b" element={<RequestB />} />
       <Route path="/profile" element={<Profile />} />
+      <Route path="/cooperative" element={<Cooperative />} />
+      <Route path="/professor/petition" element={<Prof_Petition/>} />
+      <Route path="/professor/petition-detail" element={<Prof_PetitionDetail/>} />
+      <Route path="/admin" element={<Admin_LoginPage />} />
+      <Route path="/admin/register" element={<Admin_Register />} />
+      <Route path="/admin/home" element={<Admin_Home />} />
+      <Route path="/admin/petition" element={<Admin_Pettion />} />
+      <Route path="/admin/petition-detail" element={<Admin_PetitionDetail />} />
+      <Route path="/admin/cooperative" element={<Admin_Cooperative/>} />
+      <Route path="/admin/user-management" element={<Admin_UserManagement/>} />
+
       <Route path="/professor/petition" element={<Prof_Petition />} />
       <Route path="/professor/petition-detail" element={<Prof_PetitionDetail />} />
       <Route path="/MyProject" element={<MyProject />} />
