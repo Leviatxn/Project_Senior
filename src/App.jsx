@@ -42,7 +42,7 @@ function App() {
       <Route path="/profile" element={<Profile />} />
       <Route path="/cooperative" element={<Cooperative />} />
 
-      <Route path="/project" element={<MyProject />} />
+      <Route path="/project" element={<Project />} />
 
       <Route path="/professor/petition" element={<Prof_Petition/>} />
       <Route path="/professor/petition-detail" element={<Prof_PetitionDetail/>} />
