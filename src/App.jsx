@@ -31,17 +31,21 @@ const PrivateRoute = ({ children }) => {
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<LoginPage />} />
+     <Route path="/" element={<LoginPage />} />
       <Route path="/professor" element={<Prof_LoginPage />} />
       <Route path="/professor/home" element={<Prof_Home/>} />
       <Route path="/register" element={<Student_Register />} />
       <Route path="/Loging-in" element={<GoogleLogin />} />
+
       <Route path="/home" element={<Home />} />
       <Route path="/petition" element={<Petition />} />
       <Route path="/petition/request-a" element={<RequestA />} />
       <Route path="/petition/request-b" element={<RequestB />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/cooperative" element={<Cooperative />} />
+
+      <Route path="/project" element={<MyProject />} />
+
       <Route path="/professor/petition" element={<Prof_Petition/>} />
       <Route path="/professor/petition-detail" element={<Prof_PetitionDetail/>} />
       <Route path="/admin" element={<Admin_LoginPage />} />
@@ -51,7 +55,9 @@ function App() {
       <Route path="/admin/petition-detail" element={<Admin_PetitionDetail />} />
       <Route path="/admin/cooperative" element={<Admin_Cooperative/>} />
       <Route path="/admin/user-management" element={<Admin_UserManagement/>} />
+
       <Route path="/project" element={<Project />} /> {/* แก้ path จาก /MyProject เป็น /project */}
+
     </Routes>
   );
 }
