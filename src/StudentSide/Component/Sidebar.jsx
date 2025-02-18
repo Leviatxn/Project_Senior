@@ -17,6 +17,7 @@ const Sidebar = () => {
         const fetchUserData = async () => {
             const studentId = localStorage.getItem("studentId");
             const token = localStorage.getItem("authToken");
+            console.log(studentId)
 
             if (!studentId) {
                 console.error("No student ID found");
