@@ -7,7 +7,7 @@ import "./myproject.css";
 import ProjectForm from "./Component/ProjectForm";
 import axios from "axios";
 
-const MyProject = () => {
+const Project = () => {
     const [projectData, setProjectData] = useState({
         student_id: "", // เริ่มต้นเป็นค่าว่าง
         title: "",
@@ -107,4 +107,4 @@ const MyProject = () => {
     );
 };
 
-export default MyProject;
+export default Project;
