@@ -124,6 +124,20 @@ const Admin_PetitionDetail = () => {
         }
         
     };
+    const updateCoopState = async() =>{
+        try {
+            const response = await axios.put("http://localhost:5000/updateiscoopstudent", {
+                student_id: data.StudentID,
+                company_name: data.CompanyNameTH,
+                is_coopstudent: 1,
+                
+            });s
+
+            } catch (err) {
+            console.error("Error updating data:", err);
+            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+            }
+    }
 
          // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleCoopUpdate = async () => {
@@ -141,10 +155,12 @@ const Admin_PetitionDetail = () => {
                 ApplicationID: ApplicationID,
                 Is_approve: isApprove,
                 Progress_State: 3,
+                
             });
     
             if (response.status === 200) {
                 alert("อัปเดตสถานะสำเร็จ!");
+                updateCoopState();
                 navigate(-1);
     
             }
