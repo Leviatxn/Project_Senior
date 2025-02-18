@@ -3,9 +3,12 @@ import axios from "axios";
 import {useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 import Logo from "../../MainComponent/Logo";
+import { Box, Typography, Grid, TextField, Button, Avatar, IconButton } from "@mui/material";
 
 const Sidebar = () => {
     const [user, setUser] = useState(null);
+    const [userinfo, setUserInfo] = useState(null);
+    
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // ลบ Token ออกจาก localStorage
@@ -35,12 +38,26 @@ const Sidebar = () => {
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
+            try {
+              const response = await axios.get(`http://localhost:5000/user_info/${studentId}`, {
+                  headers: { Authorization: `Bearer ${token}` },
+              });
+
+              if (response.data) {
+                setUserInfo(response.data);
+              } else {
+                  console.error("ไม่พบข้อมูลผู้ใช้");
+              }
+          } catch (err) {
+              console.error("Error profile user data:", err);
+
+          }
         };
 
         fetchUserData();
     }, []);
 
-    if (!user) {
+    if (!user || !userinfo) {
         return (
           <div className="sidebar">
           <div className="sidebar-header-container">
@@ -87,7 +104,7 @@ const Sidebar = () => {
       <div className="sidebar-header-container">
         <div className="sidebar-header-content">
           <div className="sidebar-header-img">
-            <div className="sidebar-header-circle"/>
+            <Avatar  src={`http://localhost:5000${userinfo.profile_img}`} sx={{ width: 70, height: 70, mx: "auto" }} onClick={() => navigate("/profile")}/>
           </div>
           <div className="sidebar-header">
             <p className="user-name">{user.username}</p>

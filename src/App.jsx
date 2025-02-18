@@ -1,7 +1,6 @@
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import LoginPage from './LoginPage';
-import RegisterPage from './StudentSide/RegisterPage';
 import Home from './StudentSide/Home';
 import Petition from './StudentSide/Petition';
 import RequestA from './StudentSide/RequestA';
@@ -36,7 +35,6 @@ function App() {
       <Route path="/professor/home" element={<Prof_Home/>} />
       <Route path="/register" element={<Student_Register />} />
       <Route path="/Loging-in" element={<GoogleLogin />} />
-      <Route path="/register" element={<RegisterPage />} />
       <Route path="/home" element={<Home />} />
       <Route path="/petition" element={<Petition />} />
       <Route path="/petition/request-a" element={<RequestA />} />
