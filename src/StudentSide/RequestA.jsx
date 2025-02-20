@@ -24,11 +24,10 @@ const RequestA = () => {
                     </div>
                     <div className="request-container">
                         <div className="request-box">
-                            <div className="request-box-header">
+                            <div className="request-box-header" >
                                 <div className="request-sub-header">
                                     <div className="sub-header-square"/>
                                     <h3>คำร้อง <a>ยื่นขอเป็นนิสิตสหกิจศึกษา ปีการศึกษา 2567</a></h3>
-
                                 </div>
                             </div>
                             <div className="request-box-content">

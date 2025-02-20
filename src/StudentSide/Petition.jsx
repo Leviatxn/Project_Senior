@@ -7,11 +7,14 @@ import "../Main.css";
 import "./Petition.css";
 import PetitionStepper from "./Component/Petition/PetitionStepper";
 import MyPetitionTable from "./Component/Petition/MyPetitionTable";
+import Swal from "sweetalert2";
 
 const Petition = () => {
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้ทั้งหมด
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
-    const [state, setState] = useState(0); 
+    const [state, setState] = useState(-1); 
+    const [isCoop, setIsCoop] = useState(0); 
+    const [isInProgress, setIsinProgress] = useState(0); 
 
     const steps = [
         "ยื่นคำร้องรอการตรวจสอบ",
@@ -20,7 +23,6 @@ const Petition = () => {
         "คำร้องอนุมัติ",
         "เสร็จสิ้น",
     ];
-
 
     useEffect(() => {
         const fetchUserData = async () => {
@@ -45,15 +47,91 @@ const Petition = () => {
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
                 setCurrentPetition(response.data.Petition_name); // อัปเดต current_petition
                 setState(response.data.Progress_State)
+                setIsinProgress(response.data.Is_inprogress)
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
+            try {
+                const response = await axios.get(
+                    `http://localhost:5000/isCoopstudent/${studentId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+
+                setIsCoop(response.data.is_coopstudent);
+                console.log(response.data)
+            } catch (err) {
+                console.error("Error fetching user info data:", err);
+            }
+            
+            
             
         };
 
         fetchUserData();
     }, []);
 
+    const handlePetitionAClick = (url) => {
+        if (isInProgress === 1 && state !== 4 && isCoop === 0) {
+          Swal.fire({
+            title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
+            text: "คำร้องคุณกำลังดำเนินการอยู่!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ใช่, ยกเลิกคำร้อง!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "ยกเลิกคำร้องล่าสุดของคุณเรียบร้อย",
+                icon: "success"
+              });
+              // TODO: เพิ่มโค้ดยกเลิกคำร้องใน backend (API Call)
+            }
+          });
+        } 
+        else if(isCoop === 1){
+            Swal.fire({
+                icon: "error",
+                title: "คุณเป็นนิสิตสหกิจเรียบร้อยแล้ว",
+                text: "กรุณาทำรายการอื่น",
+              });
+        }
+        else {
+          window.location.href = url;
+        }
+    };
+    
+    const handlePetitionBClick = (url) => {
+        if (isInProgress === 1 && state !== 4) {
+          Swal.fire({
+            title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
+            text: "คำร้องคุณกำลังดำเนินการอยู่!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "ใช่, ยกเลิกคำร้อง!"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              Swal.fire({
+                title: "Deleted!",
+                text: "ยกเลิกคำร้องล่าสุดของคุณเรียบร้อย",
+                icon: "success"
+              });
+              // TODO: เพิ่มโค้ดยกเลิกคำร้องใน backend (API Call)
+            }
+          });
+        } else {
+          window.location.href = url;
+        }
+    };
+    
     return (
         <div className="petition-background">
             <Sidebar />
@@ -94,17 +172,24 @@ const Petition = () => {
                                 <nav>
                                     <ul>
                                         <li>
-                                            <a href="/petition/request-a">
+                                            <a 
+                                            href="#"
+                                            onClick={() => handlePetitionAClick("/petition/request-a")}
+                                            >
                                                 ยื่นขอเป็นนิสิตสหกิจศึกษา
                                             </a>
                                         </li>
                                         <li>
-                                            <a href="/project">
-                                                ยื่นโครงงานสหกิจ
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="/petition/request-b">
+                                            <a
+                                                href="#"
+                                                onClick={() => handlePetitionBClick("/petition/request-b")}
+
+                                                style={{
+                                                    pointerEvents: isCoop === 0 ? "none" : "auto",
+                                                    color: isCoop === 0 ? "gray" : "inherit",
+                                                    textDecoration: isCoop === 0 ? "none" : "underline"
+                                                }}
+                                            >
                                                 ยื่นคำร้องปฏิบัติงานสหกิจ
                                             </a>
                                         </li>

@@ -9,7 +9,7 @@ import RequestBForm from "./Component/RequestBForm";
 const RequestB = () => {
 
     return (
-        <div className="background">
+        <div className="background" style={{minHeight:'210vh'}}>
             <Sidebar/>
             <Banner/>
             <div className="main-container">
