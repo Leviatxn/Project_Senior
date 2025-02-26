@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom"; // นำเข้า useNavigat
 
 import "./PetitionTable.css"; // ไฟล์ CSS แยกต่างหาก
 
-const PetitionTable = () => {
+const ProjectTable = () => {
   const [data, setData] = useState([]); // เก็บข้อมูลทั้งหมด
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -72,8 +72,8 @@ const steps = [
   return (
     <div className="table-container">
       <div className="table-header" style={{borderBottom:'1px solid #ddd',paddingBottom:'10px',marginBottom:'20px'}}>
-      <div className="sub-header-square" />
-        <h1 className="table-title">คำร้องทั้งหมด</h1>
+        <div className="sub-header-square" />
+        <h1 className="table-title">โครงงานทั้งหมด</h1>
         <input
           type="text"
           id="searchInput"
@@ -81,6 +81,8 @@ const steps = [
           placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
           value={searchTerm}
           onChange={handleSearch}
+
+          style={{marginLeft:'45%'}}
         />
       </div>
       <table className="petition-table" id="petitionTable">
@@ -124,4 +126,4 @@ const steps = [
   );
 };
 
-export default PetitionTable;
+export default ProjectTable;
