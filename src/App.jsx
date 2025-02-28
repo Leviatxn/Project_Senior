@@ -12,6 +12,8 @@ import Prof_LoginPage from './Prof_LoginPage';
 import Prof_Home from './ProfessorSide/Prof_Home';
 import Prof_Petition from './ProfessorSide/Prof_Petition';
 import Prof_PetitionDetail from './ProfessorSide/Prof_PetitionDetail';
+import Prof_Project from './ProfessorSide/Prof_Project';
+import Prof_ProjectDetail from './ProfessorSide/Prof_ProjectDetail';
 import Admin_LoginPage from './Admin_LoginPage';
 import Admin_Register from './AdminSide/Admin_Register';
 import Student_Register from './StudentSide/Student_Register';
@@ -53,7 +55,10 @@ function App() {
       <Route path="/admin/cooperative" element={<Admin_Cooperative/>} />
       <Route path="/admin/user-management" element={<Admin_UserManagement/>} />
 
-      <Route path="/project" element={<Project />} /> {/* แก้ path จาก /MyProject เป็น /project */}
+      <Route path="/project" element={<Project />} /> 
+      <Route path="/professor/project" element={<Prof_Project/>} />
+      <Route path="/professor/project-detail" element={<Prof_ProjectDetail/>} />
+
 
     </Routes>
   );
