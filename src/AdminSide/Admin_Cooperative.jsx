@@ -28,7 +28,7 @@ import "./Component/AdminUserTable.css";
 
 
 
-const AdminUserTable = ({role}) => {
+const AdminUserTable = ({currentstate}) => {
   const [data, setData] = useState([]); // เก็บข้อมูลทั้งหมด
   const [filteredData, setFilteredData] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -108,24 +108,6 @@ const AdminUserTable = ({role}) => {
     }
   };
   
-  console.log(role)
-  const getRole = (role) => {
-    if(role === "student"){
-      return "นิสิตนักศึกษา";
-    }
-    else if(role === "admin"){
-      return "เจ้าหน้าที่";
-
-    }
-    else if(role === "professor"){
-      return "อาจารย์";
-
-    }
-    else if(role === "agency"){
-      return "บริษัท";
-
-    }
-  };
   
   const filterTable = (term) => {
     const lowerCaseTerm = term.toLowerCase();
@@ -140,24 +122,11 @@ const AdminUserTable = ({role}) => {
 
   // ดึงข้อมูลจาก Backend
   useEffect(() => {
-    if (!role){
+    if (!currentstate){
         setLoading(true);
+        console.log(currentstate)
     } 
-    if(role == 'allusers'){
-        fetch("http://localhost:5000/user")
-        .then((response) => response.json())
-        .then((fetchedData) => {
-          setData(fetchedData);
-          setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          setLoading(false);
-        }); 
-    }
-    //nisit
-    else if(role == 'students'){
+    else if(currentstate == 'students'){
         fetch("http://localhost:5000/studentsinfo")
         .then((response) => response.json())
         .then((fetchedData) => {
@@ -171,7 +140,7 @@ const AdminUserTable = ({role}) => {
         });   
     }
         //Ajarn
-    else if(role == 'professors'){
+    else if(currentstate == 'professors'){
         fetch("http://localhost:5000/user")
         .then((response) => response.json())
         .then((fetchedData) => {
@@ -184,7 +153,7 @@ const AdminUserTable = ({role}) => {
           setLoading(false);
         }); 
     }
-    else if(role == 'admins'){
+    else if(currentstate == 'admins'){
         fetch("http://localhost:5000/user")
         .then((response) => response.json())
         .then((fetchedData) => {
@@ -197,20 +166,8 @@ const AdminUserTable = ({role}) => {
           setLoading(false);
         }); 
     }
-    else if(role == 'company'){
-        fetch("http://localhost:5000/user")
-        .then((response) => response.json())
-        .then((fetchedData) => {
-          setData(fetchedData);
-          setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
-          setLoading(false);
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
-          setLoading(false);
-        }); 
-    }
-  }, [role]);
+
+  }, [currentstate]);
 
   // ฟังก์ชันจัดการการเปลี่ยนแปลงใน Search Bar
   const handleSearch = (event) => {
@@ -219,12 +176,6 @@ const AdminUserTable = ({role}) => {
     filterTable(term);
   };
 
-//   // ฟังก์ชันเมื่อกดเลือกแถว
-//   const handleRowClick = (item) => {
-//     navigate(`/admin/petition-detail`, { 
-//       state: { ApplicationID: item.ApplicationID, Petition_name: item.Petition_name }
-//     });
-//   };
 
   if (loading) {
     return(
@@ -237,7 +188,7 @@ const AdminUserTable = ({role}) => {
     
   }
 
- if(role == 'students'){
+ if(currentstate == 'students'){
     return (
         <div className="user-table-container"  style={{  padding: "20px 20px 20px 20px"}}>
           <div className="table-header" style={{padding:'10px 10px 10px 40px'}}>
@@ -367,7 +318,7 @@ const AdminUserTable = ({role}) => {
 };
 
 const Admin_Cooperative = () => {
-    const [rolestate, setRoleState] = useState("students");
+    const [currentstate, setCurrentState] = useState("students");
     
     const year = new Date().toLocaleDateString("th-TH", {
         year: "numeric"
@@ -400,27 +351,27 @@ const Admin_Cooperative = () => {
                                     <div className="coop-document-menu">
                                         <nav>
                                             <ul>
-                                                <li>
-                                                    <a href="/petition/request-a">
-                                                        หนังสือส่งตัว
+                                            <li>
+                                                    <a onClick={() => setCurrentState("students")} style={{cursor:'pointer'}}>
+                                                        ข้อมูลนิสิตสหกิจ
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="/petition/request-a">
-                                                        กฎการฝึกงาน
+                                                    <a onClick={() => setCurrentState("first_supervisor")} style={{cursor:'pointer'}}>
+                                                        นิเทศครั้งที่ 1
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="/petition/request-b">
-                                                        แบบฟอร์มต่างๆที่เกี่ยวข้อง
+                                                    <a onClick={() => setCurrentState("second_supervisor")} style={{cursor:'pointer'}}>
+                                                        นิเทศครั้งที่ 2
                                                     </a>
-                                                </li>
+                                                </li> 
                                             </ul>
                                         </nav>
                                     </div>
                                 </div>
                                 <div className="admin-coop-table-box" style={{flex: '8',marginLeft: '20px'}}>
-                                    <AdminUserTable role = {rolestate}/>
+                                    <AdminUserTable currentstate = {currentstate}/>
                                 </div>
                         </div>  
                     </div>
