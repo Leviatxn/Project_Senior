@@ -1,0 +1,88 @@
+.prof_detail-table-container {
+    display: flex;
+    justify-content: center;
+    padding: 20px;
+}
+
+.prof_detail-table-box {
+    width: 100%;
+    max-width: 1200px;
+    background-color: #f9f9f9; /* เปลี่ยนเป็นสีขาวอ่อน */
+    border-radius: 15px; /* เพิ่มความโค้งมน */
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* เพิ่มเงาให้ดูนุ่มนวล */
+    padding: 30px;
+    margin: 20px 0;
+}
+
+.prof_detail-detail-container {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    color: #333;
+}
+
+.prof_detail-detail-container h2, .prof_detail-detail-container h1 {
+    color: #2C3E50;
+    font-weight: 600;
+}
+
+.prof_detail-detail-container h2 {
+    font-size: 24px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+    margin-bottom: 15px; /* เพิ่มระยะห่างจากข้างล่าง */
+}
+
+.prof_detail-detail-container h1 {
+    font-size: 30px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+    margin-bottom: 25px; /* เพิ่มระยะห่างจากข้างล่าง */
+}
+
+.prof_detail-detail-container p {
+    font-size: 18px; /* ขนาดตัวอักษรใหญ่ขึ้น */
+    margin-bottom: 18px; /* เพิ่มระยะห่างจากข้างล่าง */
+}
+
+.prof_detail-detail-container strong {
+    color: #333;
+}
+
+/* จัดการปุ่มสถานะ */
+.prof_detail-status-buttons {
+    display: flex;
+    gap: 20px;
+    margin-top: 25px;
+}
+
+.prof_detail-status-buttons button {
+    padding: 14px 30px;
+    font-size: 18px;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.prof_detail-status-buttons button.active {
+    background-color: #28a745;
+    color: white;
+}
+
+.prof_detail-status-buttons button:hover {
+    background-color: #007bff;
+    color: white;
+}
+
+/* จัดการไฟล์ที่แนบ */
+.prof_detail-detail-container a {
+    color: #007bff;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+.prof_detail-detail-container a:hover {
+    text-decoration: underline;
+}
+
+/* การจัดการสถานะปัจจุบัน */
+.prof_detail-detail-container p:last-child {
+    font-weight: bold;
+    color: #555;
+}

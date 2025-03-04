@@ -11,7 +11,7 @@
     display: flex; /* ถ้าคุณต้องการจัดการตำแหน่งของลูก */
     flex-direction: column; /* จัดเรียงลูกในแนวตั้ง */
   }
-
+ 
 .prof-project .project-table-container {
     flex: 1;
 }
