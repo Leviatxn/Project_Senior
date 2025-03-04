@@ -106,7 +106,7 @@ const Sidebar = () => {
           <ul>
               <li ><a href="/professor/home">หน้าหลัก</a></li>
               <li><a href="/professor/petition">คำร้องสหกิจทั้งหมด</a></li>
-              <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
+              <li><a href="/professor/project">โครงงานสหกิจทั้งหมด</a></li>
               <li><a href="/overview">การนิเทศน์</a></li>
               <li><a href="/profile">ติดตามการฝึกงาน</a></li>
               <li><a href="/contact">สถิติ</a></li>

@@ -4,7 +4,7 @@ import Banner from "./Component/ฺBanner";
 import "./Home.css";
 import "../Main.css";
 import "./myproject.css";
-import ProjectForm from "./Component/ProjectForm";
+import ProjectForm from "./Component/Project/ProjectForm";
 import axios from "axios";
 
 const Project = () => {
@@ -21,8 +21,8 @@ const Project = () => {
     useEffect(() => {
         const fetchProjectData = async () => {
             const studentId = localStorage.getItem("studentId");
-            console.log(studentId)
-            setProjectData({student_id:studentId})
+            console.log(studentId);
+            setProjectData((prevData) => ({ ...prevData, student_id: studentId }));
 
             if (!studentId) {
                 console.error("ไม่พบ student_id ใน localStorage");
@@ -97,7 +97,7 @@ const Project = () => {
                                 handleSubmit={handleSubmit}
                                 handleInputChange={handleInputChange}
                                 handleFileChange={handleFileChange}
-                                projectData={projectData}
+                                projectData={projectData} // ส่งข้อมูลไปยังฟอร์ม
                             />
                         </div>
                     </div>
