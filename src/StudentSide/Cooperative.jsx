@@ -7,7 +7,8 @@ import "../Main.css";
 import "./Cooperative.css";
 import PetitionStepper from "./Component/Petition/PetitionStepper";
 import MyPetitionTable from "./Component/Petition/MyPetitionTable";
-import MyProjectDetail from './Component/MyProjectDetail';
+import MyProjectDetail from "./Component/Project/MyProjectDetail";
+import MyProjectTitle from "./Component/Project/MyProjectTitle";
 
 
 const Cooperative = () => {
@@ -171,11 +172,10 @@ const Cooperative = () => {
                                     <div className="sub-header-square" />
                                     <h3>โครงงานสหกิจ</h3>
                                 </div>
-                                <h1 style={{marginLeft:'50px',marginBottom:'0',color:'#006765'}}>“ ชื่อหัวข้อโปรเจค ”</h1>
+                                <MyProjectTitle />
                                 <div className="coop-underline" />
                                 <div style={{paddingLeft:'30px',marginTop:'20px'}}>
-                                < MyProjectDetail/> 
-                                    <div className="coop-underline" />
+                                < MyProjectDetail/>
                                 </div>
                                 
                                 <div style={{padding:'20px 30px 20px 30px',marginTop:'0',marginTop:'20px'}}>

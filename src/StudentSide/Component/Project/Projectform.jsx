@@ -12,7 +12,7 @@ const ProjectForm = ({ handleSubmit, handleInputChange, handleFileChange, projec
                         <TextField
                             id="title"
                             name="title"
-                            value={projectData.title}
+                            value={projectData.title || ""} // แสดงข้อมูลจากฐานข้อมูลหรือค่าว่างถ้าไม่มี
                             onChange={handleInputChange}
                             fullWidth
                             required
@@ -25,7 +25,7 @@ const ProjectForm = ({ handleSubmit, handleInputChange, handleFileChange, projec
                         <TextField
                             id="details"
                             name="details"
-                            value={projectData.details}
+                            value={projectData.details || ""} // แสดงข้อมูลจากฐานข้อมูลหรือค่าว่างถ้าไม่มี
                             onChange={handleInputChange}
                             multiline
                             rows={4}
@@ -41,7 +41,7 @@ const ProjectForm = ({ handleSubmit, handleInputChange, handleFileChange, projec
                         <TextField
                             id="advisor"
                             name="advisor"
-                            value={projectData.advisor}
+                            value={projectData.advisor || ""} // แสดงข้อมูลจากฐานข้อมูลหรือค่าว่างถ้าไม่มี
                             onChange={handleInputChange}
                             fullWidth
                             required
@@ -52,7 +52,7 @@ const ProjectForm = ({ handleSubmit, handleInputChange, handleFileChange, projec
                         <TextField
                             id="committee1"
                             name="committee1"
-                            value={projectData.committee1}
+                            value={projectData.committee1 || ""} // แสดงข้อมูลจากฐานข้อมูลหรือค่าว่างถ้าไม่มี
                             onChange={handleInputChange}
                             fullWidth
                             required
@@ -63,7 +63,7 @@ const ProjectForm = ({ handleSubmit, handleInputChange, handleFileChange, projec
                         <TextField
                             id="committee2"
                             name="committee2"
-                            value={projectData.committee2}
+                            value={projectData.committee2 || ""} // แสดงข้อมูลจากฐานข้อมูลหรือค่าว่างถ้าไม่มี
                             onChange={handleInputChange}
                             fullWidth
                             required
