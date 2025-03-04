@@ -151,12 +151,12 @@ const Cooperative = () => {
                                         <nav>
                                             <ul>
                                                 <li>
-                                                    <a href="/petition/request-a">
+                                                    <a href="/appointment-1">
                                                         การนิเทศครั้งที่ 1
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="/petition/request-a">
+                                                    <a href="/appointment-2">
                                                         การนิเทศครั้งที่ 2
                                                     </a>
                                                 </li>

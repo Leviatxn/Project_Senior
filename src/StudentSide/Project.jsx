@@ -6,7 +6,7 @@ import "../Main.css";
 import "./myproject.css";
 import ProjectForm from "./Component/Project/ProjectForm";
 import axios from "axios";
-
+import ReturnButton from "../MainComponent/ReturnButton";
 const Project = () => {
     const [projectData, setProjectData] = useState({
         student_id: "", // เริ่มต้นเป็นค่าว่าง
@@ -84,13 +84,11 @@ const Project = () => {
             <Sidebar />
             <Banner />
             <div className="main-container">
-                <div className="myproject-container">
-                    <div className="myproject-box">
-                        <div className="myproject-box-header">
-                            <div className="myproject-sub-header">
-                                <div className="sub-header-square" />
-                                <h3>โครงงานสหกิจ</h3>
-                            </div>
+                <div className="Side-Space"/>
+                <div className="petition-content-container">
+                    <div className="request-header">
+                        <h1>ยื่นโครงงาน</h1>
+                        <div className="request-back">
                         </div>
                         <div className="myproject-box-content">
                             <ProjectForm

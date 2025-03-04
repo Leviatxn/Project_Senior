@@ -71,8 +71,8 @@ const steps = [
 
   return (
     <div className="table-container">
-      <div className="table-header">
-        <div className="sub-header-square" />
+      <div className="table-header" style={{borderBottom:'1px solid #ddd',paddingBottom:'10px',marginBottom:'20px'}}>
+      <div className="sub-header-square" />
         <h1 className="table-title">คำร้องทั้งหมด</h1>
         <input
           type="text"

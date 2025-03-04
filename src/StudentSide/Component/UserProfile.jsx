@@ -102,7 +102,7 @@ const UserProfile = () => {
                 <h1 className="table-title">ข้อมูลส่วนตัว</h1>  
             </div>
             <Box textAlign="center" sx={{ mb: 3 }}>
-                <Avatar  src={`http://localhost:5000${user.profile_img}`} sx={{ width: 200, height: 200, mx: "auto" }} />
+                <Avatar  src={`http://localhost:5000${updatedUser.profile_img}`} sx={{ width: 200, height: 200, mx: "auto" }} />
                 <input
                     accept="image/*"
                     type="file"

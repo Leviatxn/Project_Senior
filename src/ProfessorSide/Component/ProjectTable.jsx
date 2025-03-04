@@ -30,7 +30,7 @@ const ProjectTable = () => {
         console.error("Error fetching data:", error);
         setLoading(false);
       });
-  };
+};
 
   // ฟังก์ชันกรองข้อมูลในตาราง (แก้ไขให้รองรับ undefined/null)
   const filterTable = (term) => {
@@ -45,12 +45,14 @@ const ProjectTable = () => {
     setFilteredData(filtered);
   };
 
+
   // ฟังก์ชันจัดการการเปลี่ยนแปลงใน Search Bar
   const handleSearch = (event) => {
     const term = event.target.value;
     setSearchTerm(term);
     filterTable(term);
   };
+
 
   // ฟังก์ชันเมื่อกดเลือกแถว (ป้องกัน ProjectID เป็น undefined)
   const handleRowClick = (item) => {
@@ -150,6 +152,7 @@ const ProjectTable = () => {
                 <td>{item.FullName}</td>
                 <td>{item.Major}</td>
                 <td>{item.Year}</td>
+
                 <td>{item.ProjectTitle}</td>
               </tr>
             ))
