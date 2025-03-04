@@ -34,7 +34,10 @@ const ProfCoopTable = ({currentstate}) => {
     const [data, setData] = useState([]);
     const [studentInfo, setStudentInfo] = useState(null);
     const [coopInfo, setCoopInfo] = useState(null);
-    const [firstSupervisor, setFirstSupervisor] = useState(null);
+    const [firstSupervisor, setFirstSupervisor] = useState();
+    const [secondSupervisor, setSecondSupervisor] = useState();
+    const [isEmptyInfo, setIsEmptyInfo] = useState();
+    const [schedule, setSchedule] = useState(false);
 
     const [filteredData, setFilteredData] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -47,6 +50,8 @@ const ProfCoopTable = ({currentstate}) => {
     const [orderBy, setOrderBy] = useState("id");
     const [order, setOrder] = useState("asc");
   
+
+    
     const visibleData = filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
   
     const handleStudentClick = (student_id) => {
@@ -58,8 +63,19 @@ const ProfCoopTable = ({currentstate}) => {
       handleFirstSupervisorInfo(student_id)
       setOpen(true);
     };
+
+    const handleSecondSupervisorClick = (student_id) => {
+      handleSecondSupervisorInfo(student_id)
+      setOpen(true);
+    };
+  
+    const handleSetScheduleClick = (student_id) => {
+      console.log(student_id)
+      setSchedule(true);
+    };
   
     const handleClose = () => {
+      setIsEmptyInfo(0);
       setFirstSupervisor(null)
       setStudentInfo(null);
       setCoopInfo(null)
@@ -138,14 +154,70 @@ const ProfCoopTable = ({currentstate}) => {
           if (response.data) {
               console.log(response.data);
               setFirstSupervisor(response.data);
+              setIsEmptyInfo(0);
+
           } else {
               console.error("ไม่พบข้อมูลผู้ใช้");
           }
       } catch (err) {
           console.error("Error fetching user data:", err);
+          setIsEmptyInfo(1);
       }
     }
     
+    const handleSecondSupervisorInfo = async(studentID) => {
+      if (!studentID) {
+        console.error("ไม่พบ studentId หรือ token");
+        return;
+    }
+      try {
+        const response = await axios.get(`http://localhost:5000/user_info/${studentID}`, {
+        });
+
+        if (response.data) {
+            console.log(response.data);
+            setStudentInfo(response.data);
+        } else {
+            console.error("ไม่พบข้อมูลผู้ใช้");
+        }
+      } catch (err) {
+          console.error("Error fetching user data:", err);
+      }
+      try {
+        const response = await axios.get(`http://localhost:5000/coop_info/${studentID}`, {
+        });
+
+        if (response.data) {
+            console.log(response.data);
+            setCoopInfo(response.data);
+        } else {
+            console.error("ไม่พบข้อมูลผู้ใช้");
+        }
+    } catch (err) {
+        console.error("Error fetching user data:", err);
+    }
+      try {
+          const response = await axios.get(`http://localhost:5000/second_appointment/${studentID}`, {
+          });
+
+          if (response.data) {
+              console.log(response.data);
+              setSecondSupervisor(response.data);
+              setIsEmptyInfo(0);
+
+          } 
+
+          else {
+              console.error("ไม่พบข้อมูลผู้ใช้");
+          }
+      } catch (err) {
+          setIsEmptyInfo(1);
+          console.log(isEmptyInfo)
+          console.error("Error fetching user data:", err);
+
+    
+      }
+    }
   
     const handleSort = (property) => {
       const isAsc = orderBy === property && order === "asc";
@@ -690,7 +762,7 @@ const ProfCoopTable = ({currentstate}) => {
                                       <CircularProgress />
                                     </div>
                                   ) : (
-                                    <div style={{display:'flex',borderRadius:'10px',border:'1px solid rgba(0, 0, 13, 0.15)',padding:'20px 0px 20px 30px'}}>
+                                    <div style={{display:'flex',borderRadius:'10px',padding:'20px 0px 20px 30px'}}>
                                       <div style={{flex: '1'}}>
                                         <p style={{color:'#767676'}}>รหัสนิสิต :</p>
                                         <p style={{color:'#767676'}}>ชื่อ-นามสกุล :</p>
@@ -718,9 +790,15 @@ const ProfCoopTable = ({currentstate}) => {
                                 </DialogTitle>               
                                 <DialogContent >  
                                 {(!coopInfo) || (!firstSupervisor) ? (
+                                 (isEmptyInfo === 1) ? (
+                                    <div style={{ textAlign: "center", padding: "20px", color: "#767676" }}>
+                                      <p>ไม่มีข้อมูล</p>
+                                    </div>
+                                  ) : (
                                     <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
                                       <CircularProgress />
                                     </div>
+                                  )
                                   ) : (
                                     <div style={{display:'flex',borderRadius:'10px',border:'1px solid rgba(0, 0, 13, 0.15)',padding:'20px 30px 20px 30px'}}>
                                       <div style={{flex: '3',display:'flex',borderRight:'1px solid #ddd'}}>
@@ -778,7 +856,8 @@ const ProfCoopTable = ({currentstate}) => {
 
                                         <div style={{flex: '1',display: 'flex',marginTop:'20px'}}>
                                           <div style={{flex: '1'}}>
-                                            <p style={{color:'#767676'}}>การยืนยันวันเวลาจากอาจารย์ :</p>                                          </div>
+                                            <p style={{color:'#767676'}}>การยืนยันวันเวลาจากอาจารย์ :</p> 
+                                          </div>
                                           <div style={{flex: '1',textAlign:'end'}}>
                                             <p>{firstSupervisor.is_accept}</p>
                                           </div>
@@ -786,6 +865,23 @@ const ProfCoopTable = ({currentstate}) => {
                                       </div>
                                     </div>
                                 )}
+                                {(firstSupervisor) ? (
+                                 (firstSupervisor.is_accept === 0) ? (
+                                  <div style={{flex:1,textAlign:'end'}}>
+                                    <Button onClick={() => (handleSetScheduleClick(firstSupervisor.student_id))} style={{width:'150px',border:'1px solid #ddd',padding:'10px',borderRadius:'20px',marginTop:'20px',background:'#006765'}}>
+                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif",color:'#ddd'}}>กำหนดวันเวลาแล้ว</div>
+                                    </Button>
+                                  </div>
+                                  ) : (
+                                    <div style={{flex:1,textAlign:'end'}}>
+                                        <p style={{color:'#767676'}}>กำหนดวันเวลาแล้ว</p>
+                                    </div>
+                                  )
+                                  ) : (
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+
+                                    </div>
+                                 )}
                                 </DialogContent>
 
                                 
@@ -875,7 +971,7 @@ const ProfCoopTable = ({currentstate}) => {
                     {/* ✅ ข้อมูลในตาราง */}
                     <TableBody>
                     {visibleData.map((item, index) => (
-                        <TableRow key={index} hover onClick={() => handleRowClick(item)} sx={{ cursor: "pointer" }}>
+                        <TableRow key={index} hover onClick={() => handleSecondSupervisorClick(item.student_id)} sx={{ cursor: "pointer" }}>
                         <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif" }}>{item.student_id}</TableCell>
                         <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif" }}>{item.first_name} {item.last_name}</TableCell>
                         <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif" }}>{item.major} - {item.year}</TableCell>
@@ -900,23 +996,139 @@ const ProfCoopTable = ({currentstate}) => {
                     setPage(0);
                     }}
                 />
-                      {/* Popup Dialog */}
-                <Dialog open={open} onClose={handleClose}>
-                    <DialogTitle>รายละเอียดนิสิต</DialogTitle>
-                    <DialogContent>
-                    {selectedRow && (
-                        <div>
-                        <p><strong>รหัสนิสิต:</strong> {selectedRow.student_id}</p>
-                        <p><strong>ชื่อ-นามสกุล:</strong> {selectedRow.first_name}</p>
-                        <p><strong>สาขา:</strong> {selectedRow.major}</p>
-                        <p><strong>บริษัทที่ฝึกงาน:</strong> {selectedRow.company_name}</p>
-                        <p><strong>สถานะการฝึกงาน:</strong> {selectedRow.coop_state}</p>
-                        </div>
-                    )}
-                    </DialogContent>
-                    <DialogActions>
-                    <Button onClick={handleClose} color="primary">ปิด</Button>
-                    </DialogActions>
+                {/* Popup Dialog */}
+                <Dialog open={open} onClose={handleClose}
+                              maxWidth="md" fullWidth
+                              sx={{
+                                "& .MuiDialog-paper": {
+                                  borderRadius: "12px",
+                                  padding: "20px 20px 50px 20px",
+                                }
+                              }}>
+
+                                <DialogTitle >
+                                  <div style={{display:'flex'}}>
+                                    <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
+                                      <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
+                                      <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>ข้อมูลนิสิต </h1>
+                                    </div>
+                                    <Button onClick={handleClose} color="primary" sx={{fontFamily: "Noto Sans Thai, sans-serif" }}>
+                                      ปิด
+                                    </Button>
+                                  </div>
+                                  </DialogTitle>
+                                <DialogContent >
+                                {(!studentInfo) ? (
+                                    // แสดง Loading ขณะรอข้อมูล
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+                                      <CircularProgress />
+                                    </div>
+                                  ) : (
+                                    <div style={{display:'flex',borderRadius:'10px',padding:'20px 0px 20px 30px'}}>
+                                      <div style={{flex: '1'}}>
+                                        <p style={{color:'#767676'}}>รหัสนิสิต :</p>
+                                        <p style={{color:'#767676'}}>ชื่อ-นามสกุล :</p>
+                                        <p style={{color:'#767676'}}>สาขา :</p>
+                                        <p style={{color:'#767676'}}>เบอร์โทรศัพท์ :</p>
+                                      </div>
+                                      <div style={{flex: '3'}}>
+                                        <p>{studentInfo.student_id}</p>
+                                        <p>{studentInfo.first_name} {studentInfo.last_name}</p>
+                                        <p>{getMajorName(studentInfo.major)} ชั้นปีที่ {studentInfo.year}</p>
+                                        <p> {studentInfo.phone_number}</p>
+                                      </div>
+                                      <div style={{flex: '3',display:'flex',justifyContent: 'center',alignItems:'center'}}>
+                                        <Avatar  src={`http://localhost:5000${studentInfo.profile_img}`} sx={{ width: 150, height: 150, mx: "auto" }} />
+                                      </div>
+                                    </div>
+                                )}
+                                </DialogContent>
+
+                                <DialogTitle >
+                                <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
+                                    <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
+                                    <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>รายละเอียดนิเทศครั้งที่ 2 </h1>
+                                </div>
+                                </DialogTitle>               
+                                <DialogContent >  
+                                {(!coopInfo) || (!secondSupervisor) ? (
+                                  (isEmptyInfo == 1) ? (
+                                    <div style={{ textAlign: "center", padding: "20px", color: "#767676" }}>
+                                      <p>ไม่มีข้อมูล</p>
+                                    </div>
+                                  ) : (
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+                                      <CircularProgress />
+                                    </div>
+                                  )
+                                  ) : (
+                                    <div style={{display:'flex',borderRadius:'10px',border:'1px solid rgba(0, 0, 13, 0.15)',padding:'20px 30px 20px 30px'}}>
+                                      <div style={{flex: '3',display:'flex',borderRight:'1px solid #ddd'}}>
+                                        <div style={{display:'flex',flexDirection:'column'}}>
+                                          <div style={{display:'flex'}}>
+                                            <div style={{flex: '1'}}>
+                                              <div>
+                                                <p style={{color:'#767676'}}>ชื่อบริษัท :</p>
+                                                <p style={{color:'#767676'}}>ช่วงเวลาที่ฝึกงาน :</p>
+                                                <p style={{color:'#767676'}}>ที่อยู่บริษัท :</p>
+                                              </div>
+                                            </div>
+                                            <div style={{flex: '1'}}>
+                                              <div>
+                                                <p>{coopInfo.CompanyNameTH}</p>
+                                                <p>{formatCoopDate(coopInfo.Coop_StartDate)} - {formatCoopDate(coopInfo.Coop_EndDate)}</p> 
+                                                <p>{coopInfo.CompanyAddress}</p>
+                                              </div>
+                                            </div>
+                                          </div>
+                                          <div style={{display:'flex'}}>
+                                            <div style={{flex:'1'}}>
+                                              <p style={{color:'#767676'}}>สถานะการนิเทศน์ :</p>
+                                            </div>
+                                            <div style={{flex:'1'}}>
+                                              <p>{secondSupervisor.status}</p>
+                                            </div>
+                                          </div>
+                                        </div>
+                                      </div>
+
+                                      <div style={{flex: '3',marginLeft:"30px"}}>
+                                        <div style={{flex: '1',display: 'flex'}}>
+                                          <div style={{flex: '1'}}>
+                                            <p style={{color:'#767676'}}>วันเวลาที่นัดหมาย :</p>
+                                          </div>
+                                          <div style={{flex: '1',textAlign:'end'}}>
+                                            <p>{formatThaiDate(secondSupervisor.appointment_date)} </p>
+                                            <p>เวลา {secondSupervisor.appointment_time}</p>
+
+                                          </div>
+                                        </div>
+
+                                        <div style={{flex: '1',display: 'flex'}}>
+                                          <div style={{flex: '1'}}>
+                                            <p style={{color:'#767676'}}>รูปแบบการนิเทศน์ :</p>
+                                            <p style={{color:'#767676'}}>รูปแบบการเดินทาง :</p>
+
+                                          </div>
+                                          <div style={{flex: '1',textAlign:'end'}}>
+                                            <p>{secondSupervisor.appointment_type}</p>
+                                            <p>{secondSupervisor.travel_type}</p>
+                                          </div>
+                                        </div>
+
+                                        <div style={{flex: '1',display: 'flex',marginTop:'20px'}}>
+                                          <div style={{flex: '1'}}>
+                                            <p style={{color:'#767676'}}>การยืนยันวันเวลาจากอาจารย์ :</p>                                          </div>
+                                          <div style={{flex: '1',textAlign:'end'}}>
+                                            <p>{secondSupervisor.is_accept}</p>
+                                          </div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                )}
+                                </DialogContent>
+
+                                
                 </Dialog>
             </TableContainer>
           </div>
