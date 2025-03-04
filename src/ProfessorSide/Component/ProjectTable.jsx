@@ -1,27 +1,43 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
-
-import "./PetitionTable.css"; // ไฟล์ CSS แยกต่างหาก
+import { useNavigate } from "react-router-dom";
+import "./ProjectTable.css"; 
 
 const ProjectTable = () => {
   const [data, setData] = useState([]); // เก็บข้อมูลทั้งหมด
-  const [filteredData, setFilteredData] = useState([]);
+  const [filteredData, setFilteredData] = useState([]); // ข้อมูลที่ผ่านการกรอง
   const [loading, setLoading] = useState(true);
   const [searchTerm, setSearchTerm] = useState("");
-  const navigate = useNavigate(); // ใช้สำหรับเปลี่ยนหน้า
-  
+  const navigate = useNavigate();
 
-const steps = [
-    "รอการตรวจสอบ",
-    "เข้าที่ประชุม",
-    "ส่งไปที่เจ้าหน้าที่",
-    "อนุมัติแล้ว",
-    "เสร็จสิ้น",
-];
+  // ปรับ mapping สถานะตามข้อมูล SQL
+  const steps = ["รอการตรวจสอบ", "อนุมัติ", "ไม่อนุมัติ"];
+
+  useEffect(() => {
+    fetchProjects();
+  }, []);
+
+  // ฟังก์ชันดึงข้อมูลโปรเจค
+  const fetchProjects = () => {
+    setLoading(true);
+    fetch("http://localhost:5000/allprojects") 
+      .then((response) => response.json())
+      .then((fetchedData) => {
+        setData(fetchedData);
+        setFilteredData(fetchedData);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching data:", error);
+        setLoading(false);
+      });
+};
+
+  // ฟังก์ชันกรองข้อมูลในตาราง (แก้ไขให้รองรับ undefined/null)
   const filterTable = (term) => {
     const lowerCaseTerm = term.toLowerCase();
     const filtered = data.filter((item) =>
       Object.values(item)
+        .map((value) => value?.toString() || "") // ป้องกันค่า null หรือ undefined
         .join(" ")
         .toLowerCase()
         .includes(lowerCaseTerm)
@@ -29,20 +45,6 @@ const steps = [
     setFilteredData(filtered);
   };
 
-  // ดึงข้อมูลจาก Backend
-  useEffect(() => {
-    fetch("http://localhost:5000/allpetitions")
-      .then((response) => response.json())
-      .then((fetchedData) => {
-        setData(fetchedData);
-        setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching data:", error);
-        setLoading(false);
-      });
-  }, []);
 
   // ฟังก์ชันจัดการการเปลี่ยนแปลงใน Search Bar
   const handleSearch = (event) => {
@@ -51,41 +53,69 @@ const steps = [
     filterTable(term);
   };
 
-  // ฟังก์ชันเมื่อกดเลือกแถว
+
+  // ฟังก์ชันเมื่อกดเลือกแถว (ป้องกัน ProjectID เป็น undefined)
   const handleRowClick = (item) => {
-    navigate(`/professor/petition-detail`, { 
-      state: { ApplicationID: item.ApplicationID, Petition_name: item.Petition_name }
+    navigate(`/professor/project-detail`, {
+      state: {
+        ProjectID: item.ProjectID || "Unknown",
+        ProjectTitle: item.ProjectTitle || "ไม่มีชื่อโปรเจค",
+      },
     });
   };
 
   if (loading) {
-    return(
-    <div className="loading-text">กำลังโหลดข้อมูล...
-      <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
-        <div class="loader"></div>
+    return (
+      <div className="project-loading-text">
+        กำลังโหลดข้อมูล...
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            marginTop: "20px",
+          }}
+        >
+          <div className="loader"></div>
+        </div>
       </div>
-    </div>
-    )
-    
+    );
   }
 
   return (
-    <div className="table-container">
-      <div className="table-header" style={{borderBottom:'1px solid #ddd',paddingBottom:'10px',marginBottom:'20px'}}>
+    <div className="project-table-container"> 
+      <div className="project-table-header">
         <div className="sub-header-square" />
         <h1 className="table-title">โครงงานทั้งหมด</h1>
-        <input
-          type="text"
-          id="searchInput"
-          className="search-bar"
-          placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
-          value={searchTerm}
-          onChange={handleSearch}
-
-          style={{marginLeft:'45%'}}
-        />
+        <div className="search-container">
+          <input
+            type="text"
+            id="searchInput"
+            className="project-search-bar"
+            placeholder="ค้นหาโปรเจค, รหัสนิสิต, ชื่อนามสกุล"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+          <button className="project-refresh-button" onClick={fetchProjects}>
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="16"
+            height="16"
+            fill="currentColor"
+            className="bi bi-arrow-repeat"
+            viewBox="0 0 16 16"
+          >
+            <path d="M11.534 7h3.932a.25.25 0 0 1 .192.41l-1.966 2.36a.25.25 0 0 1-.384 0l-1.966-2.36a.25.25 0 0 1 .192-.41zM-11 2h3.932a.25.25 0 0 0 .192-.41L2.692 6.23a.25.25 0 0 0-.384 0L.342 8.59A.25.25 0 0 0 .534 9z"></path>
+            <path
+              fillRule="evenodd"
+              d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5.002 5.002 0 0 0 8 3zM3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9H3.1z"
+            ></path>
+          </svg>
+          รีเฟรชข้อมูล
+        </button>
+        </div>
       </div>
-      <table className="petition-table" id="petitionTable">
+      <table className="project-table">
         <thead>
           <tr>
             <th>สถานะ</th>
@@ -93,30 +123,37 @@ const steps = [
             <th>ชื่อ - นามสกุล</th>
             <th>สาขาวิชา</th>
             <th>ชั้นปี</th>
-            <th>รายละเอียดคำร้อง</th>
-
+            <th>ชื่อโปรเจค</th>
           </tr>
         </thead>
         <tbody>
           {filteredData.length === 0 ? (
             <tr>
-              <td colSpan="8" className="no-data">
-                ไม่พบข้อมูลคำร้อง
+              <td colSpan="6" className="no-data">
+                ไม่พบข้อมูลโปรเจค
               </td>
             </tr>
           ) : (
             filteredData.map((item, index) => (
-              <tr key={index} className={index % 2 === 0 ? "row-even" : "row-odd"}
-              onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
-              style={{ cursor: "pointer" }}
+              <tr
+                key={index}
+                className={index % 2 === 0 ? "row-even" : "row-odd"}
+                onClick={() => handleRowClick(item)}
+                style={{ cursor: "pointer" }}
               >
-                <td style={{fontSize:'12px'}}>{steps[item.Progress_State]}</td>
+                <td style={{ fontSize: "12px" }}>
+                  {steps[ 
+                    item.project_state >= 0 && item.project_state < steps.length
+                      ? item.project_state
+                      : 0
+                  ]}
+                </td>
                 <td>{item.StudentID}</td>
                 <td>{item.FullName}</td>
                 <td>{item.Major}</td>
                 <td>{item.Year}</td>
-                <td>{item.Petition_name} ฉบับที่ {item.Petition_version}
-                </td>
+
+                <td>{item.ProjectTitle}</td>
               </tr>
             ))
           )}
