@@ -1,0 +1,121 @@
+/* Container for the table */
+.project-table-container {
+    margin: 20px;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+/* Table style */
+.project-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+/* Table header style */
+.project-table th {
+    padding: 12px;
+    background-color: #006765;  /* สีพื้นหลังเข้ม */
+    color: white;
+    text-align: left;
+    font-size: 16px;
+}
+
+/* Table row style */
+.project-table td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;  /* ปรับสีขอบให้ดูเบากว่า */
+}
+
+/* Hover effect on table rows */
+.project-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Style for buttons inside the table */
+.project-table .action-buttons {
+    display: flex;
+    gap: 10px;
+}
+
+/* Individual button style */
+.project-table .action-buttons button {
+    padding: 8px 12px;
+    background-color: #006765;  /* สีพื้นหลังปกติ */
+    border: none;
+    color: white;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Hover effect on buttons */
+.project-table .action-buttons button:hover {
+    background-color: #004d43;  /* สีเข้มขึ้นเมื่อโฮเวอร์ */
+    transform: scale(1.05);  /* เพิ่มเอฟเฟกต์ขยายเล็กน้อย */
+}
+
+/* Header container for table */
+.project-table-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between; /* จัดให้อยู่คนละฝั่ง */
+    width: 100%;
+}
+
+/* Search and refresh button container */
+.search-container {
+    display: flex;
+    align-items: center;
+    gap: 10px; /* ระยะห่างระหว่าง Search Bar กับปุ่ม */
+}
+
+/* Search bar style */
+.project-search-bar {
+    width: 250px; /* ปรับขนาดช่องค้นหา */
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 20px;
+    font-size: 16px;
+}
+
+/* Refresh button style */
+.project-refresh-button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    background-color: #006765;
+    font-weight: 500;
+    border-radius: 0.5rem;
+    font-size: 1rem;
+    padding: 0.7rem 1.5rem;
+    cursor: pointer;
+    border: none;
+}
+
+.project-refresh-button:hover {
+    background-color: #004d43;
+}
+
+/* Refresh button icon */
+.project-refresh-button svg {
+    width: 1.3rem;
+    height: 1.3rem;
+    margin-right: 0.5rem;
+}
+
+/* Animation for refresh button */
+.project-refresh-button:focus svg {
+    animation: spin_357 0.5s linear;
+}
+
+@keyframes spin_357 {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}

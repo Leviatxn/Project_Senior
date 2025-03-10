@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import CheckIcon from "@mui/icons-material/Check";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
+import Swal from "sweetalert2"; // Import SweetAlert2
 
 const Prof_ProjectDetail = () => {
   const location = useLocation();
@@ -19,16 +20,13 @@ const Prof_ProjectDetail = () => {
   const [projectDetails, setProjectDetails] = useState(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  // สถานะที่เลือก (1 = อนุมัติ, 2 = ไม่อนุมัติ)
-  const [selectedStatus, setSelectedStatus] = useState(null);
+  const [selectedStatus, setSelectedStatus] = useState(null); // 1 = อนุมัติ, 2 = ไม่อนุมัติ
 
-  // ดึงข้อมูลโปรเจคจากเซิร์ฟเวอร์
   useEffect(() => {
     if (ProjectID) {
       fetch(`http://localhost:5000/projectdetails/${ProjectID}`)
         .then((response) => response.json())
         .then((data) => {
-          // สมมติว่าข้อมูลที่ได้มาเป็น array หากเป็น object ให้แก้ไขตามความเหมาะสม
           setProjectDetails(data[0] || data);
           setLoading(false);
         })
@@ -40,27 +38,38 @@ const Prof_ProjectDetail = () => {
     }
   }, [ProjectID]);
 
-  // ฟังก์ชันอัพเดตสถานะโปรเจค (return promise เพื่อให้ handleSave ใช้งานต่อได้)
   const updateProjectStatus = (status) => {
     return fetch(`http://localhost:5000/updateProjectStatus/${ProjectID}`, {
       method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-      },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ project_state: status }),
     })
       .then((response) => response.json())
       .then(() => {
-        alert("อัปเดตสถานะสำเร็จ");
+        Swal.fire({
+          icon: "success",
+          title: "อัปเดตสถานะสำเร็จ",
+          text: "สถานะโปรเจคได้รับการอัปเดตแล้ว",
+        });
         setProjectDetails((prev) => ({ ...prev, project_state: status }));
       })
-      .catch((error) => console.error("Error updating status:", error));
+      .catch((error) => {
+        console.error("Error updating status:", error);
+        Swal.fire({
+          icon: "error",
+          title: "เกิดข้อผิดพลาด",
+          text: "ไม่สามารถอัปเดตสถานะได้",
+        });
+      });
   };
 
-  // ฟังก์ชันสำหรับบันทึกข้อมูลและย้อนกลับ
   const handleSave = () => {
     if (selectedStatus === null) {
-      alert("กรุณาเลือกสถานะโปรเจคก่อนบันทึก");
+      Swal.fire({
+        icon: "warning",
+        title: "กรุณาเลือกสถานะโปรเจค",
+        text: "กรุณาเลือกสถานะโปรเจคก่อนบันทึก",
+      });
       return;
     }
     updateProjectStatus(selectedStatus).then(() => {
@@ -81,7 +90,6 @@ const Prof_ProjectDetail = () => {
           <div className="home-content-container">
             <div className="prof_detail-table-container">
               <div className="prof_detail-table-box" style={{ position: "relative" }}>
-                {/* แถวแรก: กล่องสี่เหลี่ยมและรหัสนิสิต */}
                 <div
                   className="header-row"
                   style={{
@@ -99,7 +107,6 @@ const Prof_ProjectDetail = () => {
                   </div>
                 </div>
 
-                {/* ชื่อโครงงาน */}
                 <h1>ชื่อโครงงาน: {ProjectTitle || "ไม่ระบุชื่อโครงงาน"}</h1>
                 <p>
                   วันที่:{" "}
@@ -108,47 +115,41 @@ const Prof_ProjectDetail = () => {
                     : "ไม่ระบุ"}
                 </p>
 
-                {/* หัวข้อและกล่องรายละเอียดโปรเจค */}
                 <h3>รายละเอียดโปรเจค</h3>
-                <div className="details-box">
+                <div className="prof_detail-table-box">
                   {projectDetails?.ProjectDetails || "ไม่มีรายละเอียดโปรเจค"}
                 </div>
 
-                {/* หัวข้อและกล่องอาจารย์ที่ปรึกษา */}
                 <h3>อาจารย์ที่ปรึกษา</h3>
-                <div className="details-box">
+                <div className="prof_detail-table-box">
                   {projectDetails?.Advisor || "ไม่ระบุ"}
                 </div>
 
-                {/* หัวข้อและกล่องกรรมการ 1 */}
-                <h3>กรรมการ 1</h3>
-                <div className="details-box">
-                  {projectDetails?.Committee1 || "ไม่ระบุ"}
+                <h3>กรรมการ</h3>
+                <div className="committee-container">
+                  <div className="committee-box">
+                    {projectDetails?.Committee1 || "ไม่ระบุ"}
+                  </div>
+                  <div className="committee-box">
+                    {projectDetails?.Committee2 || "ไม่ระบุ"}
+                  </div>
                 </div>
 
-                {/* หัวข้อและกล่องกรรมการ 2 */}
-                <h3>กรรมการ 2</h3>
-                <div className="details-box">
-                  {projectDetails?.Committee2 || "ไม่ระบุ"}
-                </div>
-
-                {/* หัวข้อและกล่องไฟล์ที่แนบ */}
                 <h3>ไฟล์ที่แนบ</h3>
-                <div className="details-box">
+                <div className="prof_detail-table-box">
                   {projectDetails?.FilePath ? (
                     <a
                       href={projectDetails.FilePath}
                       target="_blank"
                       rel="noopener noreferrer"
                     >
-                      ดาวน์โหลดไฟล์
+                      {projectDetails.FilePath}
                     </a>
                   ) : (
                     "ไม่มีไฟล์ที่แนบ"
                   )}
                 </div>
 
-                {/* ส่วนของ checkbox สำหรับเลือกสถานะ */}
                 <div
                   className="status-checkboxes"
                   style={{
@@ -177,32 +178,28 @@ const Prof_ProjectDetail = () => {
                   />
                 </div>
 
-                {/* ปุ่ม Save สำหรับบันทึกข้อมูลและย้อนกลับ */}
                 <div
-                  className="action-buttons"
-                  style={{
-                    position: "absolute",
-                    bottom: "20px",
-                    right: "20px",
-                    display: "flex",
-                    gap: "10px",
-                    alignItems: "flex-end",
-                  }}
+                className="action-buttons"
+                style={{
+                  position: "absolute",
+                  bottom: "20px",
+                  right: "20px",
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "flex-end",
+                }}
+              >
+                <Button
+                  onClick={handleSave}
+                  variant="contained"
+                  color="primary"
+                  startIcon={<CheckIcon />}
+                  className="prof_detail-status-buttons"
                 >
-                  <Button
-                    onClick={handleSave}
-                    variant="contained"
-                    color="primary"
-                    startIcon={<CheckIcon />}
-                    sx={{
-                      borderRadius: "8px",
-                      padding: "8px 16px",
-                      textTransform: "none",
-                    }}
-                  >
-                    บันทึกข้อมูล
-                  </Button>
-                </div>
+                  SAVE
+                </Button>
+              </div>
+
               </div>
             </div>
           </div>
