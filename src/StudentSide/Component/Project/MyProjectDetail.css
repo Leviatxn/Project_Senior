@@ -37,6 +37,7 @@
 
 /* การตั้งค่าตารางใน ProjectDetail */
 .project-details {
+    max-width: 800px;
     padding: 20px;
     font-size: 16px;
     line-height: 1.5;

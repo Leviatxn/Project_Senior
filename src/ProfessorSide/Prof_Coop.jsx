@@ -80,6 +80,7 @@ const ProfCoopTable = ({currentstate}) => {
       setStudentInfo(null);
       setCoopInfo(null)
       setOpen(false);
+
     };
 
     const handleStudentInfo = async(studentID) => {
@@ -258,6 +259,7 @@ const ProfCoopTable = ({currentstate}) => {
           return "default";
       }
     };
+
     const getCoopStatus = (status) => {
       if(status === "pass"){
         return "ผ่านการฝึกงาน";
@@ -609,10 +611,14 @@ const ProfCoopTable = ({currentstate}) => {
                                 <div style={{flex: '1'}}>
                                   <p style={{color:'#767676'}}>จังหวัดที่ฝึกงาน :</p>
                                   <p style={{color:'#767676'}}>เบอร์โทรบริษัท :</p>
+                                  <p style={{color:'#767676'}}>เบี้ยเลี้ยง :</p>
+
                                 </div>
                                 <div style={{flex: '2',textAlign:'end'}}>
                                   <p>{coopInfo.CompanyProvince}</p>
                                   <p>{coopInfo.CompanyPhoneNumber}</p>
+                                  <p>{coopInfo.Allowance} บาท / ต่อวัน</p>
+
                                 </div>
                               </div>
                             </div>
@@ -869,7 +875,7 @@ const ProfCoopTable = ({currentstate}) => {
                                  (firstSupervisor.is_accept === 0) ? (
                                   <div style={{flex:1,textAlign:'end'}}>
                                     <Button onClick={() => (handleSetScheduleClick(firstSupervisor.student_id))} style={{width:'150px',border:'1px solid #ddd',padding:'10px',borderRadius:'20px',marginTop:'20px',background:'#006765'}}>
-                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif",color:'#ddd'}}>กำหนดวันเวลาแล้ว</div>
+                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif",color:'#ddd'}}>กำหนดวันเวลา</div>
                                     </Button>
                                   </div>
                                   ) : (

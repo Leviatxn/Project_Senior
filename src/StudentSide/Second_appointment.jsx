@@ -5,7 +5,7 @@ import './Home.css';
 import '../Main.css';
 import './Petition.css';
 import ReturnButton from "../MainComponent/ReturnButton";
-import FirstAppointment from "./Component/FirstAppointment";
+import SecondAppointment from "./Component/SecondAppointment";
 
 const Second_appointment = () => {
 
@@ -32,7 +32,7 @@ const Second_appointment = () => {
                                 </div>
                             </div>
                             <div className="request-box-content">
-                                <FirstAppointment/>
+                                <SecondAppointment/>
                             </div>
 
                         </div>

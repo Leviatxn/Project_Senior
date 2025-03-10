@@ -9,22 +9,22 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // ลบ Token ออกจาก localStorage
-        localStorage.removeItem('studentId'); // ลบ Student ID (ถ้ามี)
+        localStorage.removeItem('email'); // ลบ Student ID (ถ้ามี)
         navigate("/"); // นำไปหน้า Login
     };
     
     useEffect(() => {
         const fetchUserData = async () => {
-            const studentId = localStorage.getItem("studentId");
+            const email = localStorage.getItem("email");
             const token = localStorage.getItem("authToken");
 
-            if (!studentId) {
-                console.error("No student ID found");
+            if (!email) {
+                console.error("No email found");
                 return;
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/user/${studentId}`, {
+                const response = await axios.get(`http://localhost:5000/user-email/${email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -49,7 +49,7 @@ const Sidebar = () => {
               </div>
               <div className="prof-sidebar-header">
                 <p className="prof-user-name">Loading..</p>
-                <p className="prof-user-id">(นิสิต) Loading...</p>
+                <p className="prof-user-id"> Loading...</p>
               </div>
             </div>
             <div className="prof-sidebar-header-underline"/>
@@ -89,8 +89,8 @@ const Sidebar = () => {
             <div className="prof-sidebar-header-circle"/>
           </div>
           <div className="prof-sidebar-header">
-            <p className="prof-user-name">{user.username}</p>
-            <p className="prof-user-id">(นิสิต) {user.student_id}</p>
+            <p className="prof-user-name" style={{color:'white'}}>{user.username}</p>
+            <p className="prof-user-id">({user.role}) {user.student_id}</p>
           </div>
         </div>
         <div className="prof-sidebar-header-underline"/>

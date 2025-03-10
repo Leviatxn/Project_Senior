@@ -20,7 +20,7 @@ const Cooperative = () => {
 
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้ทั้งหมด
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
-    const [state, setState] = useState(0); 
+    const [coopInfo, setCoopInfo] = useState(null); 
 
     const steps = [
         "ยื่นคำร้องรอการตรวจสอบ",
@@ -29,8 +29,62 @@ const Cooperative = () => {
         "คำร้องอนุมัติ",
         "เสร็จสิ้น",
     ];
+    const getCoopStatusColor = (status) => {
+        switch (status) {
+          case "pass":
+            return "#41D70B"; // สีเขียว
+          case "reject":
+            return "#A60003"; // สีแดง
+          case "working":
+            return "#00A6A2"; // สีฟ้า
+          case "wait":
+                return "#3297DB"; // สีฟ้า
+          default:
+            return "default";
+        }
+      };
 
+    const getCoopStatus = (status) => {
+        if(status === "pass"){
+          return "ผ่านการฝึกงาน";
+        }
+        else if(status === "reject"){
+          return "ไม่ผ่านการฝึกงาน";
+    
+        }
+        else if(status === "working"){
+          return "กำลังฝึกงาน";
+    
+        }
+        else if(status === "wait"){
+          return "ยังไม่เริ่มการฝึกงาน";
+    
+        }
+      };
 
+      const formatCoopDate = (isoString) => {
+        if(isoString == null){
+          return '-'
+        }
+        const date = new Date(isoString);
+        return date.toLocaleDateString("th-TH", {
+          day: "numeric",
+          month: "numeric",
+          year: "numeric",
+        });
+      };
+
+      const formatThaiDate = (isoString) => {
+        if(isoString == null){
+          return '-'
+        }
+        const date = new Date(isoString);
+        return date.toLocaleDateString("th-TH", {
+          day: "numeric",
+          month: "long",
+          year: "numeric",
+        });
+      };
     useEffect(() => {
         const fetchUserData = async () => {
             const studentId = localStorage.getItem("studentId");
@@ -43,7 +97,7 @@ const Cooperative = () => {
 
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/lastpetition/${studentId}`,
+                    `http://localhost:5000/user_info/${studentId}`,
                     {
                         headers: {
                             Authorization: `Bearer ${token}`,
@@ -52,8 +106,21 @@ const Cooperative = () => {
                 );
 
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
-                setCurrentPetition(response.data.Petition_name); // อัปเดต current_petition
-                setState(response.data.Progress_State)
+            } catch (err) {
+                console.error("Error fetching user data:", err);
+            }
+
+            try {
+                const response = await axios.get(
+                    `http://localhost:5000/coop_info/${studentId}`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${token}`,
+                        },
+                    }
+                );
+                console.log(response.data)
+                setCoopInfo(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
@@ -62,15 +129,15 @@ const Cooperative = () => {
 
         fetchUserData();
     }, []);
-
-    return (
-        <div className="cooperative-background">
+    if(!user || !coopInfo){
+        return(
+            <div className="cooperative-background">
             <Sidebar />
             <Banner />
             <div className="main-container">
                 <div className="Side-Space" />
                 <div className="cooperative-content-container">
-                    <div className="cooperative-header">
+                    <div className="cooperative-header" style={{marginTop:'20px'}}>
                         <div style={{flex:'1'}}>
                             <h1>การฝึกงานสหกิจศึกษา</h1>
                             <p style={{marginTop:'10px',color:'#006765'}}>วันที่ {today}</p>
@@ -85,25 +152,18 @@ const Cooperative = () => {
                             <div className="sub-header">
                                 <div className="sub-header-square" />
                                 <h3 style={{fontSize:'18px'}}>
-                                    สถานะนิสิตสหกิจ {" "}
-                                    <a>
-                                        {currentPetition
-                                            ? `${currentPetition} ฉบับที่ ${user.Petition_version}`
-                                            : "ไม่มีคำร้องในระบบ"}
-                                    </a>
+                                    สถานะนิสิตสหกิจ
                                 </h3>
+                            </div>
+                            <div>
+                                    
                             </div>
                         </div>
                         <div className="coop-schedule-box" style={{marginLeft:'20px'}}>
                             <div className="sub-header">
                                 <div className="sub-header-square" />
                                 <h3 style={{fontSize:'18px'}}>
-                                    สถานะนิสิตสหกิจ :{" "}
-                                    <a>
-                                        {currentPetition
-                                            ? `${currentPetition} ฉบับที่ ${user.Petition_version}`
-                                            : "ไม่มีคำร้องในระบบ"}
-                                    </a>
+                                    กำหนดวันฝึกงาน
                                 </h3>
                             </div>
                         </div>
@@ -172,13 +232,148 @@ const Cooperative = () => {
                                     <div className="sub-header-square" />
                                     <h3>โครงงานสหกิจ</h3>
                                 </div>
-                                <MyProjectTitle />
+
                                 <div className="coop-underline" />
-                                <div style={{paddingLeft:'30px',marginTop:'20px'}}>
+                                <div style={{paddingLeft:'30px',marginTop:'20px',flex:'1'}}>
+=
+                                </div>
+                                
+                                <div style={{padding:'20px 30px 20px 30px',marginTop:'20px'}}>
+                                    <div className="coop-underline" />
+                                    <p style={{marginLeft:'30px'}}>สถานะโครงงาน :</p>
+
+                                </div>
+                            </div>
+                            <div className="coop-project-box" style={{marginTop: '30px'}}>
+                                <div className="sub-header">
+                                    <div className="sub-header-square" />
+                                    <h3>คำร้องฉัน</h3>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    );
+    }
+    return (
+        <div className="cooperative-background">
+            <Sidebar />
+            <Banner />
+            <div className="main-container">
+                <div className="Side-Space" />
+                <div className="cooperative-content-container">
+                    <div className="cooperative-header" style={{marginTop:'20px'}}>
+                        <div style={{flex:'1'}}>
+                            <h1>การฝึกงานสหกิจศึกษา</h1>
+                            <p style={{marginTop:'10px',color:'#006765'}}>วันที่ {today}</p>
+                        </div>
+                        <div className="cooperative-detail">
+                            <a href="/cooperative-detail">รายละเอียดการฝึกงานสหกิจ</a>
+                        </div>
+                    </div>
+
+                    <div className="first-cooperative-container">
+                        <div className="coop-status-box" style={{paddingBottom:'10px'}}>
+                            <div className="sub-header">
+                                <div className="sub-header-square" />
+                                <h3 style={{fontSize:'18px'}}>
+                                    สถานะนิสิตสหกิจ
+                                </h3>
+                            </div>
+                            <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                                    <h1 style={{fontWeight:'500',color:(getCoopStatusColor(user.coop_state))}}>{getCoopStatus(user.coop_state)}</h1>
+                            </div>
+
+                        </div>
+                        <div className="coop-schedule-box" style={{marginLeft:'20px',paddingBottom:'10px'}}>
+                            <div className="sub-header">
+                                <div className="sub-header-square" />
+                                <h3 style={{fontSize:'18px'}}>
+                                    กำหนดวันฝึกงาน
+                                </h3>
+                            </div>
+                            <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                                    <h1 style={{fontWeight:'400',fontSize:'28px',color:(getCoopStatusColor(user.coop_state))}}>วันที่ {formatThaiDate(coopInfo.Coop_StartDate)} - {formatThaiDate(coopInfo.Coop_EndDate)}</h1>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div className="coop-project-container">
+                        <div>
+                            <div className="coop-document-box" >
+                                <div className="sub-header">
+                                    <div className="sub-header-square" />
+                                    <h3 style={{fontSize:'18px'}}>เอกสารฝึกงาน</h3>
+                                </div>
+                                <div className="petition-underline" />
+                                <div className="coop-document-menu">
+                                    <nav>
+                                        <ul>
+                                            <li>
+                                                <a href="/petition/request-a">
+                                                    หนังสือส่งตัว
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/petition/request-a">
+                                                    กฎการฝึกงาน
+                                                </a>
+                                            </li>
+                                            <li>
+                                                <a href="/petition/request-b">
+                                                    แบบฟอร์มต่างๆที่เกี่ยวข้อง
+                                                </a>
+                                            </li>
+                                        </ul>
+                                    </nav>
+                                    <div className="petition-underline" />
+                                </div>
+
+                            </div>
+                            <div className="coop-document-box" style={{marginTop: '30px'}}>
+                                    <div className="sub-header">
+                                        <div className="sub-header-square" />
+                                        <h3 style={{fontSize:'18px'}}>การนิเทศสหกิจ</h3>
+                                    </div>
+                                    <div className="petition-underline" />
+                                    <div className="coop-document-menu">
+                                        <nav>
+                                            <ul>
+                                                <li>
+                                                    <a href="/appointment-1">
+                                                        การนิเทศครั้งที่ 1
+                                                    </a>
+                                                </li>
+                                                <li>
+                                                    <a href="/appointment-2">
+                                                        การนิเทศครั้งที่ 2
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </nav>
+                                        <div className="petition-underline" />
+                                    </div>
+                            </div>
+                        </div>
+                        <div style={{marginLeft:'30px',flex:'7'}}>
+                            <div className="coop-project-box">
+                                <div className="sub-header">
+                                    <div className="sub-header-square" />
+                                    <h3>โครงงานสหกิจ</h3>
+                                </div>
+                                <div style={{padding:'10px 0px 0px 80px'}}>
+                                  <MyProjectTitle />
+                                </div>
+                                <div style={{paddingLeft:'80px'}}>
+                                    <div className="coop-underline" />                                    
+                                </div>
+                                <div style={{padding:'20px 60px 20px 60px',flex:'1'}}>
                                 < MyProjectDetail/>
                                 </div>
                                 
-                                <div style={{padding:'20px 30px 20px 30px',marginTop:'0',marginTop:'20px'}}>
+                                <div style={{padding:'20px 30px 20px 30px',marginTop:'20px'}}>
                                     <div className="coop-underline" />
                                     <p style={{marginLeft:'30px'}}>สถานะโครงงาน :</p>
 
