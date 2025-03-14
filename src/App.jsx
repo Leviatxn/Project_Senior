@@ -7,13 +7,14 @@ import Petition from './StudentSide/Petition';
 import RequestA from './StudentSide/RequestA';
 import RequestB from './StudentSide/RequestB';
 import Profile from './StudentSide/Profile';
-import Project from './StudentSide/Project'; // เปลี่ยนชื่อ import
+import Project from './StudentSide/Project';
 import Prof_LoginPage from './Prof_LoginPage';
 import Prof_Home from './ProfessorSide/Prof_Home';
 import Prof_Petition from './ProfessorSide/Prof_Petition';
 import Prof_PetitionDetail from './ProfessorSide/Prof_PetitionDetail';
 import Prof_Project from './ProfessorSide/Prof_Project';
 import Prof_ProjectDetail from './ProfessorSide/Prof_ProjectDetail';
+import Prof_Test from './ProfessorSide/Prof_Test';
 import Admin_LoginPage from './Admin_LoginPage';
 import Admin_Register from './AdminSide/Admin_Register';
 import Student_Register from './StudentSide/Student_Register';
@@ -63,6 +64,8 @@ function App() {
       <Route path="/project" element={<Project />} /> 
       <Route path="/professor/project" element={<Prof_Project/>} />
       <Route path="/professor/project-detail" element={<Prof_ProjectDetail/>} />
+
+      <Route path="/professor/test" element={<Prof_Test/>} />
 
 
     </Routes>
