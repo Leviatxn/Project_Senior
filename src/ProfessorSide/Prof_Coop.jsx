@@ -34,7 +34,7 @@ import {
 import axios from "axios";
 import styled from 'styled-components';
 import Swal from "sweetalert2";
-
+import { useNavigate } from "react-router-dom";
 
 const ProfCoopTable = ({currentstate}) => {
     const [data, setData] = useState([]);
@@ -60,6 +60,7 @@ const ProfCoopTable = ({currentstate}) => {
     const [order, setOrder] = useState("asc");
 
     
+    const navigate = useNavigate();
     const visibleData = filteredData.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage);
 
     function formatDate(dateString) {
@@ -624,6 +625,13 @@ const ProfCoopTable = ({currentstate}) => {
         }  
     };
   
+      // ฟังก์ชันเมื่อกดเลือกแถว
+    const handleEvaluationClick = (item) => {
+      navigate(`/professor/evaluation`, { 
+        state: { studentID: item }
+      });
+    };
+
     if (loading) {
       return(
       <div className="loading-text">กำลังโหลดข้อมูล...
@@ -1139,6 +1147,7 @@ const ProfCoopTable = ({currentstate}) => {
                                         <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>
                                           <Button 
                                           variant="contained" color="success"
+                                          onClick={()=>{handleEvaluationClick(studentInfo.student_id)}}
                                           sx={{
                                             width: "200px",
                                             color: "#FFFFFF", 

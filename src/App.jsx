@@ -28,6 +28,7 @@ import SecondAppointment from './StudentSide/Component/SecondAppointment';
 import Second_appointment from './StudentSide/Second_appointment';
 import Prof_Coop from './ProfessorSide/Prof_Coop';
 import Admin_ProfRegister from './AdminSide/Admin_ProfRegister';
+import Prof_evaluation from './ProfessorSide/Prof_evaluation';
 
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -96,6 +97,7 @@ function App() {
       <Route path="/professor/project" element={<PrivateRoute allowedRoles={['professor']}><Prof_Project/></PrivateRoute>} />
       <Route path="/professor/cooperative" element={<PrivateRoute allowedRoles={['professor']}><Prof_Coop/></PrivateRoute>} />
       <Route path="/professor/project-detail" element={<PrivateRoute allowedRoles={['professor']}><Prof_ProjectDetail/></PrivateRoute>} />
+      <Route path="/professor/evaluation" element={<PrivateRoute allowedRoles={['professor']}><Prof_evaluation/></PrivateRoute>} />
 
 
       <Route path="/admin" element={<Admin_LoginPage />} />
