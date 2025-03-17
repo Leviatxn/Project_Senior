@@ -29,6 +29,7 @@ import Second_appointment from './StudentSide/Second_appointment';
 import Prof_Coop from './ProfessorSide/Prof_Coop';
 import Admin_ProfRegister from './AdminSide/Admin_ProfRegister';
 import Prof_evaluation from './ProfessorSide/Prof_evaluation';
+import Student_RegisterInfo from './StudentSide/Student_RegisterInfo';
 
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -75,6 +76,8 @@ function App() {
     <Routes>
      <Route path="/" element={<LoginPage />} />
       <Route path="/register" element={<Student_Register />} />
+      <Route path="/register-profile" element={<Student_RegisterInfo />} />
+
       <Route path="/Loging-in" element={<GoogleLogin />} />
 
 

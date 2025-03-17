@@ -147,16 +147,18 @@ const ProfCoopTable = ({currentstate}) => {
       try {
         const response = await axios.get(`http://localhost:5000/coop_info/${studentID}`, {
         });
-
         if (response.data) {
             console.log(response.data);
             setCoopInfo(response.data);
+            setIsEmptyInfo(0);
         } else {
             console.error("ไม่พบข้อมูลผู้ใช้");
         }
-    } catch (err) {
-        console.error("Error fetching user data:", err);
-    }
+      } catch (err) {
+          setIsEmptyInfo(1);
+          console.log("sadass")
+          console.error("Error fetching user data:", err);
+      }
     }
 
     const handleFirstSupervisorInfo = async(studentID) => {
@@ -376,7 +378,7 @@ const ProfCoopTable = ({currentstate}) => {
           console.log(currentstate)
       } 
       else if(currentstate == 'students'){
-          fetch("http://localhost:5000/studentsinfo")
+          fetch("http://localhost:5000/studentsCoopinfo")
           .then((response) => response.json())
           .then((fetchedData) => {
             setData(fetchedData);
@@ -805,11 +807,16 @@ const ProfCoopTable = ({currentstate}) => {
                       </DialogTitle>               
                       <DialogContent >
                       {(!coopInfo) ? (
-                          // แสดง Loading ขณะรอข้อมูล
-                          <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
-                            <CircularProgress />
-                          </div>
-                        ) : (
+                                (isEmptyInfo === 1) ? (
+                                  <div style={{ textAlign: "center", padding: "20px", color: "#767676" }}>
+                                    <p>ไม่มีข้อมูล</p>
+                                  </div>
+                                ) : (
+                                  <div style={{ display: "flex", justifyContent: "center", alignItems: "center", height: "200px" }}>
+                                    <CircularProgress />
+                                  </div>
+                                )
+                                ) : (
                           <div style={{display:'flex',borderRadius:'10px',border:'1px solid rgba(0, 0, 13, 0.15)',padding:'20px 30px 20px 30px'}}>
                             <div style={{flex: '3',display:'flex',borderRight:'1px solid #ddd'}}>
                               <div style={{flex: '1'}}>

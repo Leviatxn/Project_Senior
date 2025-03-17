@@ -63,7 +63,7 @@ const Sidebar = () => {
           <div className="sidebar-header-container">
             <div className="sidebar-header-content">
               <div className="sidebar-header-img">
-                  <div className="sidebar-header-circle"/>
+              <Avatar sx={{ width: 70, height: 70, mx: "auto" }} />
               </div>
               <div className="sidebar-header">
                 <p className="user-name">Loading..</p>

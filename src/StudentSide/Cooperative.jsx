@@ -9,9 +9,13 @@ import PetitionStepper from "./Component/Petition/PetitionStepper";
 import MyPetitionTable from "./Component/Petition/MyPetitionTable";
 import MyProjectDetail from "./Component/Project/MyProjectDetail";
 import MyProjectTitle from "./Component/Project/MyProjectTitle";
+import { useNavigate } from "react-router-dom";
+import Swal from "sweetalert2";
 
 
 const Cooperative = () => {
+    const navigate = useNavigate();
+
     const today = new Date().toLocaleDateString("th-TH", {
         year: "numeric",
         month: "long",
@@ -21,6 +25,8 @@ const Cooperative = () => {
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้ทั้งหมด
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
     const [coopInfo, setCoopInfo] = useState(null); 
+    const [isNotCoop, setIsNotCoop] = useState(false); 
+
 
     const steps = [
         "ยื่นคำร้องรอการตรวจสอบ",
@@ -94,6 +100,14 @@ const Cooperative = () => {
                 console.error("No student ID found");
                 return;
             }
+            if (isNotCoop) {
+                Swal.fire({
+                    icon: "error",
+                    title: "คุณยังไม่ได้ลงทะเบียนขอปฎิบัติงานสหกิจศึกษา",
+                    text: "กรุณาลงทะเบียนก่อนครับ !",
+                });
+                navigate('/home')
+            }
 
             try {
                 const response = await axios.get(
@@ -104,7 +118,7 @@ const Cooperative = () => {
                         },
                     }
                 );
-
+                console.log(response.data)
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
             } catch (err) {
                 console.error("Error fetching user data:", err);
@@ -123,12 +137,14 @@ const Cooperative = () => {
                 setCoopInfo(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
             } catch (err) {
                 console.error("Error fetching user data:", err);
+                setIsNotCoop(true)
             }
             
         };
 
         fetchUserData();
-    }, []);
+    }, [isNotCoop]);
+
     if(!user || !coopInfo){
         return(
             <div className="cooperative-background">
@@ -257,6 +273,7 @@ const Cooperative = () => {
         </div>
     );
     }
+
     return (
         <div className="cooperative-background">
             <Sidebar />
