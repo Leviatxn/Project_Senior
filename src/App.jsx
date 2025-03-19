@@ -30,6 +30,8 @@ import Prof_Coop from './ProfessorSide/Prof_Coop';
 import Admin_ProfRegister from './AdminSide/Admin_ProfRegister';
 import Prof_evaluation from './ProfessorSide/Prof_evaluation';
 import Student_RegisterInfo from './StudentSide/Student_RegisterInfo';
+import Form08 from './CompanySide/Form8';
+import Form09 from './CompanySide/Form9';
 
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -113,6 +115,8 @@ function App() {
       <Route path="/admin/cooperative" element={<PrivateRoute allowedRoles={['admin']}><Admin_Cooperative/></PrivateRoute>} />
       <Route path="/admin/user-management" element={<PrivateRoute allowedRoles={['admin']}><Admin_UserManagement/></PrivateRoute>} />
 
+      <Route path="/company/form-8" element={<Form08 />} />
+      <Route path="/company/form-9" element={<Form09 />} />
 
 
 
