@@ -46,12 +46,11 @@ const MyProjectDetail = () => {
 
   return (
       <div className="project-details">
-      <h2>รายละเอียดโครงงานสหกิจ</h2>
-        <p><strong>ชื่อหัวข้อ:</strong> {project.ProjectTitle || "ไม่มีข้อมูล"}</p>
-        <p><strong>รายละเอียด:</strong> {project.ProjectDetails || "ไม่มีข้อมูล"}</p>
-        <p><strong>อาจารย์ที่ปรึกษา:</strong> {project.Advisor || "ไม่มีข้อมูล"}</p>
-        <p><strong>กรรมการท่านที่ 1:</strong> {project.Committee1 || "ไม่มีข้อมูล"}</p>
-        <p><strong>กรรมการท่านที่ 2:</strong> {project.Committee2 || "ไม่มีข้อมูล"}</p>
+      <h2 style={{fontSize:'24px',fontWeight:'400'}}>รายละเอียดโครงงานสหกิจ</h2>
+
+        <div style={{marginTop:'40px'}}>
+          <p> {project.ProjectDetails || "ไม่มีข้อมูล"}</p>
+        </div>
       </div>
   );
 };

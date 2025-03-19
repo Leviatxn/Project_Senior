@@ -81,7 +81,7 @@ const UserProfile = () => {
 
         try {
             const response = await axios.put(
-                `http://localhost:5000/addstudentsinfo/${studentId}`,
+                `http://localhost:5000/updatestudentsinfo/${studentId}`,
                 updatedUser,
                 { headers: { Authorization: `Bearer ${token}` } }
             );

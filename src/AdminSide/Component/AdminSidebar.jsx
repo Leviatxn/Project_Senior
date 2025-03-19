@@ -50,7 +50,7 @@ const AdminSidebar = () => {
               </div>
               <div className="adminsidebar-header">
                 <p className="user-name">Loading</p>
-                <p className="user-id">(นิสิต) Loading...</p>
+                <p className="user-id">(admin) Loading...</p>
               </div>
             </div>
             <div className="adminsidebar-header-underline"/>

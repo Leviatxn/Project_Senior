@@ -7,7 +7,12 @@ import "./myproject.css";
 import ProjectForm from "./Component/Project/ProjectForm";
 import axios from "axios";
 import ReturnButton from "../MainComponent/ReturnButton";
+import Swal from 'sweetalert2';
+import {useNavigate } from 'react-router-dom';
+
 const Project = () => {
+      const navigate = useNavigate();
+    
     const [projectData, setProjectData] = useState({
         student_id: "", // เริ่มต้นเป็นค่าว่าง
         title: "",
@@ -74,6 +79,21 @@ const Project = () => {
         try {
             const response = await axios.post("http://localhost:5000/api/coopproject", formData);
             console.log("ส่งข้อมูลสำเร็จ:", response.data);
+            if (response.status === 200) {
+                console.log("ส่งข้อมูลไปยัง current_petition สำเร็จ:", response.data);
+                Swal.fire({
+                  position: "top",
+                  icon: "success",
+                  title: "ส่งคำร้องสำเร็จ",
+                  text: "กรุณากรอกข้อมูลโครงงานต่อ",
+                  timer: 2000
+                });
+                navigate("/petition");
+            }
+            else {
+                console.error("Failed to submit additional data:", response.data);
+                alert("เกิดข้อผิดพลาดในการส่งข้อมูลเพิ่มเติม");
+              }
         } catch (error) {
             console.error("เกิดข้อผิดพลาดในการส่งข้อมูล:", error);
         }
@@ -90,7 +110,8 @@ const Project = () => {
                         <h1>ยื่นโครงงาน</h1>
                         <div className="request-back">
                         </div>
-                        <div className="myproject-box-content">
+                    </div>
+                    <div className="myproject-box-content">
                             <ProjectForm
                                 handleSubmit={handleSubmit}
                                 handleInputChange={handleInputChange}
@@ -98,7 +119,6 @@ const Project = () => {
                                 projectData={projectData} // ส่งข้อมูลไปยังฟอร์ม
                             />
                         </div>
-                    </div>
                 </div>
             </div>
         </div>

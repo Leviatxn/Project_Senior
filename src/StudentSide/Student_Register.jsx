@@ -5,7 +5,9 @@ import './Student_Register.css';
 import Logo from '../MainComponent/Logo';
 import Swal from 'sweetalert2';
 
+
 const Student_Register = () => {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     username: '',
     student_id: '',
@@ -20,7 +22,12 @@ const Student_Register = () => {
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
-
+     // ฟังก์ชันเมื่อกดเลือกแถว
+  const NavtoInfo = (item) => {
+      navigate(`/register-profile`, { 
+        state: { studentID: item }
+      });
+  };
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log(formData);
@@ -38,6 +45,7 @@ const Student_Register = () => {
         text: "ลงทะเบียนเสร็จสิ้น",
         icon: "success"
       });
+      NavtoInfo(formData.student_id);
     } 
     catch (err) {
       setMessage('Registration failed. Please try again.');

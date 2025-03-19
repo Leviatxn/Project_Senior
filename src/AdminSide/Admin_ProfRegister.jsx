@@ -7,7 +7,7 @@ import RoleSwitcher from '../MainComponent/RoleSwitcher';
 import ReturnButton from '../MainComponent/ReturnButton';
 import Swal from 'sweetalert2';
 
-const Admin_Register = () => {
+const Admin_ProfRegister = () => {
     const navigate = useNavigate();
 
     const [formData, setFormData] = useState({
@@ -16,7 +16,7 @@ const Admin_Register = () => {
         phone_num: '',
         password: '',
         confirmPassword: '',
-        role: 'admin',
+        role: 'professor',
       });
       const [message, setMessage] = useState('');
       
@@ -28,13 +28,13 @@ const Admin_Register = () => {
       const handleSubmit = async (e) => {
         e.preventDefault();
         console.log(formData);
-        if (formData.password !== formData.confirmPassword) {
+        if (formData.password !== formData.confirmPassword ) {
           setMessage('Passwords do not match!');
-                    Swal.fire({
-                      icon: "error",
-                      title: "Oops...",
-                      text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ message,
-                    });
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+            text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ message,
+          });
           return;
         }
     
@@ -47,11 +47,11 @@ const Admin_Register = () => {
             title: "ลงทะเบียนสำเร็จ",
             timer: 2000
           });
-          navigate(-1);
-
+          navigate(-1)
         } 
         catch (err) {
           setMessage('Registration failed. Please try again.');
+          console.error(err.res.data.message); // Error registering user.
                 Swal.fire({
                     icon: "error",
                     title: "Oops...",
@@ -63,27 +63,26 @@ const Admin_Register = () => {
   return (
     <div className="login-page" style={{justifyContent:'center',alignItems: 'center'}}>
       {/* Section ซ้าย */}
-      <div className="admin-register-sidebar">
+      <div className="admin-register-sidebar" style={{background:'#fff',border:'1px solid #ddd'}}>
         <div className="login-main_container" style={{display: 'flex',padding:'80px 40px 80px 40px'}}>
-            <div style={{flex:'1',borderRight:'1px solid rgba(215, 215, 215, 0.28)',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',padding: '200px 100px 200px 100px'}}>
-                <p className="prof-subtitle" style={{marginBottom:'40px',color:'#fff'}}>
-                    ลงทะเบียนเจ้าหน้าที่
+            <div style={{flex:'1',borderRight:'1px solid rgba(20, 128, 124, 0.55)',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',padding: '200px 100px 200px 100px'}}>
+                <p className="prof-subtitle" style={{marginBottom:'40px',color:'#000'}}>
+                    ลงทะเบียนอาจารย์
                 </p>
-                <Logo overlayColor = "#ffff"/>
-                <p className="prof-subtitle">
+                <Logo/>
+                <p className="prof-subtitle" style={{color:'#000'}}>
                     ระบบสหกิจศึกษา
                 </p>
                 <p className="prof-sub-desciption">
                     มหาวิทยาลัยเกษตรศาสตร์ วิทยาเขตศรีราชา
                 </p>
             </div>
- 
-\
+
             <div style={{flex:'3',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',paddingTop:'100px'}}>
             <form className="login-form" onSubmit={handleSubmit}>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="Email">อีเมล์ ( โปรดใช้เมล์ของมหาวิทยาลัย) *</label>
+                        <label htmlFor="Email" style={{color:'#000',fontWeight:'400'}}>อีเมล์ ( โปรดใช้เมล์ของมหาวิทยาลัย) *</label>
                     </div>
                     <input
                     type="text"
@@ -97,7 +96,7 @@ const Admin_Register = () => {
                 </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="fullname">ชื่อ - นามสกุล *</label>
+                        <label htmlFor="fullname" style={{color:'#000',fontWeight:'400'}}>ชื่อ - นามสกุล *</label>
                     </div>
                     <input 
                         type="text"
@@ -110,7 +109,7 @@ const Admin_Register = () => {
                 </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="Num">เบอร์โทรศัพท์ *</label>
+                        <label htmlFor="Num" style={{color:'#000',fontWeight:'400'}}>เบอร์โทรศัพท์ *</label>
                     </div>
                     <input 
                         type="text"
@@ -123,7 +122,7 @@ const Admin_Register = () => {
                 </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="password">รหัสผ่าน *</label>
+                        <label htmlFor="password" style={{color:'#000',fontWeight:'400'}}>รหัสผ่าน *</label>
                     </div>
                     <input 
                         type="password"
@@ -136,7 +135,7 @@ const Admin_Register = () => {
                 </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="password">ยืนยันรหัสผ่าน</label>
+                        <label htmlFor="password" style={{color:'#000',fontWeight:'400'}}>ยืนยันรหัสผ่าน</label>
                     </div>
                     <input 
                         type="password"
@@ -150,7 +149,7 @@ const Admin_Register = () => {
                 
                 <div className="register-submit-container" style={{marginTop:'100px '}}>
                     <button type="submit" className="register-submit-button">
-                    <span>ลงทะเบียน</span>
+                    <span style={{color:'#000'}}>ลงทะเบียน</span>
                     <svg width="15px" height="10px" viewBox="0 0 13 10">
                         <path d="M1,5 L11,5" />
                         <polyline points="8 1 12 5 8 9" />
@@ -160,15 +159,15 @@ const Admin_Register = () => {
                 </form>
             </div>
             <div >
-                <ReturnButton/>
+                <ReturnButton stroked = "#000"/>
             </div>
         </div>
       </div>
 
     {/* Background */}
-      <div className="login-background"></div>
+      <div className="login-background" style={{background:'linear-gradient(180deg, #FFFFFF 0%, #F1F1F1 50%, #95E9E7 100%)'}}></div>
     </div>
   );
 };
 
-export default Admin_Register;
+export default Admin_ProfRegister;

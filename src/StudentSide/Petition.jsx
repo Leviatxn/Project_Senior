@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 const Petition = () => {
     const [user, setUser] = useState(null); // เก็บข้อมูลผู้ใช้ทั้งหมด
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
+    const [currentApplicationID, setCurrentApplicationID] = useState();
+
     const [state, setState] = useState(-1); 
     const [isCoop, setIsCoop] = useState(0); 
     const [isInProgress, setIsinProgress] = useState(0); 
@@ -46,6 +48,8 @@ const Petition = () => {
 
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
                 setCurrentPetition(response.data.Petition_name); // อัปเดต current_petition
+                setCurrentApplicationID(response.data.ApplicationID);
+
                 setState(response.data.Progress_State)
                 setIsinProgress(response.data.Is_inprogress)
             } catch (err) {
@@ -73,8 +77,31 @@ const Petition = () => {
 
         fetchUserData();
     }, []);
+    const deleteStudentCoopApplication = async (applicationId) => {
+        const response = await fetch(`http://localhost:5000/studentcoopdelete/${applicationId}`, {
+          method: "DELETE",
+        });
+      
+        if (response.ok) {
+            console.log("ลบข้อมูลสำเร็จ!");
+        } else {
+            console.log("ไม่พบ ApplicationID หรือเกิดข้อผิดพลาด");
+        }
+      };
 
+      const deleteCoopApplication = async (applicationId) => {
+        const response = await fetch(`http://localhost:5000/coopapplicationdelete/${applicationId}`, {
+          method: "DELETE",
+        });
+      
+        if (response.ok) {
+          console.log("ลบข้อมูลสำเร็จ!");
+        } else {
+            console.log("ไม่พบ ApplicationID หรือเกิดข้อผิดพลาด");
+        }
+      };
     const handlePetitionAClick = (url) => {
+        console.log(currentApplicationID)
         if (isInProgress === 1 && state !== 4 && isCoop === 0) {
           Swal.fire({
             title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
@@ -91,7 +118,7 @@ const Petition = () => {
                 text: "ยกเลิกคำร้องล่าสุดของคุณเรียบร้อย",
                 icon: "success"
               });
-              // TODO: เพิ่มโค้ดยกเลิกคำร้องใน backend (API Call)
+              deleteStudentCoopApplication(currentApplicationID)
             }
           });
         } 
@@ -108,6 +135,8 @@ const Petition = () => {
     };
     
     const handlePetitionBClick = (url) => {
+        console.log(currentApplicationID)
+
         if (isInProgress === 1 && state !== 4) {
           Swal.fire({
             title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
@@ -124,7 +153,7 @@ const Petition = () => {
                 text: "ยกเลิกคำร้องล่าสุดของคุณเรียบร้อย",
                 icon: "success"
               });
-              // TODO: เพิ่มโค้ดยกเลิกคำร้องใน backend (API Call)
+              deleteCoopApplication(currentApplicationID)
             }
           });
         } else {
@@ -203,7 +232,9 @@ const Petition = () => {
                                 <div className="sub-header-square" />
                                 <h3>คำร้องฉัน</h3>
                             </div>
-                            < MyPetitionTable/>
+                            <div style={{padding:'0px 40px 40px 40px'}}>
+                                < MyPetitionTable/>
+                            </div>
                         </div>
                     </div>
                 </div>

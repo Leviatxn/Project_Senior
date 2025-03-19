@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import './Admin_LoginPage.css';
 import Logo from './MainComponent/Logo';
 import RoleSwitcher from './MainComponent/RoleSwitcher';
+import Swal from 'sweetalert2';
 
 const Admin_LoginPage = () => {
 
@@ -22,9 +23,10 @@ const Admin_LoginPage = () => {
             
             console.log('11' - 1)
             const response = await axios.post("http://localhost:5000/admin-login", { email, password });         
-            const { email: loggedInEmail, token } = response.data;
+            const { email: loggedInEmail, token ,role : loggedInRole} = response.data;
 
             localStorage.setItem("email", loggedInEmail);
+            localStorage.setItem("role", loggedInRole);
             localStorage.setItem("authToken", token);
 
             // ไปยังหน้า Home
@@ -32,8 +34,18 @@ const Admin_LoginPage = () => {
         } catch (err) {
             if (err.response) {
                 setError(err.response.data.error);
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ error,
+              });            
             } else {
                 setError("Error logging in");
+            Swal.fire({
+                icon: "error",
+                title: "Oops...",
+                text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ error,
+              });            
             }
         }
     };
@@ -102,7 +114,7 @@ const Admin_LoginPage = () => {
                         </svg>
                     </button>
                 </div>
-                {error && <p style={{ color: "red" }}>{error}</p>}
+                {/* {error && <p style={{ color: "red" }}>{error}</p>} */}
                 <a href="/forgot-password" className="forgot-password-link">
                     ลืมรหัสผ่าน
                 </a>

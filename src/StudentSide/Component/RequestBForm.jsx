@@ -369,7 +369,7 @@ const RequestBForm = () => {
             />
             <TextField
               name="Allowance"
-              label="เบี้ยเลี้ยงที่ได้รับ"
+              label="เบี้ยเลี้ยงที่ได้รับ (ต่อวัน)"
               type="number"
               fullWidth
               variant="outlined"
