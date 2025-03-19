@@ -628,9 +628,11 @@ const ProfCoopTable = ({currentstate}) => {
     };
   
       // ฟังก์ชันเมื่อกดเลือกแถว
-    const handleEvaluationClick = (item) => {
+    const handleEvaluationClick = (student_id,version) => {
       navigate(`/professor/evaluation`, { 
-        state: { studentID: item }
+        state: { studentID: student_id ,
+                 version: version
+        }
       });
     };
 
@@ -1154,7 +1156,7 @@ const ProfCoopTable = ({currentstate}) => {
                                         <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>
                                           <Button 
                                           variant="contained" color="success"
-                                          onClick={()=>{handleEvaluationClick(studentInfo.student_id)}}
+                                          onClick={()=>{handleEvaluationClick(studentInfo.student_id,1)}}
                                           sx={{
                                             width: "200px",
                                             color: "#FFFFFF", 
@@ -1644,6 +1646,7 @@ const ProfCoopTable = ({currentstate}) => {
                                         </div>
                                         <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>
                                           <Button 
+                                          onClick={() => (handleEvaluationClick(studentInfo.student_id,2))}
                                           variant="contained" color="success"
                                           sx={{
                                             width: "200px",
