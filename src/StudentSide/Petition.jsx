@@ -101,7 +101,7 @@ const Petition = () => {
         }
       };
     const handlePetitionAClick = (url) => {
-        console.log(currentApplicationID)
+        console.log(isCoop)
         if (isInProgress === 1 && state !== 4 && isCoop === 0) {
           Swal.fire({
             title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
@@ -135,9 +135,9 @@ const Petition = () => {
     };
     
     const handlePetitionBClick = (url) => {
-        console.log(currentApplicationID)
+        console.log(isInProgress)
 
-        if (isInProgress === 1 && state !== 4) {
+        if (isInProgress === 1 && state >= 4) {
           Swal.fire({
             title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
             text: "คำร้องคุณกำลังดำเนินการอยู่!",

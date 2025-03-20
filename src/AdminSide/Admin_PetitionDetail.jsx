@@ -8,6 +8,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import PetitionStepper from "../StudentSide/Component/Petition/PetitionStepper";
 import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
+import ReturnButton from "../MainComponent/ReturnButton";
 
 
 const Admin_PetitionDetail = () => {
@@ -186,9 +187,11 @@ const Admin_PetitionDetail = () => {
                         <div className="admin-petition-table-box">
                             <div className="table-container">
                                 <div className="petition-detail-header ">
-                                    <div className="sub-header-square" />
-                                    <h1 className="table-title">คำร้องนิสิต</h1>
-                                    
+                                    <div style={{display:'flex',justifyContent:'flex-start',alignItems:'center',flex:'9'}}>
+                                        <div className="sub-header-square" />
+                                        <h1 className="table-title">คำร้องนิสิต</h1>
+                                    </div>
+
                                 </div>
                                 <div className="petition-detail-container">
 
@@ -221,9 +224,14 @@ const Admin_PetitionDetail = () => {
                                 <div className="admin-petition-table-box">
                                     <div className="table-container">
                                         <div className="petition-detail-header ">
-                                            <div className="sub-header-square" />
-                                            <h1 className="table-title">คำร้องนิสิต</h1>
-                                            <p className="table-subtitle" style={{marginLeft:'5%'}}>คำร้องขอเป็นนิสิตปฏิบัติงานสหกิจศึกษา</p>
+                                            <div style={{display:'flex',justifyContent:'flex-start',alignItems:'center',flex:'9'}}>
+                                                <div className="sub-header-square" />
+                                                <h1 className="table-title">คำร้องนิสิต</h1>
+                                                <p className="table-subtitle" style={{marginLeft:'5%'}}>คำร้องขอเป็นนิสิตปฏิบัติงานสหกิจศึกษา</p>
+                                            </div>
+                                            <div style={{display:'flex',flex:'1'}}>
+                                                <ReturnButton stroked="black"/>
+                                            </div>
                                         </div>
                                         <div className="petition-detail-container">
                                             <p className="pettion-subtitle">ข้อมูลนิสิต   </p>
@@ -262,7 +270,6 @@ const Admin_PetitionDetail = () => {
                                                         <PetitionStepper steps={studentcoopapplication_steps} activeStep={data.Progress_State}/>
                                                     </div>
 
-                                                    //
                                                     <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
                                                         <p className="pettion-subtitle" style={{fontSize:'18px',fontWeight:'500'}}>เรียนเจ้าหน้าที่ (นักวิชาการศึกษา กิจการนิสิต)</p>
                                                         <div>
@@ -320,9 +327,14 @@ const Admin_PetitionDetail = () => {
                             <div className="admin-petition-table-box">
                                 <div className="table-container">
                                     <div className="petition-detail-header ">
-                                        <div className="sub-header-square" />
-                                        <h1 className="table-title">คำร้องนิสิต</h1>
-                                        <p className="table-subtitle" style={{marginLeft:'5%'}}>คำร้องขอปฏิบัติงานสหกิจศึกษา   </p>
+                                        <div style={{display:'flex',justifyContent:'flex-start',alignItems:'center',flex:'9'}}>
+                                            <div className="sub-header-square" />
+                                            <h1 className="table-title">คำร้องนิสิต</h1>
+                                            <p className="table-subtitle" style={{marginLeft:'5%'}}>คำร้องขอปฏิบัติงานสหกิจศึกษา   </p>
+                                        </div>
+                                        <div style={{display:'flex',flex:'1'}}>
+                                            <ReturnButton stroked="black"/>
+                                        </div>
                                     </div>
                                     <div className="petition-detail-container">
                                         <div style={{display:'flex'}}>
@@ -367,33 +379,42 @@ const Admin_PetitionDetail = () => {
                                                 <PetitionStepper steps={coopapplication_steps} activeStep={data.Progress_State}/>
                                             </div>
                                         </div>
-                                        <div style={{flex:'1'}}>
-                                            <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
-                                                    <p className="pettion-subtitle" style={{fontSize:'18px',fontWeight:'500'}}>เรียนเจ้าหน้าที่ (นักวิชาการศึกษา กิจการนิสิต)</p>
-                                                    <div>
-                                                        <div className="box-item">
-                                                            <span className={`icon ${statuses.approve ? "success_active" : "success_inactive"}`} onClick={() => toggleStatus("approve")}>✔</span>
-                                                            <p>อนุมัติคำร้องขอเป็นนิสิตสหกิจ</p>
-                                                        </div>
-                                                        <div className="box-item">
-                                                            <span  className={`icon ${statuses.notApprove ? "error_active" : "error_inactive"}`} onClick={() => toggleStatus("notApprove")}>✖</span>
-                                                            <p>ไม่อนุมัติคำร้องขอเป็นนิสิตสหกิจ</p>
-                                                        </div>
+                                        {(data.Progress_State >= 3) ? ( 
+                                            <div style={{flex:'1'}}>
+                                                <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
+                                                    
                                                     </div>
-                                                </div>
-                                                <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
-                                                    <div style={{marginRight:'10px',marginTop:'5px'}}>
-                                                        <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => toggleStatus("signed")}/>
-                                                        <label htmlFor="cbx2" className="check">
-                                                        <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                            <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
-                                                            <polyline points="1 9 7 14 15 4" />
-                                                        </svg>
-                                                        </label>
+                                                    <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
+                                                        <div style={{marginRight:'10px',marginTop:'5px'}}>
+                                                            <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => toggleStatus("signed")}/>
+                                                            <label htmlFor="cbx2" className="check">
+                                                            <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                                <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
+                                                                <polyline points="1 9 7 14 15 4" />
+                                                            </svg>
+                                                            </label>
+                                                        </div>
+                                                        <p style={{fontSize:"12px"}}>ลงนามและผ่านการตรวจสอบโดย กลวิทย์ ออกผล (อาจารย์สหกิจศึกษาของภาควิชา)</p>
                                                     </div>
-                                                    <p style={{fontSize:"12px"}}>ลงนามและผ่านการตรวจสอบโดย กลวิทย์ ออกผล (อาจารย์สหกิจศึกษาของภาควิชา)</p>
-                                                </div>
                                             </div>
+                                        ):(
+                                            <div style={{flex:'1'}}>
+                                                <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
+                                                    </div>
+                                                    <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
+                                                        <div style={{marginRight:'10px',marginTop:'5px'}}>
+                                                            <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => toggleStatus("signed")}/>
+                                                            <label htmlFor="cbx2" className="check">
+                                                            <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                                <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
+                                                                <polyline points="1 9 7 14 15 4" />
+                                                            </svg>
+                                                            </label>
+                                                        </div>
+                                                        <p style={{fontSize:"12px"}}>ลงนามและผ่านการตรวจสอบโดย กลวิทย์ ออกผล (อาจารย์สหกิจศึกษาของภาควิชา)</p>
+                                                    </div>
+                                            </div>
+                                        )}
                                     </div>
                                         <div className="petition-detail-footer " style={{marginTop:'20px'}}>
                                             <div className="petition-submit-button" onClick={() => handleCoopUpdate()} >ยืนยัน</div>
