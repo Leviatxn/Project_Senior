@@ -24,7 +24,7 @@ import {
   } from "@mui/material";
 
 
-  const FirstEvaluation = ({ evaluationID }) => {
+  const FirstEvaluation = ({ evaluationID , studentID }) => {
     const [responses, setResponses] = useState({});
     const [evaluationData, setEvaluationData] = useState([]);
     const [isEvaluated, setIsEvaluated] = useState(false);
@@ -127,227 +127,13 @@ import {
         console.error('Error submitting data:', error);
         alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
       }
-    };
-    if (isEvaluated) {
-        return (
-          <div>
-            <Container sx={{ marginTop: 4, marginBottom: 4 }}>
-              <TableContainer component={Paper} sx={{ borderRadius: '10px', border: '1px solid rgba(0, 166, 162, 0.6)' }}>
-                <Table>
-                  <TableHead>
-                    <TableRow>
-                      <TableCell sx={{ padding: '25px 0px 25px 60px', fontFamily: "Noto Sans Thai, sans-serif", background: 'linear-gradient(90deg, rgba(0, 166, 162, 0.6) 40%, #00A6A2 100%)', color: 'white', fontWeight: '400', fontSize: '16px' }}>
-                        หัวข้อการประเมิน
-                      </TableCell>
-                      <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", background: '#00A6A2', color: 'white', fontWeight: '400', fontSize: '16px',textAlign:'center'}}>
-                        คะแนน
-                      </TableCell>
-                    </TableRow>
-                  </TableHead>
-                  <TableBody>
-                    {evaluationData.map((item) => (
-                      <React.Fragment key={item.section_id}>
-                        <TableRow sx={{ background: 'rgba(0, 103, 101, 0.2)' }}>
-                          <TableCell colSpan={2} sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '20px 0px 20px 60px', fontWeight: '500', fontSize: '14px' }}>
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                              <div style={{ marginRight: '20px' }}>•</div>
-                              <div>{item.section_name}</div>
-                            </div>
-                          </TableCell>
-                        </TableRow>
-                        {item.subcategories.map((sub) => (
-                          <TableRow key={sub.criteria_id} sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}>
-                            <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '15px 0px 15px 80px', fontSize: '12px' }}>{sub.criteria_text}</TableCell>
-                            <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '15px 0px 15px 80px', fontSize: '12px',fontWeight:'600',border:'1px solid #ddd'}}>
-                              {responses[item.section_name]?.[sub.criteria_text] || 'กำลังดึงข้อมูล'}
-                            </TableCell>
-                          </TableRow>
-                        ))}
-                      </React.Fragment>
-                    ))}
-                  </TableBody>
-                </Table>
-              </TableContainer>
-            </Container>
-          </div>
-        );
-      }
-    else if(!isEvaluated){
-        return (
-            <div>
-              <Container sx={{ marginTop: 4, marginBottom: 4 }}>
-                <TableContainer component={Paper} sx={{ borderRadius: '10px', border: '1px solid rgba(0, 166, 162, 0.6)' }}>
-                  <Table>
-                    <TableHead>
-                      <TableRow>
-                        <TableCell sx={{ padding: '25px 0px 25px 60px', fontFamily: "Noto Sans Thai, sans-serif", background: 'linear-gradient(90deg, rgba(0, 166, 162, 0.6) 40%, #00A6A2 100%)', color: 'white', fontWeight: '400', fontSize: '16px' }}>
-                          หัวข้อการประเมิน
-                        </TableCell>
-                        {[5, 4, 3, 2, 1, 0].map((score) => (
-                          <TableCell key={score} align="center" sx={{ fontFamily: "Noto Sans Thai, sans-serif", background: '#00A6A2', color: 'white', fontWeight: '400' }}>
-                            {score}
-                          </TableCell>
-                        ))}
-                      </TableRow>
-                    </TableHead>
-                    <TableBody>
-                      {evaluationData.map((item) => (
-                        <React.Fragment key={item.section_id}>
-                          <TableRow sx={{ background: 'rgba(0, 103, 101, 0.2)' }}>
-                            <TableCell colSpan={7} sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '20px 0px 20px 60px', fontWeight: '500', fontSize: '14px' }}>
-                              <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <div style={{ marginRight: '20px' }}>•</div>
-                                <div>{item.section_name}</div>
-                              </div>
-                            </TableCell>
-                          </TableRow>
-                          {item.subcategories.map((sub) => (
-                            <TableRow key={sub.criteria_id} sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}>
-                              <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '10px 0px 10px 80px', fontSize: '12px' }}>{sub.criteria_text}</TableCell>
-                              <TableCell colSpan={6} align="center">
-                                <RadioGroup row sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                                  {[5, 4, 3, 2, 1, 0].map((score) => (
-                                    <FormControlLabel
-                                      key={score}
-                                      value={score.toString()}
-                                      control={<Radio color="primary" />}
-                                      checked={responses[item.section_name]?.[sub.criteria_text] === score}
-                                      onChange={() => handleChange(item.section_name, sub.criteria_text, score)}
-                                    />
-                                  ))}
-                                </RadioGroup>
-                              </TableCell>
-                            </TableRow>
-                          ))}
-                        </React.Fragment>
-                      ))}
-                    </TableBody>
-                  </Table>
-                </TableContainer>
-              </Container>
-              <div>
-                <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                  <Button
-                    onClick={handleSubmit}
-                    variant="contained" color="success"
-                    sx={{
-                      width: "200px",
-                      color: "#FFFFFF",
-                      borderRadius: "16px",
-                      fontSize: "14px",
-                      fontFamily: "Noto Sans Thai, sans-serif",
-                      padding: "10px 20px",
-                      textTransform: "none",
-                    }}
-                  >
-                    <div style={{ fontFamily: "Noto Sans Thai, sans-serif" }}>บันทึก</div>
-                  </Button>
-                </div>
-              </div>
-            </div>
-          );
-    }
-  };
-
-const SecondEvaluation = (evaluationID) => {
-    const [responses, setResponses] = useState({});
-    const [evaluationData, setEvaluationData] = useState([]);
-    const [isEvaluated, setIsEvaluated] = useState(false);
-
-    useEffect(() => {
-        console.log('Responses updated:', responses);
-      }, [responses]);
-    useEffect(() => {
-        if (evaluationID) {
-          fetchScores(evaluationID);
-        }
-      }, [evaluationID, evaluationData]); // เพิ่ม evaluationData ใน dependency array
-      
-      const fetchScores = async (evaluationID) => {
-        try {
-          const response = await axios.get(`http://localhost:5000/evaluation_scores/${evaluationID}`);
-          if (response.data) {
-            setIsEvaluated(true);
-            const scores = response.data.reduce((acc, score) => {
-              const section = evaluationData.find((item) =>
-                item.subcategories.some((sub) => sub.criteria_id === score.criteria_id)
-              );
-              if (section) {
-                const subcategory = section.subcategories.find((sub) => sub.criteria_id === score.criteria_id);
-                if (subcategory) {
-                  acc[section.section_name] = acc[section.section_name] || {};
-                  acc[section.section_name][subcategory.criteria_text] = score.score;
-                }
-              }
-              return acc;
-            }, {});
-            setResponses(scores);
-          }
-        } catch (error) {
-          console.error('Error fetching scores:', error);
-        }
-      };
-  
-    // เรียก API เพื่อดึงข้อมูลหัวข้อหลักและหัวข้อย่อย
-    useEffect(() => {
-      const fetchData = async () => {
-        console.log(evaluationID);
-        try {
-          // ดึงข้อมูลหัวข้อหลัก
-          const sectionsResponse = await axios.get('http://localhost:5000/secondsupervision_sections');
-          const sections = sectionsResponse.data;
-  
-          // สำหรับแต่ละหัวข้อหลัก ดึงหัวข้อย่อย
-          const data = await Promise.all(sections.map(async (section) => {
-            const criteriaResponse = await axios.get(`http://localhost:5000/criteria/${section.section_id}`);
-            return {
-              ...section,
-              subcategories: criteriaResponse.data
-            };
-          }));  
-          console.log(data);
-          setEvaluationData(data);
-  
-        } catch (error) {
-          console.error('Error fetching data:', error);
-        }
-      };
-  
-      fetchData();
-    }, [evaluationID]);
-  
-    const handleChange = (category, subcategory, value) => {
-      setResponses((prev) => ({
-        ...prev,
-        [category]: { ...prev[category], [subcategory]: value }
-      }));
-    };
-  
-    const handleSubmit = async () => {
-      try {
-        // สร้างข้อมูลสำหรับส่ง
-        const scores = Object.entries(responses).flatMap(([category, subcategories]) =>
-          Object.entries(subcategories).map(([subcategory, score]) => {
-            // หา criteria_id จาก evaluationData
-            const section = evaluationData.find((item) => item.section_name === category);
-            const criteria = section.subcategories.find((sub) => sub.criteria_text === subcategory);
-  
-            return {
-              evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
-              criteria_id: criteria.criteria_id,
-              score: score,
-              comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี
-            };
-          })
-        );
-  
-        console.log(scores);
-  
+      try{
         // ส่งข้อมูลไปยัง API
-        const response = await axios.post('http://localhost:5000/evaluation_scores', { scores });
+        const response = await axios.put(`http://localhost:5000/updateFirstevaluation/${studentID}`,{});
         console.log('Data submitted successfully:', response.data);
         alert('บันทึกข้อมูลสำเร็จ!');
-      } catch (error) {
+      }
+      catch(error){
         console.error('Error submitting data:', error);
         alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
       }
@@ -472,6 +258,242 @@ const SecondEvaluation = (evaluationID) => {
           );
     }
   };
+
+  const SecondEvaluation = ({evaluationID,studentID}) => {
+      const [responses, setResponses] = useState({});
+      const [evaluationData, setEvaluationData] = useState([]);
+      const [isEvaluated, setIsEvaluated] = useState(false);
+
+      useEffect(() => {
+          console.log('Responses updated:', responses);
+        }, [responses]);
+
+
+        useEffect(() => {
+          if (evaluationID) {
+            fetchScores(evaluationID);
+          }
+        }, [evaluationID, evaluationData]); // เพิ่ม evaluationData ใน dependency array
+        
+        const fetchScores = async (evaluationID) => {
+          try {
+            const response = await axios.get(`http://localhost:5000/evaluation_scores/${evaluationID}`);
+            if (response.data) {
+              setIsEvaluated(true);
+              const scores = response.data.reduce((acc, score) => {
+                const section = evaluationData.find((item) =>
+                  item.subcategories.some((sub) => sub.criteria_id === score.criteria_id)
+                );
+                if (section) {
+                  const subcategory = section.subcategories.find((sub) => sub.criteria_id === score.criteria_id);
+                  if (subcategory) {
+                    acc[section.section_name] = acc[section.section_name] || {};
+                    acc[section.section_name][subcategory.criteria_text] = score.score;
+                  }
+                }
+                return acc;
+              }, {});
+              setResponses(scores);
+            }
+          } catch (error) {
+            console.error('Error fetching scores:', error);
+          }
+        };
+    
+      // เรียก API เพื่อดึงข้อมูลหัวข้อหลักและหัวข้อย่อย
+      useEffect(() => {
+        const fetchData = async () => {
+          console.log(evaluationID);
+          try {
+            // ดึงข้อมูลหัวข้อหลัก
+            const sectionsResponse = await axios.get('http://localhost:5000/secondsupervision_sections');
+            const sections = sectionsResponse.data;
+    
+            // สำหรับแต่ละหัวข้อหลัก ดึงหัวข้อย่อย
+            const data = await Promise.all(sections.map(async (section) => {
+              const criteriaResponse = await axios.get(`http://localhost:5000/criteria/${section.section_id}`);
+              return {
+                ...section,
+                subcategories: criteriaResponse.data
+              };
+            }));  
+            console.log(data);
+            setEvaluationData(data);
+    
+          } catch (error) {
+            console.error('Error fetching data:', error);
+          }
+        };
+    
+        fetchData();
+      }, [evaluationID]);
+    
+      const handleChange = (category, subcategory, value) => {
+        setResponses((prev) => ({
+          ...prev,
+          [category]: { ...prev[category], [subcategory]: value }
+        }));
+      };
+    
+      const handleSubmit = async () => {
+        try {
+          // สร้างข้อมูลสำหรับส่ง
+          const scores = Object.entries(responses).flatMap(([category, subcategories]) =>
+            Object.entries(subcategories).map(([subcategory, score]) => {
+              // หา criteria_id จาก evaluationData
+              const section = evaluationData.find((item) => item.section_name === category);
+              const criteria = section.subcategories.find((sub) => sub.criteria_text === subcategory);
+    
+              return {
+                evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
+                criteria_id: criteria.criteria_id,
+                score: score,
+                comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี
+              };
+            })
+          );
+    
+          console.log(scores);
+    
+          // ส่งข้อมูลไปยัง API
+          const response = await axios.post('http://localhost:5000/evaluation_scores', { scores });
+          console.log('Data submitted successfully:', response.data);
+          alert('บันทึกข้อมูลสำเร็จ!');
+        } catch (error) {
+          console.error('Error submitting data:', error);
+          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        }
+        try{
+          // ส่งข้อมูลไปยัง API
+          const response = await axios.put(`http://localhost:5000/updateSecondevaluation/${studentID}`,{});
+          console.log('Data submitted successfully:', response.data);
+          alert('บันทึกข้อมูลสำเร็จ!');
+        }
+        catch(error){
+          console.error('Error submitting data:', error);
+          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        }
+      };
+      if (isEvaluated) {
+          return (
+            <div>
+              <Container sx={{ marginTop: 4, marginBottom: 4 }}>
+                <TableContainer component={Paper} sx={{ borderRadius: '10px', border: '1px solid rgba(0, 166, 162, 0.6)' }}>
+                  <Table>
+                    <TableHead>
+                      <TableRow>
+                        <TableCell sx={{ padding: '25px 0px 25px 60px', fontFamily: "Noto Sans Thai, sans-serif", background: 'linear-gradient(90deg, rgba(0, 166, 162, 0.6) 40%, #00A6A2 100%)', color: 'white', fontWeight: '400', fontSize: '16px' }}>
+                          หัวข้อการประเมิน
+                        </TableCell>
+                        <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", background: '#00A6A2', color: 'white', fontWeight: '400', fontSize: '16px',textAlign:'center'}}>
+                          คะแนน
+                        </TableCell>
+                      </TableRow>
+                    </TableHead>
+                    <TableBody>
+                      {evaluationData.map((item) => (
+                        <React.Fragment key={item.section_id}>
+                          <TableRow sx={{ background: 'rgba(0, 103, 101, 0.2)' }}>
+                            <TableCell colSpan={2} sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '20px 0px 20px 60px', fontWeight: '500', fontSize: '14px' }}>
+                              <div style={{ display: 'flex', alignItems: 'center' }}>
+                                <div style={{ marginRight: '20px' }}>•</div>
+                                <div>{item.section_name}</div>
+                              </div>
+                            </TableCell>
+                          </TableRow>
+                          {item.subcategories.map((sub) => (
+                            <TableRow key={sub.criteria_id} sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}>
+                              <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '15px 0px 15px 80px', fontSize: '12px' }}>{sub.criteria_text}</TableCell>
+                              <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '15px 0px 15px 80px', fontSize: '12px',fontWeight:'600',border:'1px solid #ddd'}}>
+                                {responses[item.section_name]?.[sub.criteria_text] || 'กำลังดึงข้อมูล'}
+                              </TableCell>
+                            </TableRow>
+                          ))}
+                        </React.Fragment>
+                      ))}
+                    </TableBody>
+                  </Table>
+                </TableContainer>
+              </Container>
+            </div>
+          );
+        }
+      else if(!isEvaluated){
+          return (
+              <div>
+                <Container sx={{ marginTop: 4, marginBottom: 4 }}>
+                  <TableContainer component={Paper} sx={{ borderRadius: '10px', border: '1px solid rgba(0, 166, 162, 0.6)' }}>
+                    <Table>
+                      <TableHead>
+                        <TableRow>
+                          <TableCell sx={{ padding: '25px 0px 25px 60px', fontFamily: "Noto Sans Thai, sans-serif", background: 'linear-gradient(90deg, rgba(0, 166, 162, 0.6) 40%, #00A6A2 100%)', color: 'white', fontWeight: '400', fontSize: '16px' }}>
+                            หัวข้อการประเมิน
+                          </TableCell>
+                          {[5, 4, 3, 2, 1, 0].map((score) => (
+                            <TableCell key={score} align="center" sx={{ fontFamily: "Noto Sans Thai, sans-serif", background: '#00A6A2', color: 'white', fontWeight: '400' }}>
+                              {score}
+                            </TableCell>
+                          ))}
+                        </TableRow>
+                      </TableHead>
+                      <TableBody>
+                        {evaluationData.map((item) => (
+                          <React.Fragment key={item.section_id}>
+                            <TableRow sx={{ background: 'rgba(0, 103, 101, 0.2)' }}>
+                              <TableCell colSpan={7} sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '20px 0px 20px 60px', fontWeight: '500', fontSize: '14px' }}>
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                  <div style={{ marginRight: '20px' }}>•</div>
+                                  <div>{item.section_name}</div>
+                                </div>
+                              </TableCell>
+                            </TableRow>
+                            {item.subcategories.map((sub) => (
+                              <TableRow key={sub.criteria_id} sx={{ '&:nth-of-type(odd)': { backgroundColor: 'action.hover' } }}>
+                                <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '10px 0px 10px 80px', fontSize: '12px' }}>{sub.criteria_text}</TableCell>
+                                <TableCell colSpan={6} align="center">
+                                  <RadioGroup row sx={{ display: 'flex', justifyContent: 'space-around' }}>
+                                    {[5, 4, 3, 2, 1, 0].map((score) => (
+                                      <FormControlLabel
+                                        key={score}
+                                        value={score.toString()}
+                                        control={<Radio color="primary" />}
+                                        checked={responses[item.section_name]?.[sub.criteria_text] === score}
+                                        onChange={() => handleChange(item.section_name, sub.criteria_text, score)}
+                                      />
+                                    ))}
+                                  </RadioGroup>
+                                </TableCell>
+                              </TableRow>
+                            ))}
+                          </React.Fragment>
+                        ))}
+                      </TableBody>
+                    </Table>
+                  </TableContainer>
+                </Container>
+                <div>
+                  <div style={{ flex: 1, display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
+                    <Button
+                      onClick={handleSubmit}
+                      variant="contained" color="success"
+                      sx={{
+                        width: "200px",
+                        color: "#FFFFFF",
+                        borderRadius: "16px",
+                        fontSize: "14px",
+                        fontFamily: "Noto Sans Thai, sans-serif",
+                        padding: "10px 20px",
+                        textTransform: "none",
+                      }}
+                    >
+                      <div style={{ fontFamily: "Noto Sans Thai, sans-serif" }}>บันทึก</div>
+                    </Button>
+                  </div>
+                </div>
+              </div>
+            );
+      }
+    };
 
 
 const Prof_evaluation = () => {
@@ -750,7 +772,7 @@ const Prof_evaluation = () => {
                                         <div>
                                         {
                                             evaluationData && evaluationData.evaluation_id ? (
-                                                <FirstEvaluation evaluationID={evaluationData.evaluation_id} />
+                                                <FirstEvaluation evaluationID={evaluationData.evaluation_id} studentID={studentInfo.student_id}/>
                                             ) : (
                                                 <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
                                                         <p style={{color:'#ddd'}}>รอการยืนยัน</p>
@@ -862,7 +884,7 @@ const Prof_evaluation = () => {
                                         <div>
                                         {
                                             evaluationData && evaluationData.evaluation_id ? (
-                                                <SecondEvaluation evaluationID={evaluationData.evaluation_id} />
+                                                <SecondEvaluation evaluationID={evaluationData.evaluation_id} ststudentID={studentInfo.student_id} />
                                             ) : (
                                                 <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
                                                     <p style={{color:'#ddd'}}>รอการยืนยัน</p>
