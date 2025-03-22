@@ -382,7 +382,6 @@ const Admin_PetitionDetail = () => {
                                         {(data.Progress_State >= 3) ? ( 
                                             <div style={{flex:'1'}}>
                                                 <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
-                                                    
                                                     </div>
                                                     <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
                                                         <div style={{marginRight:'10px',marginTop:'5px'}}>
@@ -400,6 +399,17 @@ const Admin_PetitionDetail = () => {
                                         ):(
                                             <div style={{flex:'1'}}>
                                                 <div className="petition-approve-box" style={{marginTop:'2%',padding:'10px',alignSelf:'center',justifySelf:'center'}}>
+                                                    <p className="pettion-subtitle" style={{fontSize:'18px',fontWeight:'500'}}>เรียนเจ้าหน้าที่ (นักวิชาการศึกษา กิจการนิสิต)</p>
+                                                        <div>
+                                                            <div className="box-item">
+                                                                <span className={`icon ${statuses.approve ? "success_active" : "success_inactive"}`} onClick={() => toggleStatus("approve")}>✔</span>
+                                                                <p>อนุมัติคำร้องขอเป็นนิสิตสหกิจ</p>
+                                                            </div>
+                                                            <div className="box-item">
+                                                                <span  className={`icon ${statuses.notApprove ? "error_active" : "error_inactive"}`} onClick={() => toggleStatus("notApprove")}>✖</span>
+                                                                <p>ไม่อนุมัติคำร้องขอเป็นนิสิตสหกิจ</p>
+                                                            </div>
+                                                        </div>
                                                     </div>
                                                     <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'10px'}}>
                                                         <div style={{marginRight:'10px',marginTop:'5px'}}>
