@@ -111,6 +111,7 @@ import {
             return {
               evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
               criteria_id: criteria.criteria_id,
+              evaluation_type:'supervision',
               score: score,
               comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี
             };
@@ -348,6 +349,7 @@ import {
                 evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
                 criteria_id: criteria.criteria_id,
                 score: score,
+                evaluation_type:'supervision',
                 comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี
               };
             })

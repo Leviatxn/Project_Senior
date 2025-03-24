@@ -6,7 +6,7 @@ import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler,
 
 ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
-const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
+const SelfEvaluation_Chart = ({ evaluationID }) => {
   const [responses, setResponses] = useState({});
   const [evaluationData, setEvaluationData] = useState([]);
   const [isEvaluated, setIsEvaluated] = useState(false);
@@ -171,4 +171,4 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
   );
 };
 
-export default StudentEvaluation_Chart;
+export default SelfEvaluation_Chart;

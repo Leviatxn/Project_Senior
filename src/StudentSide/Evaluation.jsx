@@ -1,32 +1,32 @@
-import React, { useEffect, useState } from "react";
-import Sidebar from "./Component/Sidebar";
-import Banner from "./Component/ฺBanner";
-import './Home.css';
-import '../Main.css';
-import './Petition.css';
-import ReturnButton from "../MainComponent/ReturnButton";
-import { useLocation } from "react-router-dom";
-import axios from "axios";
-import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
-import { 
-    Button,
-    Container, 
-    Table, 
-    TableBody, 
-    TableCell, 
-    TableContainer, 
-    TableHead, 
-    TableRow, 
-    Paper, 
-    FormControlLabel, 
-    Radio, 
-    RadioGroup,
-  } from "@mui/material";
-  import { Radar } from 'react-chartjs-2';
-  import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
-  import SelfEvaluation_Chart from "../MainComponent/DataVisualization/Student_Graph";
-  
-  ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
+  import React, { useEffect, useState } from "react";
+  import Sidebar from "./Component/Sidebar";
+  import Banner from "./Component/ฺBanner";
+  import './Home.css';
+  import '../Main.css';
+  import './Petition.css';
+  import ReturnButton from "../MainComponent/ReturnButton";
+  import { useLocation } from "react-router-dom";
+  import axios from "axios";
+  import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
+  import { 
+      Button,
+      Container, 
+      Table, 
+      TableBody, 
+      TableCell, 
+      TableContainer, 
+      TableHead, 
+      TableRow, 
+      Paper, 
+      FormControlLabel, 
+      Radio, 
+      RadioGroup,
+    } from "@mui/material";
+    import { Radar } from 'react-chartjs-2';
+    import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
+    import StudentEvaluation_Chart from "../MainComponent/DataVisualization/Student_Graph";
+    
+    ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend);
 
   
   const FirstEvaluation = ({ evaluationID , studentID }) => {
@@ -590,6 +590,7 @@ import {
                     evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
                     criteria_id: criteria.criteria_id,
                     score: score,
+                    evaluation_type:'self_evaluate',
                     comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี
                   };
                 })
@@ -1063,7 +1064,7 @@ const Evaluation = () => {
                                             <div>
                                             {
                                                 evaluationData && evaluationData.evaluation_id ? (
-                                                    <SelfEvaluation_Chart evaluationID={evaluationData.evaluation_id} studentID={studentInfo.student_id}/>
+                                                    <StudentEvaluation_Chart evaluationID={evaluationData.evaluation_id} studentID={studentInfo.student_id}/>
 
                                                 ) : (
                                                     <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
