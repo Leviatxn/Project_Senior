@@ -15,7 +15,12 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
     const data = prepareRadarChartData(sectionScores);
 
     return (
-      <div style={{ width: '500px', height: '500px' }}>
+      <div style={{ 
+        width: '100%', 
+        height: '100%',
+        minHeight: '300px',
+        position: 'relative'
+      }}>
         <Radar data={data} options={options} />
       </div>
     );
@@ -49,7 +54,7 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
     plugins: {
       tooltip: {
         backgroundColor: 'rgba(0, 0, 0, 0.8)',
-        titleFont: { size: 16 },
+        titleFont: { size: 14 },
         bodyFont: { size: 14 },
         displayColors: false,
         callbacks: {
@@ -59,11 +64,11 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
         },
       },
       legend: {
-        display: true,
+        display: false,
         position: 'top',
         labels: {
           font: {
-            size: 14,
+            size: 11,
           },
           color: 'rgba(0, 0, 0)',
         },
@@ -106,7 +111,7 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
 
   const fetchScores = async (evaluationID) => {
     try {
-      const response = await axios.get(`http://localhost:5000/evaluation_scores/${evaluationID}`);
+      const response = await axios.get(`http://localhost:5000/evaluation_scores_bytype/${evaluationID}`);
       if (response.data) {
         const scores = response.data.reduce((acc, score) => {
           const section = evaluationData.find((item) =>

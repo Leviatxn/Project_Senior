@@ -9,6 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 
 import Swal from "sweetalert2";
+import StudentEvaluation_Chart from "../MainComponent/DataVisualization/Student_Graph";
 
 
 const Overview = () => {
@@ -172,6 +173,7 @@ const Overview = () => {
                                     <div className="sub-header-square" />
                                     <h3>คุณภาพนิสิตหลังฝึกงาน</h3>
                                 </div>
+                                <StudentEvaluation_Chart evaluationID={'self_evaluate'}/>
                             </div>
                             <div className="coop-document-box" style={{marginTop: '30px',flex:'1',height:'auto'}}>
                                 <div className="sub-header">
