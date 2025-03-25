@@ -33,9 +33,10 @@ import Prof_Coop from './ProfessorSide/Prof_Coop';
 import Admin_ProfRegister from './AdminSide/Admin_ProfRegister';
 import Prof_evaluation from './ProfessorSide/Prof_evaluation';
 import Student_RegisterInfo from './StudentSide/Student_RegisterInfo';
-import Form08 from './CompanySide/Form8';
-import Form09 from './CompanySide/Form9';
 
+import Company_Home from './CompanySide/Company_Home';
+import Company_Form8 from './CompanySide/Company_Form8';
+import Company_Form9 from './CompanySide/Company_Form9';
 
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -117,9 +118,13 @@ function App() {
       <Route path="/admin/petition-detail" element={<PrivateRoute allowedRoles={['admin']}><Admin_PetitionDetail /></PrivateRoute>} />
       <Route path="/admin/cooperative" element={<PrivateRoute allowedRoles={['admin']}><Admin_Cooperative/></PrivateRoute>} />
       <Route path="/admin/user-management" element={<PrivateRoute allowedRoles={['admin']}><Admin_UserManagement/></PrivateRoute>} />
-      <Route path="/company/form-8" element={<Form08 />} />
-      <Route path="/company/form-9" element={<Form09 />} />
+
       <Route path="/professor/test" element={<Prof_Test/>} />
+
+      <Route path="/company/home" element={<Company_Home />} />
+      <Route path="/company/Company_Form8" element={<Company_Form8 />} />
+      <Route path="/company/Company_Form9" element={<Company_Form9 />} />
+
     </Routes>
   );
 }
