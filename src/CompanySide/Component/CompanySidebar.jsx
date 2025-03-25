@@ -59,7 +59,7 @@ const CompanySidebar = () => {
             <div className="logo-container">
               <div className="logo">
                 <Logo overlayColor = "#fff" fontSize="35px"/>
-                <p className="sub-logo" style={{color:'#fff'}}>ระบบผู้ดูแลและเจ้าหน้าที่</p>
+                <p className="sub-logo" style={{color:'#fff'}}>ระบบการฝึกงานกับบริษัทสหกิจ</p>
               </div>
             </div>
             <nav>
