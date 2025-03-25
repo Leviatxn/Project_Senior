@@ -9,22 +9,22 @@ const Sidebar = () => {
     const navigate = useNavigate();
     const handleLogout = () => {
         localStorage.removeItem('authToken'); // ลบ Token ออกจาก localStorage
-        localStorage.removeItem('studentId'); // ลบ Student ID (ถ้ามี)
+        localStorage.removeItem('email'); // ลบ Student ID (ถ้ามี)
         navigate("/"); // นำไปหน้า Login
     };
     
     useEffect(() => {
         const fetchUserData = async () => {
-            const studentId = localStorage.getItem("studentId");
+            const email = localStorage.getItem("email");
             const token = localStorage.getItem("authToken");
 
-            if (!studentId) {
-                console.error("No student ID found");
+            if (!email) {
+                console.error("No email found");
                 return;
             }
 
             try {
-                const response = await axios.get(`http://localhost:5000/user/${studentId}`, {
+                const response = await axios.get(`http://localhost:5000/user-email/${email}`, {
                     headers: {
                         Authorization: `Bearer ${token}`,
                     },
@@ -49,7 +49,7 @@ const Sidebar = () => {
               </div>
               <div className="prof-sidebar-header">
                 <p className="prof-user-name">Loading..</p>
-                <p className="prof-user-id">(นิสิต) Loading...</p>
+                <p className="prof-user-id"> Loading...</p>
               </div>
             </div>
             <div className="prof-sidebar-header-underline"/>
@@ -65,9 +65,9 @@ const Sidebar = () => {
               <ul>
               <li ><a href="/professor/home">หน้าหลัก</a></li>
               <li><a href="/professor/petition">คำร้องสหกิจทั้งหมด</a></li>
-              <li><a href="/cooperative">โครงงานสหกิจทั้งหมด</a></li>
-              <li><a href="/overview">การนิเทศน์</a></li>
-              <li><a href="/profile">ติดตามการฝึกงาน</a></li>
+              <li><a href="/professor/project">โครงงานสหกิจทั้งหมด</a></li>
+              <li><a href="/professor/supervision">การนิเทศน์</a></li>
+              <li><a href="/professor/cooperative">ติดตามการฝึกงาน</a></li>
               <li><a href="/contact">สถิติ</a></li>
               </ul>
             </nav>
@@ -89,8 +89,8 @@ const Sidebar = () => {
             <div className="prof-sidebar-header-circle"/>
           </div>
           <div className="prof-sidebar-header">
-            <p className="prof-user-name">{user.username}</p>
-            <p className="prof-user-id">(นิสิต) {user.student_id}</p>
+            <p className="prof-user-name" style={{color:'white'}}>{user.username}</p>
+            <p className="prof-user-id">({user.role}) {user.student_id}</p>
           </div>
         </div>
         <div className="prof-sidebar-header-underline"/>
@@ -107,8 +107,8 @@ const Sidebar = () => {
               <li ><a href="/professor/home">หน้าหลัก</a></li>
               <li><a href="/professor/petition">คำร้องสหกิจทั้งหมด</a></li>
               <li><a href="/professor/project">โครงงานสหกิจทั้งหมด</a></li>
-              <li><a href="/overview">การนิเทศน์</a></li>
-              <li><a href="/profile">ติดตามการฝึกงาน</a></li>
+              <li><a href="/professor/supervision">การนิเทศน์</a></li>
+              <li><a href="/professor/cooperative">ติดตามการฝึกงาน</a></li>
               <li><a href="/contact">สถิติ</a></li>
           </ul>
         </nav>

@@ -110,13 +110,11 @@ const Admin_PetitionDetail = () => {
         const response = await axios.put("http://localhost:5000/updateStudentApplication", {
             ApplicationID: ApplicationID,
             Is_approve: isApprove,
-            Progress_State: 3,
+            Progress_State: 4,
         });
 
         if (response.status === 200) {
-            alert("อัปเดตสถานะสำเร็จ!");
-            navigate(-1);
-
+            updateCoopState();
         }
         } catch (err) {
         console.error("Error updating data:", err);
@@ -125,14 +123,20 @@ const Admin_PetitionDetail = () => {
         
     };
     const updateCoopState = async() =>{
+        console.log("updateCoopState")
         try {
             const response = await axios.put("http://localhost:5000/updateiscoopstudent", {
                 student_id: data.StudentID,
                 company_name: data.CompanyNameTH,
                 is_coopstudent: 1,
                 
-            });s
+            });
 
+            if (response.status === 200) {
+                alert("อัปเดตสถานะสำเร็จ!");
+                await navigate(-1);
+    
+            }
             } catch (err) {
             console.error("Error updating data:", err);
             alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
@@ -160,9 +164,7 @@ const Admin_PetitionDetail = () => {
     
             if (response.status === 200) {
                 alert("อัปเดตสถานะสำเร็จ!");
-                updateCoopState();
                 navigate(-1);
-    
             }
             } catch (err) {
             console.error("Error updating data:", err);

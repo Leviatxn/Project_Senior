@@ -225,9 +225,9 @@ const Prof_PetitionDetail = () => {
                                                 <div>
                                                 {data.TotalCredits_File ? (
                                                         <button 
-                                                        onClick={() => window.open(`http://localhost:5000/uploads/${data.TotalCredits_File}`)}
+                                                        onClick={() => window.open(`http://localhost:5000/${data.TotalCredits_File}`)}
                                                         className="download-button"
-                                                        style={{textAlign: 'center' }}
+                                                        style={{display:'flex',justifyContent: 'center',alignItems: 'center'}}  
                                                         >
                                                         <img src="/public/pdf.png" alt="pdf" style={{ width: '18px', height: '18px', cursor: 'pointer',marginRight: '10px'}}/>                                          
                                                         {data.StudentID} grade.pdf

@@ -4,35 +4,45 @@ import { useNavigate } from "react-router-dom";
 import './Prof_LoginPage.css';
 import Logo from './MainComponent/Logo';
 import RoleSwitcher from './MainComponent/RoleSwitcher';
+import Swal from 'sweetalert2';
 
 const Prof_LoginPage = () => {
 
-    const [student_id, setStuden_ID] = useState("");
+    const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const googleAuth = () => {
-        window.location.href = 'http://localhost:5000/auth/google';
-      };
+
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
             console.log('Loging in')
-            const response = await axios.post("http://localhost:5000/login", { student_id, password });         
-            const { student_id: loggedInStudentId, token } = response.data;
+            const response = await axios.post("http://localhost:5000/prof-login", { email, password });         
+            const { email: loggedInEmail, token ,role: loggedInRole} = response.data;
 
-            localStorage.setItem("studentId", loggedInStudentId);
+            localStorage.setItem("email", loggedInEmail);
             localStorage.setItem("authToken", token);
+            localStorage.setItem("role", loggedInRole);
 
             // ไปยังหน้า Home
-            navigate("/prof/home");
+            navigate("/professor/home");
         } catch (err) {
             if (err.response) {
                 setError(err.response.data.error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ error,
+                  });
             } else {
                 setError("Error logging in");
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ error,
+                  });
             }
         }
     };
@@ -64,8 +74,8 @@ const Prof_LoginPage = () => {
                 type="email"
                 id="email"
                 placeholder="อีเมล์"
-                value={student_id}
-                onChange={(e) => setStuden_ID(e.target.value)}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 />
             </div>
             <div className="prof-input-group">
@@ -97,7 +107,6 @@ const Prof_LoginPage = () => {
                         </svg>
                 </button>
             </div>
-            {error && <p style={{ color: "red" }}>{error}</p>}
             <a href="/forgot-password" className="forgot-password-link">
                 ลืมรหัสผ่าน
             </a>
@@ -105,7 +114,6 @@ const Prof_LoginPage = () => {
         </div>
         <div className='register-container'>
             <div className="extra-links">
-                <button onClick={googleAuth}>Login with Google</button>
             </div>
         </div>
       </div>

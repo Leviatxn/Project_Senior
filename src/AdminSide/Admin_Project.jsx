@@ -3,7 +3,8 @@ import AdminSidebar from "./Component/AdminSidebar";
 import './Admin_Home.css';
 import '../Main.css';
 import AdminHeader from "./Component/AdminHeader";
-import AdminProjectTable from "./Component/AdminProjectTable";
+import AdminPetitionTable from "./Component/AdminPetitionTable";
+
 
 
 const Admin_Project = () => {
@@ -16,7 +17,7 @@ const Admin_Project = () => {
                 <div className="Side-Space"/>
                 <div className="home-content-container">
                     <div style={{border:"1px solid #ddd"}}>
-                        <AdminProjectTable/>
+                        <AdminPetitionTable/>
                     </div>
                 </div>
             </div>

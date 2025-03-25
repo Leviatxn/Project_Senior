@@ -77,7 +77,7 @@ const AdminUserTable = ({role}) => {
         .catch((error) => {
           console.error("Error fetching data:", error);
           setLoading(false);
-        }); 
+        });   
     }
         //Ajarn
     else if(role == 'professors'){
@@ -359,7 +359,7 @@ const Admin_UserManagement = () => {
                                             </li>
                                             <hr />
                                             <li>
-                                            <button onClick={() => navigate("/admin/prof-sign-up")}>
+                                            <button onClick={() => navigate("/admin/prof-register")}>
                                                 <svg strokeLinejoin="round" strokeLinecap="round" strokeWidth={2} stroke="currentColor" fill="none" viewBox="0 0 24 24" height={14} width={14} xmlns="http://www.w3.org/2000/svg">
                                                     <path d="M2 21a8 8 0 0 1 13.292-6"></path>
                                                     <circle cx="10" cy="8" r="5"></circle>

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState ,useEffect} from "react";
 import {
   TextField,
   Box,
@@ -16,8 +16,9 @@ import {useNavigate } from 'react-router-dom';
 import Swal from 'sweetalert2';
 
 const RequestBForm = () => {
-
+  const [user, setUser] = useState();
   const navigate = useNavigate();
+  const [isUserProfile, setIsUserProfile] = useState(false);
   
   const [studentInfo, setStudentInfo] = useState({
     FullName: "",
@@ -37,9 +38,69 @@ const RequestBForm = () => {
     CompanyProvince: "",
     CompanyPhoneNumber: "",
     relatedFiles: [],
+    Allowance:"",
+    Coop_StartDate:"",
+    Coop_EndDate:"",
   });
 
   const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchUserData = async () => {
+      const studentId = localStorage.getItem("studentId");
+      const token = localStorage.getItem("authToken");
+  
+      if (!studentId || !token) {
+        console.error("ไม่พบ studentId หรือ token");
+        return;
+      }
+  
+      try {
+        const response = await axios.get(`http://localhost:5000/user_info/${studentId}`, {
+          headers: { Authorization: `Bearer ${token}` },
+        });
+  
+        if (response.data) {
+          setUser(response.data); // อัปเดต user
+          setIsUserProfile(true);
+          console.log(response.data)
+        } else {
+          console.error("ไม่พบข้อมูลผู้ใช้");
+        }
+      } catch (err) {
+        console.error("Error fetching user data:", err);
+      }
+    };
+  
+    fetchUserData();
+  }, []);
+
+  useEffect(() => {
+    const setDefaultValue = () => {
+      if (user) {
+        setStudentInfo((prev) => ({
+          ...prev,
+          FullName: user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : prev.FullName,
+          StudentID: user.student_id || prev.StudentID,
+          Major: user.major || prev.Major,
+          Year: user.year || prev.Year,
+          Email: user.email || prev.Email,
+          PhoneNumber: user.phone_number || prev.PhoneNumber,
+        }));
+        console.log(studentInfo)
+      }
+      else{
+        console.log('user does not fetch')
+      }
+    };
+
+    setDefaultValue();
+  }, [user]);
+
+  //Checked
+  useEffect(() => {
+    console.log("📌 Updated studentInfo:", studentInfo);
+  }, [studentInfo]); // ทำงานทุกครั้งที่ studentInfo เปลี่ยนค่า
 
   const handleStudentChange = (e) => {
     const { name, value } = e.target;
@@ -136,9 +197,10 @@ const RequestBForm = () => {
             position: "top",
             icon: "success",
             title: "ส่งคำร้องสำเร็จ",
+            text: "กรุณากรอกข้อมูลโครงงานต่อ",
             timer: 2000
           });
-          navigate("/petition");
+          navigate("/project");
         } else {
           console.error("Failed to submit additional data:", info_response.data);
           alert("เกิดข้อผิดพลาดในการส่งข้อมูลเพิ่มเติม");
@@ -149,7 +211,8 @@ const RequestBForm = () => {
       setError("เกิดข้อผิดพลาดในการส่งคำร้อง");
     }
   };
-  
+  if (!user) return <p>กำลังโหลดข้อมูล...</p>;
+
   return (
     <Box sx={{ p: 4}}>
       <form onSubmit={handleSubmit}>
@@ -165,8 +228,9 @@ const RequestBForm = () => {
                 label="ชื่อ-นามสกุล"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.FullName}
+                value={(user.first_name +" "+ user.last_name)||studentInfo.FullName}
                 onChange={handleStudentChange}
+                disabled={isUserProfile}
                 sx={{mt:2, mb: 3 }}
                 required
                 />
@@ -175,8 +239,9 @@ const RequestBForm = () => {
                 label="เลขประจำตัวนิสิต"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.StudentID}
+                value={user.student_id||studentInfo.StudentID}
                 onChange={handleStudentChange}
+                disabled={isUserProfile}
                 sx={{ mb: 3 }}
                 required
                 />
@@ -184,8 +249,9 @@ const RequestBForm = () => {
                   <InputLabel>สาขาวิชา</InputLabel>
                   <Select
                     name="Major"
-                    value={studentInfo.Major}
+                    value={user.major||studentInfo.Major}
                     onChange={handleStudentChange}
+                    disabled={isUserProfile}
                     sx={{ mb: 3 }}
                     required
                   >
@@ -206,8 +272,10 @@ const RequestBForm = () => {
                 type="number"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.Year}
+                value={user.year||studentInfo.Year}
                 onChange={handleStudentChange}
+                disabled={isUserProfile}
+
                 sx={{ mb: 3 }}
                 required
                 />
@@ -217,8 +285,10 @@ const RequestBForm = () => {
                 type="email"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.Email}
+                value={user.email||studentInfo.Email}
                 onChange={handleStudentChange}
+                disabled={isUserProfile}
+
                 sx={{ mb: 3 }}
                 required
                 />
@@ -228,8 +298,10 @@ const RequestBForm = () => {
                 type="tel"
                 fullWidth
                 variant="outlined"
-                value={studentInfo.PhoneNumber}
+                value={user.phone_number||studentInfo.PhoneNumber}
                 onChange={handleStudentChange}
+                disabled={isUserProfile}
+
                 sx={{ mb: 3 }}
                 required
                 />
@@ -295,6 +367,49 @@ const RequestBForm = () => {
               sx={{ mb: 3 }}
               required
             />
+            <TextField
+              name="Allowance"
+              label="เบี้ยเลี้ยงที่ได้รับ (ต่อวัน)"
+              type="number"
+              fullWidth
+              variant="outlined"
+              value={companyInfo.Allowance}
+              onChange={handleCompanyChange}
+              sx={{ mb: 3 }}
+              required
+            />
+            <Grid container spacing={2} sx={{ mb: 3 }}>
+              <Grid item xs={6}>
+              <FormControl fullWidth sx={{ mb: 3 }}>       
+                  <Typography variant="body1" sx={{ fontFamily:"Noto Sans Thai"}}>วันที่เริ่มฝึกงาน</Typography>
+                  <TextField
+                    name="Coop_StartDate"
+                    type="date"
+                    fullWidth
+                    variant="outlined"
+                    value={companyInfo.Coop_StartDate}
+                    onChange={handleCompanyChange}
+                    InputLabelProps={{ shrink: true }}
+                    required
+                  />
+              </FormControl>
+              </Grid>
+              <Grid item xs={6}>
+              <FormControl fullWidth sx={{ mb: 3 }}>
+                  <Typography variant="body1" sx={{ fontFamily:"Noto Sans Thai"}}>วันที่สิ้นสุดฝึกงาน</Typography>
+                  <TextField
+                    name="Coop_EndDate"
+                    type="date"
+                    fullWidth
+                    variant="outlined"
+                    value={companyInfo.Coop_EndDate}
+                    onChange={handleCompanyChange}
+                    InputLabelProps={{ shrink: true }}
+                    required
+                  />
+              </FormControl>
+              </Grid>
+            </Grid>
             <FormControl fullWidth>
               <Button
                 variant="contained"

@@ -40,9 +40,18 @@ const MyProjectTitle = () => {
     fetchProjectData();
   }, []);
 
+  if(loading){
+    <div>
+      <div className="loading-text">กำลังโหลดข้อมูล...
+        <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
+          <div class="loader"></div>
+        </div>
+      </div>
+    </div>
+  }
   return (
-    <h1 style={{ marginLeft: "50px", marginBottom: "0", color: "#006765" }}>
-      {loading ? "กำลังโหลด..." : `“ ${projectTitle} ”`}
+    <h1 style={{color: "#006765",fontSize:'40px'}}>
+      {projectTitle}
     </h1>
   );
 };

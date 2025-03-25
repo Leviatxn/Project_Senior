@@ -28,12 +28,13 @@ const LoginPage = () => {
     const fetchUserData = async () => {
         try {
             const response = await axios.get("http://localhost:5000/auth/user", { withCredentials: true });
-            const { student_id, token } = response.data;
+            const { student_id, token ,role : loggedInRole } = response.data;
     
             // 🔹 เก็บ Token และ Student ID ใน Local Storage
             localStorage.setItem("authToken", token);
             localStorage.setItem("studentId", student_id);
-    
+            localStorage.setItem("role", loggedInRole);
+
             // 🔹 Redirect ไปหน้า Home
             navigate("/home");
         } catch (err) {
@@ -46,23 +47,30 @@ const LoginPage = () => {
         try {
             console.log('Loging in')
             const response = await axios.post("http://localhost:5000/login", { student_id, password });         
-            const { student_id: loggedInStudentId, token } = response.data;
+            const { student_id: loggedInStudentId, token ,role : loggedInRole} = response.data;
 
             localStorage.setItem("studentId", loggedInStudentId);
             localStorage.setItem("authToken", token);
+            localStorage.setItem("role", loggedInRole);
+
 
             // ไปยังหน้า Home
             navigate("/home");
         } catch (err) {
-            Swal.fire({
-                icon: "error",
-                title: "Oops...",
-                text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ",
-              });
             if (err.response) {
                 setError(err.response.data.error);
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ error,
+                  });
             } else {
                 setError("Error logging in");
+                Swal.fire({
+                    icon: "error",
+                    title: "Oops...",
+                    text: "เกิดข้อผิดพลาดในการเข้าสู่ระบบ : "+ error,
+                  });
             }
         }
     };
@@ -127,11 +135,11 @@ const LoginPage = () => {
                     </svg>
                 </button>
             </div>
-
+{/* 
             {error && 
             <p style={{ color: "red" }}>{error}</p>
             
-            }
+            } */}
             <a href="/forgot-password" className="forgot-password-link">
                 ลืมรหัสผ่าน
             </a>

@@ -14,12 +14,6 @@ const Profile = () => {
             <div className="main-container">
                 <div className="Side-Space"/>
                 <div className="profile-content-container">
-                    <div className="profile-header">
-                        <h1>ข้อมูลนิสิต</h1>
-                        <div className="profile-edit">
-                            <a href="/profile-edit">แก้ไขข้อมูล</a> 
-                        </div>
-                    </div> 
                     <div className="profile-container">
                         <div className="profile-box">
                             <UserProfile/>

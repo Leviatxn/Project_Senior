@@ -71,6 +71,15 @@
     border: 1px solid rgba(0, 103, 101, 0.62);
     border-radius: 10px;
   }
+
+  .student-register-input-group select {
+    font-family:"Noto Sans Thai", sans-serif;
+    width: 550px;
+    padding: 12px;
+    padding-left: 20px;
+    border: 1px solid rgba(0, 103, 101, 0.62);
+    border-radius: 10px;
+  }
   .register-submit-container {
     display: flex;
     align-items: flex-end;
