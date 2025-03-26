@@ -6,13 +6,14 @@ import Petition from './StudentSide/Petition';
 import RequestA from './StudentSide/RequestA';
 import RequestB from './StudentSide/RequestB';
 import Profile from './StudentSide/Profile';
-import Project from './StudentSide/Project'; // เปลี่ยนชื่อ import
+import Project from './StudentSide/Project';
 import Prof_LoginPage from './Prof_LoginPage';
 import Prof_Home from './ProfessorSide/Prof_Home';
 import Prof_Petition from './ProfessorSide/Prof_Petition';
 import Prof_PetitionDetail from './ProfessorSide/Prof_PetitionDetail';
 import Prof_Project from './ProfessorSide/Prof_Project';
 import Prof_ProjectDetail from './ProfessorSide/Prof_ProjectDetail';
+import Prof_Test from './ProfessorSide/Prof_Test';
 import Admin_LoginPage from './Admin_LoginPage';
 import Admin_Register from './AdminSide/Admin_Register';
 import Student_Register from './StudentSide/Student_Register';
@@ -20,6 +21,8 @@ import GoogleLogin from './StudentSide/GoogleLogin';
 import Admin_Home from './AdminSide/Admin_Home';
 import Admin_Pettion from './AdminSide/Admin_Pettion';
 import Admin_PetitionDetail from './AdminSide/Admin_PetitionDetail';
+import Admin_Project from './AdminSide/Admin_Project';
+import Admin_ProjectDetail from './AdminSide/Admin_ProjectDetail';
 import Cooperative from './StudentSide/Cooperative';
 import Admin_Cooperative from './AdminSide/Admin_Cooperative';
 import Admin_UserManagement from './AdminSide/Admin_UserManagement';
@@ -30,10 +33,13 @@ import Prof_Coop from './ProfessorSide/Prof_Coop';
 import Admin_ProfRegister from './AdminSide/Admin_ProfRegister';
 import Prof_evaluation from './ProfessorSide/Prof_evaluation';
 import Student_RegisterInfo from './StudentSide/Student_RegisterInfo';
-import Form08 from './CompanySide/Form8';
-import Form09 from './CompanySide/Form9';
+
+import Company_Home from './CompanySide/Company_Home';
+import Company_Form8 from './CompanySide/Company_Form8';
+import Company_Form9 from './CompanySide/Company_Form9';
 import Evaluation from './StudentSide/Evaluation';
 import Overview from './StudentSide/Overview';
+
 
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -110,7 +116,6 @@ function App() {
 
 
       <Route path="/admin" element={<Admin_LoginPage />} />
-
       <Route path="/admin/register" element={<PrivateRoute allowedRoles={['admin']}> <Admin_Register /> </PrivateRoute>} />
       <Route path="/admin/prof-register" element={<PrivateRoute allowedRoles={['admin']}><Admin_ProfRegister /></PrivateRoute>} />
       <Route path="/admin/home" element={<PrivateRoute allowedRoles={['admin']}><Admin_Home /></PrivateRoute>} />
@@ -119,10 +124,11 @@ function App() {
       <Route path="/admin/cooperative" element={<PrivateRoute allowedRoles={['admin']}><Admin_Cooperative/></PrivateRoute>} />
       <Route path="/admin/user-management" element={<PrivateRoute allowedRoles={['admin']}><Admin_UserManagement/></PrivateRoute>} />
 
-      <Route path="/company/form-8" element={<Form08 />} />
-      <Route path="/company/form-9" element={<Form09 />} />
+      <Route path="/professor/test" element={<Prof_Test/>} />
 
-
+      <Route path="/company/home" element={<Company_Home />} />
+      <Route path="/company/Company_Form8" element={<Company_Form8 />} />
+      <Route path="/company/Company_Form9" element={<Company_Form9 />} />
 
     </Routes>
   );
