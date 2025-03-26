@@ -380,6 +380,17 @@ const Admin_UserManagement = () => {
                                                 <span style={{fontFamily:'Noto Sans Thai'}}>ลงทะเบียนเจ้าหน้าที่</span>
                                             </button>
                                             </li>
+                                            <li>
+                                            <button onClick={() => navigate("/admin/register")}>
+                                                <svg strokeLinejoin="round" strokeLinecap="round" strokeWidth={2} stroke="currentColor" fill="none" viewBox="0 0 24 24" height={14} width={14} xmlns="http://www.w3.org/2000/svg">
+                                                    <path d="M2 21a8 8 0 0 1 13.292-6"></path>
+                                                    <circle cx="10" cy="8" r="5"></circle>
+                                                    <path d="M19 16v6"></path>
+                                                    <path d="M22 19h-6"></path>
+                                                </svg>
+                                                <span style={{fontFamily:'Noto Sans Thai'}}>ลงทะเบียนบริษัท</span>
+                                            </button>
+                                            </li>
 
                                         </ul>
                                         </nav>
@@ -562,11 +573,12 @@ const MenuStyledWrapper = styled.div`
   }
 
   .popup-window ul li:nth-child(7) svg,
-  .popup-window ul li:nth-child(8) svg {
+  .popup-window ul li:nth-child(8) svg
+  .popup-window ul li:nth-child(9) svg {
     color: rgb(0, 0, 0);
   }
 
-  .popup-window ul li:nth-child(9) svg {
+  .popup-window ul li:nth-child(10) svg {
     color: red;
   }
 
