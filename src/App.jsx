@@ -32,6 +32,8 @@ import Prof_evaluation from './ProfessorSide/Prof_evaluation';
 import Student_RegisterInfo from './StudentSide/Student_RegisterInfo';
 import Form08 from './CompanySide/Form8';
 import Form09 from './CompanySide/Form9';
+import Evaluation from './StudentSide/Evaluation';
+import Overview from './StudentSide/Overview';
 
 
 const PrivateRoute = ({ children, allowedRoles }) => {
@@ -92,6 +94,8 @@ function App() {
       <Route path="/project" element={<PrivateRoute allowedRoles={['student']}> <Project /> </PrivateRoute>} />
       <Route path="/appointment-1" element={<PrivateRoute allowedRoles={['student']}><First_appointment/> </PrivateRoute>} />
       <Route path="/appointment-2" element={<PrivateRoute allowedRoles={['student']}><Second_appointment/></PrivateRoute>} />
+      <Route path="/evaluation" element={<PrivateRoute allowedRoles={['student']}>< Evaluation/></PrivateRoute>} />
+      <Route path="/overview" element={<PrivateRoute allowedRoles={['student']}>< Overview/></PrivateRoute>} />
 
 
       <Route path="/professor" element={<Prof_LoginPage />} />

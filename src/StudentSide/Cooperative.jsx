@@ -26,6 +26,7 @@ const Cooperative = () => {
     const [currentPetition, setCurrentPetition] = useState(""); // เก็บค่า current_petition จากฐานข้อมูล
     const [coopInfo, setCoopInfo] = useState(null); 
     const [isNotCoop, setIsNotCoop] = useState(false); 
+    const [coopState, setCoopState] = useState(null); 
 
 
     const steps = [
@@ -120,6 +121,7 @@ const Cooperative = () => {
                 );
                 console.log(response.data)
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
+
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
@@ -135,6 +137,19 @@ const Cooperative = () => {
                 );
                 console.log(response.data)
                 setCoopInfo(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
+                if(formatThaiDate(response.data.Coop_StartDate) === today){
+                    console.log('today is your day')
+                            try{
+                              // ส่งข้อมูลไปยัง API
+                              const response = await axios.put(`http://localhost:5000/updateCoopState/${studentId}`,{
+                                currentState: 'working'
+                              },);
+                              console.log('update Currently  State');
+                            }
+                            catch(error){
+                              console.error('Error submitting data:', error);
+                            }
+                }
             } catch (err) {
                 console.error("Error fetching user data:", err);
                 setIsNotCoop(true)
