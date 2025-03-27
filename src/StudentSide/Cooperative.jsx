@@ -389,8 +389,8 @@ const Cooperative = () => {
                                     </div>
                             </div>
                         </div>
-                        <div style={{marginLeft:'30px',flex:'7'}}>
-                            <div className="coop-project-box">
+                        <div  className="coop-project-box" style={{marginLeft:'30px',flex:'7'}}>
+                            <div >
                                 <div className="sub-header">
                                     <div className="sub-header-square" />
                                     <h3>โครงงานสหกิจ</h3>
@@ -404,19 +404,9 @@ const Cooperative = () => {
                                 <div style={{padding:'20px 60px 20px 60px',flex:'1'}}>
                                 < MyProjectDetail/>
                                 </div>
-                                
-                                <div style={{padding:'20px 30px 20px 30px',marginTop:'20px'}}>
-                                    <div className="coop-underline" />
-                                    <p style={{marginLeft:'30px'}}>สถานะโครงงาน :</p>
+                            
+                            </div>
 
-                                </div>
-                            </div>
-                            <div className="coop-project-box" style={{marginTop: '30px'}}>
-                                <div className="sub-header">
-                                    <div className="sub-header-square" />
-                                    <h3>คำร้องฉัน</h3>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </div>

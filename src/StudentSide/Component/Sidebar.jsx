@@ -15,6 +15,15 @@ const Sidebar = () => {
         localStorage.removeItem('studentId'); // ลบ Student ID (ถ้ามี)
         navigate("/"); // นำไปหน้า Login
     };
+
+      // ฟังก์ชันเมื่อกดเลือกแถว
+  const handleEvaluationClick = (version) => {
+    navigate(`/evaluation`, { 
+      state: {
+               version: version
+      }
+    });
+};
     
     useEffect(() => {
         const fetchUserData = async () => {
@@ -45,6 +54,7 @@ const Sidebar = () => {
 
               if (response.data) {
                 setUserInfo(response.data);
+                console.log(response.data.first_evaluate_state);
               } else {
                   console.error("ไม่พบข้อมูลผู้ใช้");
               }
@@ -125,6 +135,25 @@ const Sidebar = () => {
             <li><a href="/home">หน้าหลัก</a></li>
             <li><a href="/petition">คำร้องสหกิจ</a></li>
             <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
+            {userinfo.is_firstappointment === 1 ? (
+              userinfo.first_evaluate_state === 0 ? (
+                
+                <li><a onClick={()=>(handleEvaluationClick(3))}>การประเมินตนเอง 1</a></li>
+              ):(
+                <div></div>
+              )
+            ):(
+              <div></div>
+            )}
+            {userinfo.is_secondappointment === 1 ? (
+              userinfo.second_evaluate_state === 0 ? (
+                <li><a onClick={()=>(handleEvaluationClick(4))}>การประเมินตนเอง 2</a></li>
+              ):(
+                <div></div>
+              )
+            ):(
+              <div></div>
+            )}
             <li><a href="/overview">สถิติ</a></li>
             <li><a href="/profile">ข้อมูลนิสิต</a></li>
             <li><a href="/contact">ติดต่อสหกิจ</a></li>

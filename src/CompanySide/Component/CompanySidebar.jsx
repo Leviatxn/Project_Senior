@@ -98,7 +98,7 @@ const CompanySidebar = () => {
       <div className="menu">
         <div className="logo-container">
             <div className="logo">
-            <Logo overlayColor = "#fff" fontSize="35px"/>
+            <Logo overlayColor = "#fff" fontSize="35px" color="#A60003"/>
             <p className="sub-logo" style={{color:'#fff'}}>ระบบการฝึกงานกับบริษัทสหกิจ</p>
             </div>
         </div>
@@ -107,8 +107,8 @@ const CompanySidebar = () => {
             <li ><a href="/company/home">หน้าหลัก</a></li>
             <li><a href="/company/petition">นิสิตสหกิจในบริษัททั้งหมด</a></li>
             <li><a href="/company/project">โครงงานสหกิจทั้งหมด</a></li>
-            <li><a href="/company/Company_Form8">แบบประเมินผลนิสิต 08</a></li>
-            <li><a href="/company/Company_Form9">แบบประเมินรายงาน 09</a></li>
+            <li><a href="/company/Company_Form8">แบบประเมินผลนิสิต</a></li>
+            <li><a href="/company/Company_Form9">แบบประเมินรายงาน</a></li>
             <li><a href="/company/overview">สถิติ</a></li>
           </ul>
         </nav>

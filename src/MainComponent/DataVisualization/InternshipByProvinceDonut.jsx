@@ -73,7 +73,7 @@ const InternshipByProvinceDonut = () => {
             return [];
           },
           font: {
-            fontFamily: 'Noto Sans Thai, sans-serif',
+            family: "'Noto Sans Thai', sans-serif",
             size: 14,
             weight: '500'
           },
@@ -96,6 +96,11 @@ const InternshipByProvinceDonut = () => {
       },
       // เพิ่มข้อความตรงกลาง
       title: {
+        font: {
+          family: "'Noto Sans Thai', sans-serif",
+          size: 14,
+          weight: '500'
+        },
         display: true,
         text: `รวมทั้งหมด ${totalStudents} คน`,
         position: 'bottom'
@@ -107,13 +112,10 @@ const InternshipByProvinceDonut = () => {
   return (
     <div style={{ 
       width: '100%', 
-      maxWidth: '600px', 
+      maxWidth: '400px', 
       margin: '0 auto',
-      position: 'relative' 
-    }}>
-      
-      <h3 style={{ textAlign: 'center' }}>สัดส่วนนิสิตฝึกงานแบ่งตามจังหวัด</h3>
-      <div style={{ height: '400px', padding: '20px' }}>
+    }}>     
+     <div style={{fontFamily:'Noto Sans Thai,serif', height: '260px', padding: '20px' }}>
         <Doughnut data={chartData} options={options} />
       </div>
     </div>

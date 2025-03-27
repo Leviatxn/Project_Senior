@@ -82,6 +82,31 @@ const Form08 = () => {
     fetchData();
   }, []);
 
+    const handleAppoveInfo = async () => {
+      try {
+        const response = await axios.post('http://localhost:5000/addevaluation', {
+          student_id: formData.studentID,
+          company_id: 1,
+          evaluator_name: formData.supervisorName,
+          evaluate_by: 'company',
+          evaluation_version: 'last',
+          evaluation_for: 'student',
+          evaluation_type: 'coop_project'
+        });
+    
+        if (response.data && response.data.evaluation_id) {
+          console.log('Data submitted successfully:', response.data);
+          alert('บันทึกข้อมูลสำเร็จ!');
+          setEvaluationData({ evaluation_id: response.data.evaluation_id }); // บันทึก evaluation_id ลงใน state
+        } else {
+          console.error('Invalid response from server');
+          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        }
+      } catch (error) {
+        console.error('Error submitting data:', error);
+        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+      }
+  }
   const handleChange = (e, section) => {
     const { name, value } = e.target;
     setFormData((prevData) => {
@@ -116,15 +141,15 @@ const Form08 = () => {
 
     return (
       <Box sx={{ marginBottom: 3 }}>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
           {section.section_name}
         </Typography>
         <TableContainer component={Paper} sx={{ boxShadow: 3 }}>
-          <Table>
+          <Table> 
             <TableBody>
               {section.subcategories.map((sub) => (
                 <TableRow key={sub.criteria_id}>
-                  <TableCell sx={{ fontWeight: 'medium' }}>{sub.criteria_text}</TableCell>
+                  <TableCell sx={{ fontWeight: 'medium',fontFamily:"Noto Sans Thai, san-serif",p:4 }}>{sub.criteria_text}</TableCell>
                   <TableCell align="right">
                     <TextField
                       type="number"
@@ -134,7 +159,7 @@ const Form08 = () => {
                       onChange={(e) => handleChange(e, sectionKey)}
                       inputProps={{ min: 1, max: maxScore }}
                       size="small"
-                      sx={{ width: 120 }}
+                      sx={{ width: 120,fontFamily:"Noto Sans Thai, san-serif" }}
                     />
                   </TableCell>
                 </TableRow>
@@ -150,24 +175,24 @@ const Form08 = () => {
     <Box component="form" onSubmit={handleSubmit} sx={{ padding: 3, maxWidth: 1200, margin: 'auto' }}>
       <Typography
         sx={{
-          position: "absolute",
           top: 10,
           right: 20,
           opacity: 0.5,
           fontSize: 14,
+          fontFamily:"Noto Sans Thai, san-serif"
         }}
       >
         หมายเลขเอกสาร 08
       </Typography>
-      <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main', textAlign: 'center' }}>
+      <Typography variant="h4" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main', textAlign: 'center' , fontFamily:"Noto Sans Thai, san-serif"}}>
         แบบประเมินผลนิสิตสหกิจศึกษา
       </Typography>
-      <FormLabel component="legend" sx={{ textAlign: 'center', display: 'block', marginBottom: 3 }}>
+      <FormLabel component="legend" sx={{ textAlign: 'center', display: 'block', marginBottom: 3,fontFamily:"Noto Sans Thai, san-serif"}}>
         โครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์
       </FormLabel>
 
-      <Paper sx={{ padding: 3, marginBottom: 3, boxShadow: 3 }}>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+      <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3 ,borderRadius: 2}}>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
           ข้อมูลทั่วไป / Work Term Information
         </Typography>
         <Grid container spacing={2}>
@@ -259,14 +284,14 @@ const Form08 = () => {
       {renderTableSectionFromData(10, "responsibility", 10)}
       {renderTableSectionFromData(11, "personality", 10)}
 
-      <Paper sx={{ padding: 3, marginBottom: 3, boxShadow: 3 }}>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+      <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3,borderRadius:"10px" }}>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif"}}>
           ข้อคิดเห็นที่เป็นประโยชน์แก่นิสิต / Please give comments on the student
         </Typography>
-        <Grid container spacing={2}>
+        <Grid container spacing={2} sx={{mt:3}}>
           <Grid item xs={6}>
-            <Typography variant="body1" gutterBottom sx={{ fontWeight: 'medium' }}>
-              จุดเด่นของนิสิต / Strenght
+            <Typography variant="body1" gutterBottom sx={{ fontWeight: 'medium',fontFamily:"Noto Sans Thai, san-serif" }}>
+              จุดเด่นของนิสิต / Strength
             </Typography>
             <TextField
               multiline
@@ -278,7 +303,7 @@ const Form08 = () => {
             />
           </Grid>
           <Grid item xs={6}>
-            <Typography variant="body1" gutterBottom sx={{ fontWeight: 'medium' }}>
+            <Typography variant="body1" gutterBottom sx={{ fontWeight: 'medium',fontFamily:"Noto Sans Thai, san-serif" }}>
               ข้อควรปรับปรุงของนิสิต / Improvement
             </Typography>
             <TextField
@@ -293,8 +318,8 @@ const Form08 = () => {
         </Grid>
       </Paper>
 
-      <Paper sx={{ padding: 3, marginBottom: 3, boxShadow: 3 }}>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+      <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3,borderRadius:"10px" }}>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
           ข้อเสนอการจ้างงาน / Job Offer
         </Typography>
         <FormLabel component="legend" sx={{ marginBottom: 2 }}>
@@ -313,11 +338,12 @@ const Form08 = () => {
         </RadioGroup>
       </Paper>
 
-      <Paper sx={{ padding: 3, marginBottom: 3, boxShadow: 3 }}>
-        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main' }}>
+      <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3 ,borderRadius:"10px"}}>
+        <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
           ข้อคิดเห็นเพิ่มเติม / Other comments
         </Typography>
         <TextField
+        sx={{mt:3}}
           label="ข้อคิดเห็นเพิ่มเติม"
           fullWidth
           multiline

@@ -10,6 +10,8 @@ import { useLocation } from "react-router-dom";
 
 import Swal from "sweetalert2";
 import StudentEvaluation_Chart from "../MainComponent/DataVisualization/Student_Graph";
+import InternshipByProvinceDonut from "../MainComponent/DataVisualization/InternshipByProvinceDonut";
+import MostCoopProvince from "../MainComponent/DataVisualization/MostCoopProvince";
 
 
 const Overview = () => {
@@ -30,8 +32,32 @@ const Overview = () => {
     const [studentInfo, setStudentInfo] = useState(null); // เก็บข้อมูลทั้งหมด
     const [evaluationData, setEvaluationData] = useState();
 
+     const [dataLengh, setDataLengh] = useState()
+
+      useEffect(() => {
+                 fetch("http://localhost:5000/studentsCoopinfo")
+                 .then((response) => response.json())
+                 .then((fetchedData) => {
+                     setDataLengh(fetchedData.length)
+                 })
+                 .catch((error) => {
+                   console.error("Error fetching data:", error);
+                 });   
+         
+      }, []);
+    
       // ดึงข้อมูลจาก Backend
       useEffect(() => {
+        const StudentLength = async() =>{
+          fetch("http://localhost:5000/studentsCoopinfo")
+          .then((response) => response.json())
+          .then((fetchedData) => {
+              setDataLengh(fetchedData.length)
+          })
+          .catch((error) => {
+            console.error("Error fetching data:", error);
+          });   
+        }
         const fetchCoopData = async () => {
           console.log(studentID, version);
       
@@ -59,6 +85,7 @@ const Overview = () => {
           checkExistingEvaluation(studentID, version);
         };
         fetchCoopData();
+        StudentLength();
       }, [studentID, version]);
 
       const formatCoopDate = (isoString) => {
@@ -135,18 +162,27 @@ const Overview = () => {
                                 </h3>
                             </div>
                             <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                              <h1 style={{color:'#00A6A2',fontSize:'48px',fontWeight:'600'}}>{dataLengh} คน</h1>
                             </div>
 
                         </div>
                         <div className="coop-schedule-box" style={{marginLeft:'40px',paddingBottom:'10px',flex:'3',height:'300px'}}>
-                            <div className="sub-header">
-                                <div className="sub-header-square" />
-                                <h3 style={{fontSize:'18px'}}>
-                                    อัตราส่วนการฝึกงานในแต่ละจังหวัด
-                                </h3>
+                          <div style={{display:'flex',flex:'1'}}>
+                            <div style={{flex:'1'}}>
+                              <div className="sub-header" style={{flex:'1',display:'flex',alignItems:'center',marginTop:'10px'}}>
+                                  <div className="sub-header-square" />
+                                    <h3 style={{fontSize:'18px'}}>
+                                        อัตราส่วนการฝึกงานในแต่ละจังหวัด
+                                    </h3>
+                              </div>
+                              <div style={{flex:'1',paddingLeft:'30px'}}>
+                                  <MostCoopProvince/>
+                              </div>
                             </div>
-                            <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                            <div style={{flex:'1',paddingTop:'10px'}}>
+                              <InternshipByProvinceDonut/>
                             </div>
+                          </div>
                         </div>
                     </div>
 
@@ -173,7 +209,9 @@ const Overview = () => {
                                     <div className="sub-header-square" />
                                     <h3>คุณภาพนิสิตหลังฝึกงาน</h3>
                                 </div>
-                                <StudentEvaluation_Chart evaluationID={'self_evaluate'}/>
+                                <div style={{paddingBottom:'10px'}}>
+                                  <StudentEvaluation_Chart evaluationID={'self_evaluate'}/>
+                                </div>
                             </div>
                             <div className="coop-document-box" style={{marginTop: '30px',flex:'1',height:'auto'}}>
                                 <div className="sub-header">

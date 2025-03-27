@@ -13,7 +13,7 @@ const SelfEvaluation_Chart = ({ evaluationID }) => {
 
   const SectionRadarChart = ({ sectionScores }) => {
     const data = prepareRadarChartData(sectionScores);
-
+    console.log(data)
     return (
       <div style={{ width: '500px', height: '500px' }}>
         <Radar data={data} options={options} />

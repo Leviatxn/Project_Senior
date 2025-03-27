@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { Container } from "@mui/material";
+import { colors, Container } from "@mui/material";
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 
@@ -8,12 +8,15 @@ ChartJS.register(RadialLinearScale, PointElement, LineElement, Filler, Tooltip, 
 
 const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
   const [responses, setResponses] = useState({});
+  const [sectionScores, setSectionScores] = useState({});
+
   const [evaluationData, setEvaluationData] = useState([]);
   const [isEvaluated, setIsEvaluated] = useState(false);
 
   const SectionRadarChart = ({ sectionScores }) => {
+    console.log(sectionScores)
     const data = prepareRadarChartData(sectionScores);
-
+    console.log(data)
     return (
       <div style={{ 
         width: '100%', 
@@ -44,7 +47,7 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
         },
         pointLabels: {
           font: {
-            size: 16,
+            size: 12,
             },
         },
         suggestedMin: 0,
@@ -75,21 +78,46 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
       },
     },
   };
-
-  const calculateAverageSectionScores = (evaluationData, responses) => {
-    return evaluationData.map((section) => {
-      const totalScore = section.subcategories.reduce((sum, sub) => {
-        const score = responses[section.section_name]?.[sub.criteria_text] || 0;
-        return sum + score;
-      }, 0);
-      const averageScore = totalScore / section.subcategories.length;
-      return {
-        sectionName: section.section_name,
-        averageScore: averageScore,
-      };
+  const calculateAverageSectionScores = (apiData, evaluationData) => {
+    console.log("API Data:", apiData);
+    console.log("Evaluation Data:", evaluationData);
+  
+    if (!apiData || apiData.length === 0 || !evaluationData) return [];
+  
+    // สร้าง Map สำหรับเก็บ section names จาก evaluationData
+    const sectionNameMap = new Map();
+    evaluationData.forEach(section => {
+      sectionNameMap.set(section.section_id, section.section_name);
     });
+  
+    // กลุ่มข้อมูลตาม section_id
+    const sectionMap = apiData.reduce((acc, item) => {
+      const sectionId = item.section_id;
+      
+      if (!acc[sectionId]) {
+        acc[sectionId] = {
+          sectionName: sectionNameMap.get(sectionId), // ดึงชื่อจาก evaluationData
+          total: 0,
+          count: 0
+        };
+      }
+      
+      if (typeof item.score === 'number') {
+        acc[sectionId].total += item.score;
+        acc[sectionId].count++;
+      }
+      
+      return acc;
+    }, {});
+  
+    // คำนวณค่าเฉลี่ย
+    return Object.entries(sectionMap).map(([sectionId, data]) => ({
+      sectionId: Number(sectionId),
+      sectionName: data.sectionName,
+      averageScore: data.count > 0 ? Number((data.total / data.count).toFixed(2)) : 0
+    }));
   };
-
+  
   const prepareRadarChartData = (sectionScores) => {
     const labels = sectionScores.map((section) => section.sectionName);
     const data = sectionScores.map((section) => section.averageScore);
@@ -109,26 +137,12 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
     };
   };
 
-  const fetchScores = async (evaluationID) => {
+  const fetchScores = async (evaluationID,data) => {
     try {
       const response = await axios.get(`http://localhost:5000/evaluation_scores_bytype/${evaluationID}`);
-      if (response.data) {
-        const scores = response.data.reduce((acc, score) => {
-          const section = evaluationData.find((item) =>
-            item.subcategories.some((sub) => sub.criteria_id === score.criteria_id)
-          );
-          if (section) {
-            const subcategory = section.subcategories.find((sub) => sub.criteria_id === score.criteria_id);
-            if (subcategory) {
-              acc[section.section_name] = acc[section.section_name] || {};
-              acc[section.section_name][subcategory.criteria_text] = score.score;
-            }
-          }
-          return acc;
-        }, {});
-        setResponses(scores);
-        setIsEvaluated(true);
-      }
+      const sectionAverages = calculateAverageSectionScores(response.data,data);
+      setSectionScores(sectionAverages); // เก็บผลลัพธ์โดยตรง
+      setIsEvaluated(true);
     } catch (error) {
       console.error('Error fetching scores:', error);
     }
@@ -151,7 +165,7 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
         setEvaluationData(data);
 
         if (evaluationID) {
-          await fetchScores(evaluationID);
+          await fetchScores(evaluationID,data);
         }
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -161,15 +175,14 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
     fetchData();
   }, [evaluationID]);
 
-  const sectionScores = calculateAverageSectionScores(evaluationData, responses);
 
-  if (!isEvaluated || sectionScores.length === 0) {
+  if (!isEvaluated || !evaluationData || sectionScores.length === 0) {
     return <div>กำลังดึงข้อมูล...</div>;
   }
 
   return (
     <div>
-      <Container sx={{ marginTop: 4, marginBottom: 4 }}>
+      <Container>
         <SectionRadarChart sectionScores={sectionScores} />
       </Container>
     </div>

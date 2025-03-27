@@ -45,8 +45,8 @@ const MyProjectDetail = () => {
   }
 
   return (
-      <div className="project-details">
-      <h2 style={{fontSize:'24px',fontWeight:'400'}}>รายละเอียดโครงงานสหกิจ</h2>
+      <div className="project-details" style={{paddingLeft:'30px'}}>
+        <h2 style={{fontSize:'20px',fontWeight:'400'}}>รายละเอียดโครงงานสหกิจ</h2>
 
         <div style={{marginTop:'40px'}}>
           <p> {project.ProjectDetails || "ไม่มีข้อมูล"}</p>
