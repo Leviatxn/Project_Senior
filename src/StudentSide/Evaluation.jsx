@@ -589,6 +589,7 @@ import {
                   return {
                     evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
                     criteria_id: criteria.criteria_id,
+                    section_id: section.section_id,
                     score: score,
                     evaluation_type:'self_evaluate',
                     comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี

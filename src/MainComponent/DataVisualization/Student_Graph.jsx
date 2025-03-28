@@ -139,6 +139,7 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
 
   const fetchScores = async (evaluationID,data) => {
     try {
+      console.log(evaluationID)
       const response = await axios.get(`http://localhost:5000/evaluation_scores_bytype/${evaluationID}`);
       const sectionAverages = calculateAverageSectionScores(response.data,data);
       setSectionScores(sectionAverages); // เก็บผลลัพธ์โดยตรง

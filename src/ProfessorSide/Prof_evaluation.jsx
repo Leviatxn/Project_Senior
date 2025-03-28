@@ -30,7 +30,9 @@ import {
     const [isEvaluated, setIsEvaluated] = useState(false);
 
     useEffect(() => {
+
         if (evaluationID) {
+          console.log(evaluationID)
           fetchScores(evaluationID);
         }
       }, [evaluationID, evaluationData]); // เพิ่ม evaluationData ใน dependency array
@@ -111,6 +113,7 @@ import {
             return {
               evaluation_id: evaluationID, // ใช้ evaluationID ที่ส่งมา
               criteria_id: criteria.criteria_id,
+              section_id: section.section_id,
               evaluation_type:'supervision',
               score: score,
               comments: "", // สามารถเพิ่มความคิดเห็นได้หากมี
@@ -601,7 +604,7 @@ const Prof_evaluation = () => {
       const checkExistingEvaluation = async (studentID, version) => {
         if(version === 1){
             try {
-                const response = await axios.get(`http://localhost:5000/evaluations/${studentID}/${'first'}`);
+                const response = await axios.get(`http://localhost:5000/evaluations/${studentID}/${'supervision'}/${'first'}`);
                 console.log(response.data)
                 if (response.data && response.data.evaluation_id) {
                   setEvaluationData({ evaluation_id: response.data.evaluation_id });
@@ -612,7 +615,7 @@ const Prof_evaluation = () => {
         }
         else if(version === 2){
             try {
-                const response = await axios.get(`http://localhost:5000/evaluations/${studentID}/${'second'}`);
+                const response = await axios.get(`http://localhost:5000/evaluations/${studentID}/${'supervision'}/${'second'}`);
                 console.log(response.data)
                 if (response.data && response.data.evaluation_id) {
                   setEvaluationData({ evaluation_id: response.data.evaluation_id });
