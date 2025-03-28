@@ -7,7 +7,7 @@ import Form9 from "./Component/Form9"
 const Company_Form8 = () => {
 
     return (
-        <div className="home-background">
+        <div className="background" style={{height:'auto',paddingBottom:'20px'}}>
             <CompanySidebar   />
             <CompanyHeader/>
             <div className="main-container">

@@ -7,7 +7,7 @@ import Form8 from "./Component/Form8"
 const Company_Form8 = () => {
 
     return (
-        <div className="background" style={{height:'auto'}}>
+        <div className="background" style={{height:'auto',paddingBottom:'20px'}}>
             <CompanySidebar   />
             <CompanyHeader/>
             <div className="main-container">

@@ -15,52 +15,35 @@ import {
   RadioGroup,
   FormControlLabel,
   FormLabel,
+  Select,
+  MenuItem,
+  InputLabel,
+  FormControl
 } from "@mui/material";
 import axios from "axios";
 
 const Form08 = () => {
-  const [formData, setFormData] = useState({
-    studentName: "",
-    studentID: "",
-    department: "",
-    faculty: "",
-    companyName: "",
-    supervisorName: "",
-    supervisorPosition: "",
-    supervisorDepartment: "",
-    achievement: {
-      quantityOfWork: "",
-      qualityOfWork: "",
-    },
-    KnowledgeAndAblility: {
-      AcademicAbility: "",
-      AbilityToLearnAndApplyKnowledge: "",
-      PracticalAbility: "",
-      JudgementAndDecisionMaking: "",
-      OrganizationAndPlanning: "",
-      CommunicationSkills: "",
-      ForeignLanguageAndCulturalDevelopment: "",
-      SuitabilityForJobPosition: "",
-    },
-    responsibility: {
-      dependability: "",
-      interestInWork: "",
-      initiative: "",
-      responseToSupervision: "",
-    },
-    personality: {
-      personality: "",
-      interpersonalSkills: "",
-      disciplineAndAdaptability: "",
-      ethicsAndMorality: "",
-    },
+  const [info, setInfo] = useState({
+      studentName: "",
+      studentID: "",
+      major: "",
+      companyName: "",
+      supervisorName: "",
+      supervisorPosition: "",
+      supervisorDepartment: "",
+  });
+  const [scored, setScored] = useState({
+    sections: {}
+  });
+  const [offer,setOffer] = useState({    
     studentStrenght: "",
     studentImprovement: "",
     additionalComments: "",
-    jobOffer: "",
-  });
+    jobOffer: ""
+  })
 
   const [evaluationData, setEvaluationData] = useState([]);
+
 
   useEffect(() => {
     const fetchData = async () => {
@@ -82,63 +65,96 @@ const Form08 = () => {
     fetchData();
   }, []);
 
-    const handleAppoveInfo = async () => {
-      try {
-        const response = await axios.post('http://localhost:5000/addevaluation', {
-          student_id: formData.studentID,
-          company_id: 1,
-          evaluator_name: formData.supervisorName,
-          evaluate_by: 'company',
-          evaluation_version: 'last',
-          evaluation_for: 'student',
-          evaluation_type: 'coop_project'
-        });
-    
-        if (response.data && response.data.evaluation_id) {
-          console.log('Data submitted successfully:', response.data);
-          alert('บันทึกข้อมูลสำเร็จ!');
-          setEvaluationData({ evaluation_id: response.data.evaluation_id }); // บันทึก evaluation_id ลงใน state
-        } else {
-          console.error('Invalid response from server');
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-        }
-      } catch (error) {
-        console.error('Error submitting data:', error);
-        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-      }
-  }
-  const handleChange = (e, section) => {
+  const handleInfoChange = (e) => {
     const { name, value } = e.target;
-    setFormData((prevData) => {
-      if (section) {
-        return {
-          ...prevData,
-          [section]: {
-            ...prevData[section],
-            [name]: value,
-          },
-        };
-      }
-      return { ...prevData, [name]: value };
-    });
+    setInfo(prev => ({ ...prev, [name]: value }));
   };
-
-  const handleRadioChange = (e) => {
-    setFormData((prevData) => ({
-      ...prevData,
-      jobOffer: e.target.value,
+  
+  const handleScoredChange = (sectionId, criteriaId, value) => {
+    setScored(prev => ({
+      ...prev,
+      sections: {
+        ...prev.sections,
+        [sectionId]: {
+          ...prev.sections[sectionId],
+          [criteriaId]: value
+        }
+      }
     }));
   };
-
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log(formData);
+  
+  const handleOfferChange = (e) => {
+    const { name, value } = e.target;
+    setOffer(prev => ({ ...prev, [name]: value }));
+  };
+  
+  const handleRadioChange = (e) => {
+    setOffer(prev => ({ ...prev, jobOffer: e.target.value }));
   };
 
-  const renderTableSectionFromData = (sectionId, sectionKey, maxScore) => {
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(info)
+    console.log(scored)
+    console.log(offer)
+    try {
+      // ส่งข้อมูลพื้นฐาน
+      const baseResponse = await axios.post('http://localhost:5000/addevaluation', {
+        student_id: info.studentID,
+        company_id: 1,
+        evaluator_name: info.supervisorName,
+        evaluate_by: 'company',
+        evaluation_version: 'last',
+        evaluation_for: 'student',
+        evaluation_type: 'coop_project'
+      });
+  
+      if (baseResponse.data?.evaluation_id) {
+        const evaluation_id = baseResponse.data.evaluation_id;
+      
+        // 2. เตรียมข้อมูลคะแนนให้ตรงกับรูปแบบที่ API ต้องการ
+        const scoresData = [];
+        
+        // วนลูปผ่านทุก sections ใน scored state
+        Object.entries(scored.sections).forEach(([section_id, criteria]) => {
+          Object.entries(criteria).forEach(([criteria_id, score]) => {
+            scoresData.push({
+              evaluation_id: evaluation_id,
+              section_id: section_id,
+              criteria_id: criteria_id,
+              score: score,
+              evaluation_type: 'coop_project', // ใส่ตามที่ API ต้องการ
+              comments: null
+            });
+          });
+        });
+
+        console.log(scoresData)
+
+        // 3. ส่งข้อมูลคะแนนไปยัง API
+        await axios.post('http://localhost:5000/evaluation_scores', {
+          scores: scoresData
+        });
+  
+        // // ส่งข้อมูลเพิ่มเติม
+        // await axios.post('http://localhost:5000/addevaluation_comments', {
+        //   evaluation_id: baseResponse.data.evaluation_id,
+        //   ...offer
+        // });
+  
+        alert('บันทึกข้อมูลสำเร็จ!');
+      }
+    } catch (error) {
+      console.error('Error submitting data:', error);
+      alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+    }
+  };
+  
+  const renderTableSectionFromData = (sectionId, maxScore) => {
     const section = evaluationData.find((item) => item.section_id === sectionId);
     if (!section) return null;
-
+  
     return (
       <Box sx={{ marginBottom: 3 }}>
         <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
@@ -149,14 +165,13 @@ const Form08 = () => {
             <TableBody>
               {section.subcategories.map((sub) => (
                 <TableRow key={sub.criteria_id}>
-                  <TableCell sx={{ fontWeight: 'medium',fontFamily:"Noto Sans Thai, san-serif",p:4 }}>{sub.criteria_text}</TableCell>
+                  <TableCell sx={{fontFamily:"Noto Sans Thai, san-serif",p:4 }}>{sub.criteria_text}</TableCell>
                   <TableCell align="right">
                     <TextField
                       type="number"
                       label={`${maxScore} คะแนน`}
-                      name={sub.criteria_text}
-                      value={formData[sectionKey][sub.criteria_text] || ""}
-                      onChange={(e) => handleChange(e, sectionKey)}
+                      value={scored.sections[sectionId]?.[sub.criteria_id] || ""}
+                      onChange={(e) => handleScoredChange(sectionId, sub.criteria_id, e.target.value)}
                       inputProps={{ min: 1, max: maxScore }}
                       size="small"
                       sx={{ width: 120,fontFamily:"Noto Sans Thai, san-serif" }}
@@ -188,7 +203,7 @@ const Form08 = () => {
         แบบประเมินผลนิสิตสหกิจศึกษา
       </Typography>
       <FormLabel component="legend" sx={{ textAlign: 'center', display: 'block', marginBottom: 3,fontFamily:"Noto Sans Thai, san-serif"}}>
-        โครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์
+        โครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ 
       </FormLabel>
 
       <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3 ,borderRadius: 2}}>
@@ -202,8 +217,8 @@ const Form08 = () => {
               fullWidth
               margin="normal"
               name="studentName"
-              value={formData.studentName}
-              onChange={handleChange}
+              value={info.studentName}
+              onChange={handleInfoChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -212,29 +227,36 @@ const Form08 = () => {
               fullWidth
               margin="normal"
               name="studentID"
-              value={formData.studentID}
-              onChange={handleChange}
+              value={info.studentID}
+              onChange={handleInfoChange}
             />
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="คณะ"
-              fullWidth
-              margin="normal"
-              name="faculty"
-              value={formData.faculty}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              label="สาขาวิชา"
-              fullWidth
-              margin="normal"
-              name="department"
-              value={formData.department}
-              onChange={handleChange}
-            />
+          <Grid item xs={12}>
+          <FormControl fullWidth margin="normal">
+            <InputLabel>คณะสาขาวิชา</InputLabel>
+              <Select
+                label="คณะ"
+                name="major"
+                value={info.major}
+                onChange={handleInfoChange}
+                sx={{
+                  textAlign: 'left',
+                  '& .MuiSelect-select': {
+                    padding: '16.5px 14px'
+                  }
+                }}
+              >
+                  <MenuItem value="T12">T12 - วิศวกรรมคอมพิวเตอร์และสารสนเทศศาสตร์</MenuItem>
+                  <MenuItem value="T13">T13 - วิศวกรรมเครื่องกลและการออกแบบ</MenuItem>
+                  <MenuItem value="T14">T14 - วิศวกรรมไฟฟ้าและอิเล็กทรอนิกส์</MenuItem>
+                  <MenuItem value="T17">T17 - วิศวกรรมอุตสาหการและระบบ</MenuItem>
+                  <MenuItem value="T20">T20 - วิศวกรรมระบบการผลิตดิจิทัล</MenuItem>
+                  <MenuItem value="T23">T23 - วิศวกรรมดิจิทัลและอีเล็กทรอนิกส์อัจฉริยะ</MenuItem>
+                  <MenuItem value="T18">T18 - วิศวกรรมเครื่องกลและระบบการผลิต</MenuItem>
+                  <MenuItem value="T19">T19 - วิศวกรรมหุ่นยนต์และระบบอัตโนมัติ</MenuItem>
+                  <MenuItem value="T22">T22 - วิศวกรรมยานยนต์</MenuItem>
+                </Select>
+          </FormControl>
           </Grid>
           <Grid item xs={12}>
             <TextField
@@ -242,8 +264,8 @@ const Form08 = () => {
               fullWidth
               margin="normal"
               name="companyName"
-              value={formData.companyName}
-              onChange={handleChange}
+              value={info.companyName}
+              onChange={handleInfoChange}
             />
           </Grid>
           <Grid item xs={12}>
@@ -252,8 +274,8 @@ const Form08 = () => {
               fullWidth
               margin="normal"
               name="supervisorName"
-              value={formData.supervisorName}
-              onChange={handleChange}
+              value={info.supervisorName}
+              onChange={handleInfoChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -262,8 +284,8 @@ const Form08 = () => {
               fullWidth
               margin="normal"
               name="supervisorPosition"
-              value={formData.supervisorPosition}
-              onChange={handleChange}
+              value={info.supervisorPosition}
+              onChange={handleInfoChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -272,17 +294,17 @@ const Form08 = () => {
               fullWidth
               margin="normal"
               name="supervisorDepartment"
-              value={formData.supervisorDepartment}
-              onChange={handleChange}
+              value={info.supervisorDepartment}
+              onChange={handleInfoChange}
             />
           </Grid>
         </Grid>
       </Paper>
 
-      {renderTableSectionFromData(8, "achievement", 20)}
-      {renderTableSectionFromData(9, "KnowledgeAndAblility", 10)}
-      {renderTableSectionFromData(10, "responsibility", 10)}
-      {renderTableSectionFromData(11, "personality", 10)}
+      {renderTableSectionFromData(8, 20)}
+      {renderTableSectionFromData(9, 10)}
+      {renderTableSectionFromData(10, 10)}
+      {renderTableSectionFromData(11, 10)}
 
       <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3,borderRadius:"10px" }}>
         <Typography variant="h6" gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif"}}>
@@ -298,8 +320,8 @@ const Form08 = () => {
               rows={4}
               fullWidth
               name="studentStrenght"
-              value={formData.studentStrenght}
-              onChange={handleChange}
+              value={offer.studentStrenght}
+              onChange={handleOfferChange}
             />
           </Grid>
           <Grid item xs={6}>
@@ -311,8 +333,8 @@ const Form08 = () => {
               rows={4}
               fullWidth
               name="studentImprovement"
-              value={formData.studentImprovement}
-              onChange={handleChange}
+              value={offer.studentImprovement}
+              onChange={handleOfferChange}
             />
           </Grid>
         </Grid>
@@ -329,7 +351,7 @@ const Form08 = () => {
         </FormLabel>
         <RadioGroup
           name="jobOffer"
-          value={formData.jobOffer}
+          value={offer.jobOffer}
           onChange={handleRadioChange}
         >
           <FormControlLabel value="yes" control={<Radio />} label="รับ / Yes" />
@@ -343,14 +365,14 @@ const Form08 = () => {
           ข้อคิดเห็นเพิ่มเติม / Other comments
         </Typography>
         <TextField
-        sx={{mt:3}}
+        sx={{mt:2}}
           label="ข้อคิดเห็นเพิ่มเติม"
           fullWidth
           multiline
           rows={4}
           name="additionalComments"
-          value={formData.additionalComments}
-          onChange={handleChange}
+          value={offer.additionalComments}
+          onChange={handleOfferChange}
         />
       </Paper>
 

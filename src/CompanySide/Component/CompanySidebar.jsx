@@ -46,7 +46,7 @@ const CompanySidebar = () => {
           <div className="companysidebar-header-container">
             <div className="companysidebar-header-content">
               <div className="companysidebar-header-img">
-                  <div className="companysidebar-header-circle"/>
+                <Avatar  sx={{ width: 70, height: 70, mx: "auto" }}/>
               </div>
               <div className="companysidebar-header">
                 <p className="user-name">Loading</p>
@@ -58,18 +58,15 @@ const CompanySidebar = () => {
           <div className="menu">
             <div className="logo-container">
               <div className="logo">
-                <Logo overlayColor = "#fff" fontSize="35px"/>
-                <p className="sub-logo" style={{color:'#fff'}}>ระบบการฝึกงานกับบริษัทสหกิจ</p>
+              <Logo overlayColor = "#fff" fontSize="35px" color="#A60003"/>
+              <p className="sub-logo" style={{color:'#fff'}}>ระบบการฝึกงานกับบริษัทสหกิจ</p>
               </div>
             </div>
             <nav>
               <ul>
               <li ><a href="/company/home">หน้าหลัก</a></li>
-              <li><a href="/company/petition">นิสิตสหกิจในบริษัททั้งหมด</a></li>
-              <li><a href="/company/project">โครงงานสหกิจทั้งหมด</a></li>
-              <li><a href="/company/Company_Form8">แบบประเมินผลนิสิตสหกิจศึกษา 08</a></li>
-              <li><a href="/company/Company_Form9">แบบประเมินรายงานนิสิตสหกิจศึกษา 09</a></li>
-              <li><a href="/company/overview">สถิติ</a></li>
+              <li><a href="/company/Company_Form8">แบบประเมินผลนิสิตสหกิจศึกษา</a></li>
+              <li><a href="/company/Company_Form9">แบบประเมินรายงานนิสิตสหกิจศึกษา</a></li>
               </ul>
             </nav>
           </div>
@@ -85,9 +82,9 @@ const CompanySidebar = () => {
     <div className="companysidebar">
       <div className="companysidebar-header-container">
         <div className="companysidebar-header-content">
-          <div className="companysidebar-header-img">
-            <div className="companysidebar-header-circle"/>
-          </div>
+            <div className="companysidebar-header-img">
+                <Avatar  sx={{ width: 70, height: 70, mx: "auto" }}/>
+            </div>
           <div className="companysidebar-header">
             <p className="user-name">{user.username}</p>
             <p className="user-id">({user.role}) {user.student_id}</p>
@@ -105,11 +102,8 @@ const CompanySidebar = () => {
         <nav>
           <ul>
             <li ><a href="/company/home">หน้าหลัก</a></li>
-            <li><a href="/company/petition">นิสิตสหกิจในบริษัททั้งหมด</a></li>
-            <li><a href="/company/project">โครงงานสหกิจทั้งหมด</a></li>
             <li><a href="/company/Company_Form8">แบบประเมินผลนิสิต</a></li>
             <li><a href="/company/Company_Form9">แบบประเมินรายงาน</a></li>
-            <li><a href="/company/overview">สถิติ</a></li>
           </ul>
         </nav>
         

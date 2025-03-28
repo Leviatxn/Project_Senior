@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
+import axios from "axios";
+
 import {
   TextField,
   Button,
@@ -47,6 +49,9 @@ const Form09 = () => {
     },
     additionalComments: "",
   });
+  
+  const [evaluationItems, setEvaluationItems] = useState([]);
+  const [loading, setLoading] = useState(true);
 
   const handleChange = (e, section) => {
     const { name, value } = e.target;
@@ -69,27 +74,75 @@ const Form09 = () => {
     console.log(formData);
   };
 
-  const renderTableSection = (title, sectionKey, items, maxScore) => (
+  useEffect(() => {
+    const fetchEvaluationCriteria = async () => {
+      try {
+        const sectionsResponse = await axios.get('http://localhost:5000/reportevaluation_sections');
+        const items = await Promise.all(
+          sectionsResponse.data.map(async (section) => {
+            const criteriaResponse = await axios.get(
+              `http://localhost:5000/criteria/${section.section_id}`
+            );
+            console.log(criteriaResponse)
+            return criteriaResponse.data.map(criteria => ({
+              id: criteria.criteria_id,
+              name: criteria.criteria_text, // หรือ field ที่เก็บชื่อหัวข้อใน DB
+              label: criteria.criteria_text, // ตัวอย่างรูปแบบ
+              maxScore: 5
+            }));
+          })
+        );
+
+        // 3. แปลงโครงสร้างข้อมูล
+        const flattenedItems = items.flat();
+        setEvaluationItems(flattenedItems);
+        
+        // 4. เตรียมโครงสร้างสำหรับเก็บคะแนน
+        const initialItems = flattenedItems.reduce((acc, item) => {
+          acc[item.name] = "";
+          return acc;
+        }, {});
+        
+        setFormData(prev => ({
+          ...prev,
+          Items: initialItems
+        }));
+
+      } catch (error) {
+        console.error("Failed to fetch evaluation items:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchEvaluationCriteria();
+  }, []);
+
+  const renderTableSection = (title, sectionKey, items) => (
     <>
-      <Typography variant="h6" mt={3} gutterBottom>
+      <Typography variant="h6" mt={3} gutterBottom sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
         {title}
       </Typography>
-      <TableContainer component={Paper}>
+      <TableContainer component={Paper} sx={{ marginBottom: 3}}>
         <Table>
           <TableBody>
             {items.map((item) => (
-              <TableRow key={item.name}>
-                <TableCell>{item.label}</TableCell>
-                <TableCell align="right">
+              <TableRow key={item.id}>
+                <TableCell sx={{fontFamily:"Noto Sans Thai, san-serif",p:4 }}>{item.label}</TableCell>
+                <TableCell align="right" >
                   <TextField
                     type="number"
                     label={`${item.maxScore} คะแนน`}
                     name={item.name}
                     value={formData[sectionKey][item.name] || ""}
                     onChange={(e) => handleChange(e, sectionKey)}
-                    inputProps={{ min: 1, max: item.maxScore }}
+                    inputProps={{ 
+                      min: 0, 
+                      max: item.maxScore,
+                      step: 0.5 // อนุญาตให้ใส่ทศนิยมได้
+                    }}
                     size="small"
-                    sx={{ width: 100 }}
+                    sx={{fontWeight: 'medium',fontFamily:"Noto Sans Thai, san-serif", width: 120 }}
                   />
                 </TableCell>
               </TableRow>
@@ -100,27 +153,29 @@ const Form09 = () => {
     </>
   );
 
+
+  
   return (
-    <Box component="form" onSubmit={handleSubmit} sx={{ padding: 2 }}>
+    <Box component="form" onSubmit={handleSubmit} sx={{ padding: 3, maxWidth: 1200, margin: 'auto',mt:2 }}>
       <Typography
         sx={{
-          position: "absolute",
           top: 10,
           right: 20,
-          opacity: 0.5, 
+          opacity: 0.5,
           fontSize: 14,
+          fontFamily:"Noto Sans Thai, san-serif"
         }}
       >
         หมายเลขเอกสาร 09
       </Typography>
-      <Typography variant="h4" gutterBottom>
-        แบบประเมินผลนิสิตสหกิจศึกษา
+      <Typography variant="h4" gutterBottom  sx={{ fontWeight: 'bold', color: 'primary.main', textAlign: 'center' , fontFamily:"Noto Sans Thai, san-serif"}}> 
+        แบบประเมินผลรายงานนิสิตสหกิจศึกษา
       </Typography>
-      <FormLabel component="legend">
+      <FormLabel component="legend" sx={{ textAlign: 'center', display: 'block', marginBottom: 3,fontFamily:"Noto Sans Thai, san-serif"}}>
         โครงการสหกิจศึกษา มหาวิทยาลัยเกษตรศาสตร์ 
       </FormLabel>
-      <Paper sx={{ padding: 2, marginBottom: 2 }}>
-        <Typography variant="h6">ข้อมูลทั่วไป / Work Term Information</Typography>
+      <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3 ,borderRadius: 2}}>
+        <Typography variant="h6" sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>ข้อมูลทั่วไป / Work Term Information</Typography>
         <Grid container spacing={2}>
           <Grid item xs={6}>
             <TextField
@@ -203,7 +258,7 @@ const Form09 = () => {
             />
           </Grid>
           <Grid item xs={12}>
-          <Typography variant="h6">หัวข้อรายงาน / Report title</Typography>
+          <Typography variant="h6" sx={{mt:2,fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>หัวข้อรายงาน / Report title</Typography>
             <TextField
               label="ภาษาไทย / Thai"
               fullWidth
@@ -225,40 +280,35 @@ const Form09 = () => {
       </Paper>
 
       {/* หัวข้อประเมิน/Items */}
-      {renderTableSection("หัวข้อประเมิน / Items ", "Items", [
-        { label: "กิตติกรรมประกาศ (Acknowledgement)", name: "Acknowledgement" , maxScore: 5 },
-        { label: "บทคัดย่อ (Abstract)", name: "Abstract" , maxScore: 5 },
-        { label: "สารบัญ  สารบัญรป และสารบัญตาราง (Table of contents)", name: "TableOfContents" , maxScore: 5 },
-        { label: "วัตถุประสงค์ (Objectives)", name: "Objectives" , maxScore: 5 },
-        { label: "วิธีการศึกษา (Method of Education)", name: "MethodOfEducation" , maxScore: 5 },
-        { label: "ผลการศึกษา (Result) ", name: "Result" , maxScore: 20 },
-        { label: "วิเคราะห์ผลการศึกษา (Analysis)", name: "Analysis" , maxScore: 10 },
-        { label: "สรุปผลการศึกษา (Conclusion)", name: "Conclusion" , maxScore: 10 },
-        { label: "ข้อเสนอแนะ (Comment)", name: "Comment" , maxScore: 5 },
-        { label: "สำนวนการเขียน และการสื่อความหมาย (Idiom and meaning) ", name: "IdiomAndMeaning" , maxScore: 10 },
-        { label: "ความถูกต้องตัวสะกด (Spelling)", name: "Spelling" , maxScore: 5 },
-        { label: "รูปแบบ และความสวยงาม ของรูปเลม (Pattern)", name: "Pattern" , maxScore: 5 },
-        { label: "เอกสารอ้างอิง (References)", name: "References" , maxScore: 5 },
-        { label: "ภาคผนวก (Appendix)", name: "Appendix" , maxScore: 5 },
-      ], )}
-      <Typography variant="h6" mt={3}>
-        ข้อคิดเห็นเพิ่มเติม / Other comments 
-      </Typography>
-      <TextField
-        label="ข้อคิดเห็นเพิ่มเติม"
-        fullWidth
-        multiline
-        rows={4}
-        name="additionalComments"
-        value={formData.additionalComments}
-        onChange={handleChange}
-      />
+      {renderTableSection(
+        "หัวข้อประเมิน / Items",
+        "Items",
+        evaluationItems,
+        100 // คะแนนรวมสูงสุด
+      )}
+
+      <Paper sx={{ padding: 5, marginBottom: 3, boxShadow: 3 ,borderRadius:"10px"}}>
+        <Typography variant="h6"  sx={{ fontWeight: 'bold', color: 'primary.main',fontFamily:"Noto Sans Thai, san-serif" }}>
+          ข้อคิดเห็นเพิ่มเติม / Other comments 
+        </Typography>
+        <TextField
+          sx={{mt:3}}
+          label="ข้อคิดเห็นเพิ่มเติม"
+          fullWidth
+          multiline
+          rows={4}
+          name="additionalComments"
+          value={formData.additionalComments}
+          onChange={handleChange}
+        />
+      </Paper>
 
 
-
-      <Button type="submit" variant="contained" color="primary" sx={{ mt: 3 }}>
-        ส่งข้อมูล
-      </Button>
+      <Box sx={{ textAlign: 'center', marginTop: 3 }}>
+        <Button type="submit" variant="contained" color="primary" sx={{ padding: '10px 30px', fontSize: 16 }}>
+          ส่งข้อมูล
+        </Button>
+      </Box>
     </Box>
   );
 };

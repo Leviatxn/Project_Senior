@@ -121,6 +121,8 @@ function App() {
       <Route path="/admin/register" element={<PrivateRoute allowedRoles={['admin']}> <Admin_Register /> </PrivateRoute>} />
       <Route path="/admin/prof-register" element={<PrivateRoute allowedRoles={['admin']}><Admin_ProfRegister /></PrivateRoute>} />
       <Route path="/admin/company-register" element={<PrivateRoute allowedRoles={['admin']}><Admin_CompanyRegister /></PrivateRoute>} />
+      <Route path="/admin/project" element={<PrivateRoute allowedRoles={['admin']}><Admin_Project /></PrivateRoute>} />
+      <Route path="/admin/project-detail" element={<PrivateRoute allowedRoles={['admin']}><Admin_ProjectDetail /></PrivateRoute>} />
 
       <Route path="/admin/home" element={<PrivateRoute allowedRoles={['admin']}><Admin_Home /></PrivateRoute>} />
       <Route path="/admin/petition" element={<PrivateRoute allowedRoles={['admin']}><Admin_Pettion /></PrivateRoute>} />
