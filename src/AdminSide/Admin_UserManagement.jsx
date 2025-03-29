@@ -31,7 +31,7 @@ const AdminUserTable = ({role}) => {
       return "อาจารย์";
 
     }
-    else if(role === "agency"){
+    else if(role === "company"){
       return "บริษัท";
 
     }
@@ -73,20 +73,22 @@ const AdminUserTable = ({role}) => {
           setData(fetchedData);
           setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
           setLoading(false);
+          console.log(fetchedData,"filter",filteredData)
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
           setLoading(false);
         });   
     }
-        //Ajarn
+     //Ajarn
     else if(role == 'professors'){
-        fetch("http://localhost:5000/user")
+        fetch(`http://localhost:5000/user_by_role/${'professor'}`)
         .then((response) => response.json())
         .then((fetchedData) => {
           setData(fetchedData);
-          setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
+          setFilteredData(fetchedData);
           setLoading(false);
+          console.log(fetchedData)
         })
         .catch((error) => {
           console.error("Error fetching data:", error);
@@ -94,7 +96,7 @@ const AdminUserTable = ({role}) => {
         }); 
     }
     else if(role == 'admins'){
-        fetch("http://localhost:5000/user")
+        fetch(`http://localhost:5000/user_by_role/${'admin'}`)
         .then((response) => response.json())
         .then((fetchedData) => {
           setData(fetchedData);
@@ -107,8 +109,8 @@ const AdminUserTable = ({role}) => {
         }); 
     }
     else if(role == 'company'){
-        fetch("http://localhost:5000/user")
-        .then((response) => response.json())
+      fetch(`http://localhost:5000/user_by_role/${'company'}`)
+      .then((response) => response.json())
         .then((fetchedData) => {
           setData(fetchedData);
           setFilteredData(fetchedData); // ตั้งค่าเริ่มต้นให้ข้อมูลทั้งหมด
@@ -250,8 +252,6 @@ const AdminUserTable = ({role}) => {
                     <td>{item.major} - {item.year}</td>
                     <td>{item.company_name}</td>
                     <td className={`is-coopstudent-${item.is_coopstudent}`}>{item.is_coopstudent ? "เป็นนิสิตสหกิจ" : "ไม่ได้เป็น"}</td>
-
-
                   </tr>
                 ))
               )}
@@ -260,6 +260,167 @@ const AdminUserTable = ({role}) => {
         </div>
       );
  }
+ else if(role == 'professors'){
+  return (
+      <div className="user-table-container" >
+        <div className="table-header">
+          <div className="sub-header-square" />
+          <div style={{display: 'flex'}}>
+              <h1 className="table-title" style={{fontWeight:'400'}}>จำนวนผู้ใช้ </h1>
+              <p style={{fontWeight:'500',fontSize:'20px',marginLeft:'20px'}}>{data.length} </p>
+          </div>
+          <input
+            type="text"
+            id="searchInput"
+            className="search-bar"
+            style={{marginLeft:'50%',maxWidth:'500px'}}
+            placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
+            value={searchTerm}
+            onChange={handleSearch}
+          />
+        </div>
+        <table className="student-table" id="userTable">
+          <thead>
+            <tr>
+              <th></th>
+              <th>ชื่อ-นามสกุล</th>
+              <th>อีเมล์</th>
+              <th>ตำแหน่ง</th>
+            </tr>
+          </thead>
+          <tbody>
+            {filteredData.length === 0 ? (
+              <tr>
+                <td colSpan="8" className="no-data">
+                  ไม่พบข้อมูลคำร้อง
+                </td>
+              </tr>
+            ) : (
+              filteredData.map((item, index) => (
+                <tr key={index} className={index % 2 === 0 ? "row-even" : "row-odd"}
+                onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
+                style={{ cursor: "pointer" }}
+                >
+                  <td style={{fontSize:'12px'}}>{index+1}</td>
+                  <td>{item.username}</td>
+                  <td>{item.email}</td>
+                  <td className={`role-${item.role}`}>{getRole(item.role)}</td>
+                  </tr>
+              ))
+            )}
+          </tbody>
+        </table>
+      </div>
+    );
+ }
+  else if(role == 'admins'){
+    return (
+        <div className="user-table-container" >
+          <div className="table-header">
+            <div className="sub-header-square" />
+            <div style={{display: 'flex'}}>
+                <h1 className="table-title" style={{fontWeight:'400'}}>จำนวนผู้ใช้ </h1>
+                <p style={{fontWeight:'500',fontSize:'20px',marginLeft:'20px'}}>{data.length} </p>
+            </div>
+            <input
+              type="text"
+              id="searchInput"
+              className="search-bar"
+              style={{marginLeft:'50%',maxWidth:'500px'}}
+              placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+          <table className="user-table" id="userTable">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>อีเมล์</th>
+                <th>ตำแหน่ง</th>
+    
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="no-data">
+                    ไม่พบข้อมูลคำร้อง
+                  </td>
+                </tr>
+              ) : (
+                filteredData.map((item, index) => (
+                  <tr key={index} className={index % 2 === 0 ? "row-even" : "row-odd"}
+                  onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
+                  style={{ cursor: "pointer" }}
+                  >
+                    <td style={{fontSize:'12px'}}>{index+1}</td>
+                    <td>{item.username}</td>
+                    <td>{item.email}</td>
+                    <td className={`role-${item.role}`}>{getRole(item.role)}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      );
+  }
+  else if(role == 'company'){
+    return (
+        <div className="user-table-container" >
+          <div className="table-header">
+            <div className="sub-header-square" />
+            <div style={{display: 'flex'}}>
+                <h1 className="table-title" style={{fontWeight:'400'}}>จำนวนผู้ใช้ </h1>
+                <p style={{fontWeight:'500',fontSize:'20px',marginLeft:'20px'}}>{data.length} </p>
+            </div>
+            <input
+              type="text"
+              id="searchInput"
+              className="search-bar"
+              style={{marginLeft:'50%',maxWidth:'500px'}}
+              placeholder="ค้นหาคำร้อง, รหัสนิสิต, ชื่อนามสกุล"
+              value={searchTerm}
+              onChange={handleSearch}
+            />
+          </div>
+          <table className="user-table" id="userTable">
+            <thead>
+              <tr>
+                <th></th>
+                <th>ชื่อ-นามสกุล</th>
+                <th>อีเมล์</th>
+                <th>ตำแหน่ง</th>
+    
+              </tr>
+            </thead>
+            <tbody>
+              {filteredData.length === 0 ? (
+                <tr>
+                  <td colSpan="8" className="no-data">
+                    ไม่พบข้อมูลคำร้อง
+                  </td>
+                </tr>
+              ) : (
+                filteredData.map((item, index) => (
+                  <tr key={index} className={index % 2 === 0 ? "row-even" : "row-odd"}
+                  onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
+                  style={{ cursor: "pointer" }}
+                  >
+                    <td style={{fontSize:'12px'}}>{index+1}</td>
+                    <td>{item.username}</td>
+                    <td>{item.email}</td>
+                    <td className={`role-${item.role}`}>{getRole(item.role)}</td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
+      );
+  }
 };
 
 const Admin_UserManagement = () => {

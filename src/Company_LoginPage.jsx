@@ -13,16 +13,13 @@ const Company_LoginPage = () => {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    const Register = () => {
-        navigate('/admin/register');
-      };
 
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
             
             console.log('11' - 1)
-            const response = await axios.post("http://localhost:5000/admin-login", { email, password });         
+            const response = await axios.post("http://localhost:5000/company-login", { email, password });         
             const { email: loggedInEmail, token ,role : loggedInRole} = response.data;
 
             localStorage.setItem("email", loggedInEmail);

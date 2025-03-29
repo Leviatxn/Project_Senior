@@ -133,9 +133,9 @@ function App() {
 
       <Route path="/company" element={<Company_LoginPage />} />
 
-      <Route path="/company/home" element={<Company_Home />} />
-      <Route path="/company/Company_Form8" element={<Company_Form8 />} />
-      <Route path="/company/Company_Form9" element={<Company_Form9 />} />
+      <Route path="/company/home" element={<PrivateRoute allowedRoles={['company']}><Company_Home/></PrivateRoute>} />
+      <Route path="/company/Company_Form8" element={<PrivateRoute allowedRoles={['company']}><Company_Form8 /></PrivateRoute>} />
+      <Route path="/company/Company_Form9" element={<PrivateRoute allowedRoles={['company']}><Company_Form9 /></PrivateRoute>} />
 
     </Routes>
   );

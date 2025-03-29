@@ -21,7 +21,7 @@ import {
   FormControl
 } from "@mui/material";
 import axios from "axios";
-
+import Swal from "sweetalert2";
 const Form08 = () => {
   const [info, setInfo] = useState({
       studentName: "",
@@ -99,55 +99,86 @@ const Form08 = () => {
     console.log(scored)
     console.log(offer)
     try {
-      // ส่งข้อมูลพื้นฐาน
-      const baseResponse = await axios.post('http://localhost:5000/addevaluation', {
-        student_id: info.studentID,
-        company_id: 1,
-        evaluator_name: info.supervisorName,
-        evaluate_by: 'company',
-        evaluation_version: 'last',
-        evaluation_for: 'student',
-        evaluation_type: 'coop_project'
-      });
-  
-      if (baseResponse.data?.evaluation_id) {
-        const evaluation_id = baseResponse.data.evaluation_id;
-      
-        // 2. เตรียมข้อมูลคะแนนให้ตรงกับรูปแบบที่ API ต้องการ
-        const scoresData = [];
-        
-        // วนลูปผ่านทุก sections ใน scored state
-        Object.entries(scored.sections).forEach(([section_id, criteria]) => {
-          Object.entries(criteria).forEach(([criteria_id, score]) => {
-            scoresData.push({
-              evaluation_id: evaluation_id,
-              section_id: section_id,
-              criteria_id: criteria_id,
-              score: score,
-              evaluation_type: 'coop_project', // ใส่ตามที่ API ต้องการ
-              comments: null
-            });
+        // ตรวจสอบว่ามีการประเมินแล้วหรือไม่
+        const checkResponse = await axios.get(`http://localhost:5000/checkEvaluation/${info.studentID}/coop_project/last}`);
+        if (checkResponse.data.exists) {
+          // แสดงข้อความแจ้งเตือนถ้ามีการประเมินแล้ว
+          Swal.fire({
+            icon: 'warning',
+            title: 'แจ้งเตือน',
+            text: 'นิสิตดังกล่าวถูกบริษัทประเมินไปแล้ว',
+            confirmButtonText: 'ตกลง'
           });
-        });
-
-        console.log(scoresData)
-
-        // 3. ส่งข้อมูลคะแนนไปยัง API
-        await axios.post('http://localhost:5000/evaluation_scores', {
-          scores: scoresData
-        });
+          return; // ออกจากฟังก์ชันไม่ทำการประเมินต่อ
+        }
+        else {
+          const baseResponse = await axios.post('http://localhost:5000/addevaluation', {
+            student_id: info.studentID,
+            company_id: 1,
+            evaluator_name: info.supervisorName,
+            evaluate_by: 'company',
+            evaluation_version: 'last',
+            evaluation_for: 'student',
+            evaluation_type: 'coop_project'
+          }); 
+          if (baseResponse.data?.evaluation_id) {
+            const evaluation_id = baseResponse.data.evaluation_id;
+          
+            // 2. เตรียมข้อมูลคะแนนให้ตรงกับรูปแบบที่ API ต้องการ
+            const scoresData = [];
+            
+            // วนลูปผ่านทุก sections ใน scored state
+            Object.entries(scored.sections).forEach(([section_id, criteria]) => {
+              Object.entries(criteria).forEach(([criteria_id, score]) => {
+                scoresData.push({
+                  evaluation_id: evaluation_id,
+                  section_id: section_id,
+                  criteria_id: criteria_id,
+                  score: score,
+                  evaluation_type: 'coop_project',
+                  comments: null
+                });
+              });
+            });
+            console.log(scoresData)
   
-        // // ส่งข้อมูลเพิ่มเติม
-        // await axios.post('http://localhost:5000/addevaluation_comments', {
-        //   evaluation_id: baseResponse.data.evaluation_id,
-        //   ...offer
-        // });
-  
-        alert('บันทึกข้อมูลสำเร็จ!');
+            // 3. ส่งข้อมูลคะแนนไปยัง API
+            await axios.post('http://localhost:5000/evaluation_scores', {
+              scores: scoresData
+            });
+                      // // ส่งข้อมูลเพิ่มเติม
+            // await axios.post('http://localhost:5000/addevaluation_comments', {
+            //   evaluation_id: baseResponse.data.evaluation_id,
+            //   ...offer
+            // });
+            // แจ้งเตือนเมื่อประเมินสำเร็จ
+            Swal.fire({
+              icon: 'success',
+              title: 'สำเร็จ',
+              text: 'การประเมินนิสิตเสร็จสมบูรณ์',
+              confirmButtonText: 'ตกลง'
+            });
+        }
+        
       }
     } catch (error) {
-      console.error('Error submitting data:', error);
-      alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+      if (error.response?.status === 400) {
+        // แสดงข้อความ error จาก backend
+        Swal.fire({
+          icon: 'error',
+          title: 'ข้อมูลไม่ถูกต้อง',
+          text: error.response.data.error,
+          confirmButtonText: 'ตกลง'
+        });
+      } else {
+        // Error อื่นๆ
+        Swal.fire({
+          icon: 'error',
+          title: 'เกิดข้อผิดพลาด',
+          text: 'ไม่สามารถตรวจสอบการประเมินได้',
+          confirmButtonText: 'ตกลง'
+        });
+      }
     }
   };
   

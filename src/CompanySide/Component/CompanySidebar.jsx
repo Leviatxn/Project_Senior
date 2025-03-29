@@ -65,8 +65,8 @@ const CompanySidebar = () => {
             <nav>
               <ul>
               <li ><a href="/company/home">หน้าหลัก</a></li>
-              <li><a href="/company/Company_Form8">แบบประเมินผลนิสิตสหกิจศึกษา</a></li>
-              <li><a href="/company/Company_Form9">แบบประเมินรายงานนิสิตสหกิจศึกษา</a></li>
+              <li><a href="/company/Company_Form8">แบบประเมินผลนิสิต</a></li>
+              <li><a href="/company/Company_Form9">แบบประเมินรายงาน</a></li>
               </ul>
             </nav>
           </div>

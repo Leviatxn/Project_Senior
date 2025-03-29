@@ -22,13 +22,7 @@ const Admin_CompanyRegister = () => {
       
     
       const handleChange = (e) => {
-        const { name, value } = e.target;
-      
-        setFormData((prevData) => ({
-          ...prevData,
-          [name]: value,
-          ...(name === "email" && { username: value }) // ถ้าเปลี่ยน email ให้ username = email
-        }));
+        setFormData({ ...formData, [e.target.name]: e.target.value });
       };
     
       const handleSubmit = async (e) => {
@@ -84,9 +78,22 @@ const Admin_CompanyRegister = () => {
                 </p>
             </div>
  
-\
             <div style={{flex:'3',display: 'flex',flexDirection:'column',justifyContent:'center',alignItems: 'center',paddingTop:'100px'}}>
             <form className="login-form" onSubmit={handleSubmit}>
+                <div className="admin-register-input-group">
+                    <div style={{width: '570px'}}>
+                        <label htmlFor="Name">ชื่อบริษัท *</label>
+                    </div>
+                    <input
+                    type="text"
+                    id="username"
+                    name="username"
+                    placeholder="ชื่อบริษัท"
+                    value={formData.username}
+                    onChange={handleChange}
+                    required
+                    />
+                </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
                         <label htmlFor="Email">อีเมล์บริษัท *</label>
@@ -129,7 +136,7 @@ const Admin_CompanyRegister = () => {
                 </div>
                 <div className="admin-register-input-group">
                     <div style={{width: '570px'}}>
-                        <label htmlFor="password">ยืนยันรหัสผ่าน</label>
+                        <label htmlFor="password">ยืนยันรหัสผ่าน *</label>
                     </div>
                     <input 
                         type="password"
