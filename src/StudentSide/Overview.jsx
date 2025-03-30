@@ -12,6 +12,8 @@ import Swal from "sweetalert2";
 import StudentEvaluation_Chart from "../MainComponent/DataVisualization/Student_Graph";
 import InternshipByProvinceDonut from "../MainComponent/DataVisualization/InternshipByProvinceDonut";
 import MostCoopProvince from "../MainComponent/DataVisualization/MostCoopProvince";
+import JobChart from "../MainComponent/DataVisualization/JobChart";
+import ToolsDonutChart from "../MainComponent/DataVisualization/ToolDonutChart";
 
 
 const Overview = () => {
@@ -189,17 +191,23 @@ const Overview = () => {
                     <div className="coop-project-container">
                         <div style={{flex:'7'}}>
                             <div className="coop-document-box" >
-                                <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                                <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
                                     <div className="sub-header" style={{display:'flex',alignItems:'center',marginTop:'20px'}}>
                                         <div className="sub-header-square" />
-                                        <h3 style={{fontSize:'18px'}}>ตำแหน่งงานที่นิยม</h3>
+                                        <h3 style={{fontSize:'18px'}}>ตำแหน่งงาน/งานที่ได้รับมอบหมายที่นิยม</h3>
+                                    </div>
+                                    <div style={{flex:'1',padding:'10px'}}>
+                                      <JobChart/>
                                     </div>
                                 </div>
                             </div>
                             <div className="coop-document-box" style={{marginTop: '30px'}}>
-                                    <div className="sub-header">
+                                    <div className="sub-header" style={{flex:'1'}}>
                                         <div className="sub-header-square" />
                                         <h3 style={{fontSize:'18px'}}>เครื่องมือที่บริษัทนิยมใช้งาน</h3>
+                                    </div>
+                                    <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                                      <ToolsDonutChart/>
                                     </div>
                             </div>
                         </div>
@@ -213,12 +221,7 @@ const Overview = () => {
                                   <StudentEvaluation_Chart evaluationID={'self_evaluate'}/>
                                 </div>
                             </div>
-                            <div className="coop-document-box" style={{marginTop: '30px',flex:'1',height:'auto'}}>
-                                <div className="sub-header">
-                                    <div className="sub-header-square" />
-                                    <h3>ผลคะแนนสหกิจ</h3>
-                                </div>
-                            </div>
+
                         </div>
                     </div>
                 </div>

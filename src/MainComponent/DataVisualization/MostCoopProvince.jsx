@@ -10,6 +10,7 @@ import {
   Tooltip, 
   Legend 
 } from 'chart.js';
+import { CircularProgress } from '@mui/material';
 
 // ลงทะเบียนคอมโพเนนต์ Chart.js
 ChartJS.register(
@@ -42,7 +43,11 @@ const MostCoopProvince = () => {
     fetchData();
   }, []);
 
-  if (loading) return <div>กำลังโหลดข้อมูล...</div>;
+  if (loading) return (
+        <div style={{ textAlign: "center", padding: "20px" }}>
+          <CircularProgress />
+        </div>
+  );
   if (error) return <div className="text-red-500">{error}</div>;
 
   // หาจังหวัดที่มีจำนวนสูงสุด

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Doughnut } from 'react-chartjs-2';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import axios from 'axios';
+import { CircularProgress } from '@mui/material';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -16,6 +17,7 @@ const InternshipByProvinceDonut = () => {
   });
 
   const [totalStudents, setTotalStudents] = useState(0);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -44,6 +46,8 @@ const InternshipByProvinceDonut = () => {
         }
       } catch (error) {
         console.error('Error fetching data:', error);
+      } finally {
+        setLoading(false);
       }
     };
 
@@ -108,6 +112,13 @@ const InternshipByProvinceDonut = () => {
     },
     cutout: '50%',
   };
+
+  if (loading) 
+    return (
+        <div style={{ textAlign: "center", paddingTop: "100px" }}>
+          <CircularProgress />
+        </div>
+  );
 
   return (
     <div style={{ 

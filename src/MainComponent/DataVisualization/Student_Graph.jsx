@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
-import { colors, Container } from "@mui/material";
+import { CircularProgress, colors, Container } from "@mui/material";
 import { Radar } from 'react-chartjs-2';
 import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
 
@@ -12,6 +12,9 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
 
   const [evaluationData, setEvaluationData] = useState([]);
   const [isEvaluated, setIsEvaluated] = useState(false);
+
+    const [loading, setLoading] = useState(true);
+  
 
   const SectionRadarChart = ({ sectionScores }) => {
     console.log(sectionScores)
@@ -177,8 +180,12 @@ const StudentEvaluation_Chart = ({ evaluationID, studentID }) => {
   }, [evaluationID]);
 
 
-  if (!isEvaluated || !evaluationData || sectionScores.length === 0) {
-    return <div>กำลังดึงข้อมูล...</div>;
+  if (!isEvaluated || !evaluationData || sectionScores.length === 0) { 
+    return (
+        <div style={{ textAlign: "center", padding: "90px" }}>
+          <CircularProgress />
+        </div>
+    );
   }
 
   return (

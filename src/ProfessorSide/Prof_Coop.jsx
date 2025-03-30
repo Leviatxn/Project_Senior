@@ -480,8 +480,8 @@ const ProfCoopTable = ({currentstate}) => {
       
     };
     
-    const handleSubmitFirstAccept = async (studentID) => {
-      if(isApprove === true){
+    const handleSubmitFirstAccept = async (studentID,Approve) => {
+      if(Approve === true){
         const response = await axios.put(
           `http://localhost:5000/acceptAppointment1/${studentID}`,
           {
@@ -501,7 +501,7 @@ const ProfCoopTable = ({currentstate}) => {
           alert("เกิดข้อผิดพลาดในการส่งข้อมูลเพิ่มเติม");
         }   
       }
-      else if(isApprove === false){
+      else if(Approve === false){
         return 0;
       } 
     }
@@ -522,7 +522,7 @@ const ProfCoopTable = ({currentstate}) => {
             if (result.isConfirmed) {
               setIsApprove(true);
                // รอให้ isApprove อัปเดตก่อนเรียก handleSubmitFirstAccept
-              setTimeout(() => handleSubmitFirstAccept(studentID), 0);
+              setTimeout(() => handleSubmitFirstAccept(studentID,true), 0);
             }
             else{
               setIsApprove(false)
@@ -572,8 +572,8 @@ const ProfCoopTable = ({currentstate}) => {
     
     };
     
-    const handleSubmitSecondAccept = async (studentID) => {
-      if(isApprove === true){
+    const handleSubmitSecondAccept = async (studentID,Approve) => {
+      if(Approve === true){
         const response = await axios.put(
           `http://localhost:5000/acceptAppointment2/${studentID}`,
           {
@@ -593,7 +593,7 @@ const ProfCoopTable = ({currentstate}) => {
           alert("เกิดข้อผิดพลาดในการส่งข้อมูลเพิ่มเติม");
         }   
       }
-      else if(isApprove === false){
+      else if(Approve === false){
         return 0;
       } 
     }
@@ -613,8 +613,7 @@ const ProfCoopTable = ({currentstate}) => {
           }).then((result) => {
             if (result.isConfirmed) {
               setIsApprove(true);
-              // รอให้ isApprove อัปเดตก่อนเรียก handleSubmitFirstAccept
-              setTimeout(() => handleSubmitSecondAccept(studentID), 0);
+              setTimeout(() => handleSubmitSecondAccept(studentID,true), 0);
             }
             else{
               setIsApprove(false)
@@ -862,6 +861,121 @@ const ProfCoopTable = ({currentstate}) => {
                             </div>
                           </div>
                       )}
+                      <div style={{display:'flex'}}>
+                        <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
+                                      <div >
+                                        <Button 
+                                          variant="contained" color="success"
+                                          onClick={() => (handleFirstAppointmentAccept(firstSupervisor.student_id))} 
+                                          sx={{
+                                            mt: 3,
+                                            width: "190px",
+                                            color: "#FFFFFF", 
+                                            borderRadius: "16px",
+                                            fontSize: "14px",
+                                            fontFamily :"Noto Sans Thai , sans-seriff",
+                                            padding: "10px 20px",
+                                            textTransform: "none",
+                                        }}
+                                        >
+                                          <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>แบบประเมินผล</div>
+                                        </Button>
+                                      </div>
+                            </div>
+                            <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
+                                      <div >
+                                        <Button 
+                                          variant="contained" color="success"
+                                          onClick={() => (handleFirstAppointmentAccept(firstSupervisor.student_id))} 
+                                          sx={{
+                                            mt: 3,
+                                            width: "190px",
+                                            color: "#FFFFFF", 
+                                            borderRadius: "16px",
+                                            fontSize: "14px",
+                                            fontFamily :"Noto Sans Thai , sans-seriff",
+                                            padding: "10px 20px",
+                                            textTransform: "none",
+                                        }}
+                                        >
+                                          <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>แบบประเมินผลรายงาน</div>
+                                        </Button>
+                                      </div>
+                            </div>
+                      </div>
+                      {/* {(firstSupervisor) ? (
+                                 (firstSupervisor.is_accept === 0) ? (
+                                  <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
+                                    <div >
+                                      <Button 
+                                        variant="contained" color="success"
+                                        onClick={() => (handleFirstAppointmentAccept(firstSupervisor.student_id))} 
+                                        sx={{
+                                          mt: 3,
+                                          width: "190px",
+                                          color: "#FFFFFF", 
+                                          borderRadius: "16px",
+                                          fontSize: "14px",
+                                          fontFamily :"Noto Sans Thai , sans-seriff",
+                                          padding: "10px 20px",
+                                          textTransform: "none",
+                                      }}
+                                      >
+                                        <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>ยืนยันวันเวลาดังกล่าว</div>
+                                      </Button>
+                                    </div>
+                                    <div>
+                                      <Button onClick={() => (handleSetScheduleClick(firstSupervisor.student_id))} 
+                                      sx={{
+                                        ml:5,
+                                        mt: 3,
+                                        width: "150px",
+                                        backgroundColor: "#00A6A2",
+                                        color: "#FFFFFF", 
+                                        borderRadius: "16px",
+                                        fontSize: "14px",
+                                        fontFamily :"Noto Sans Thai , sans-seriff",
+                                        padding: "10px 20px",
+                                        textTransform: "none",
+                                        "&:hover": {
+                                          backgroundColor: "#006765",
+                                        },
+                                      }}
+                                      >
+                                        <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>กำหนดวันเวลาใหม่</div>
+                                      </Button>
+                                    </div>
+                                  </div>
+                                  ) : (
+                                    <div>
+                                        <div style={{flex:1,textAlign:'end'}}>
+                                            <p style={{color:'#767676'}}>กำหนดวันเวลาแล้ว</p>
+                                        </div>
+                                        <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>
+                                          <Button 
+                                          variant="contained" color="success"
+                                          onClick={()=>{handleEvaluationClick(studentInfo.student_id,1)}}
+                                          sx={{
+                                            width: "200px",
+                                            color: "#FFFFFF", 
+                                            borderRadius: "16px",
+                                            fontSize: "14px",
+                                            fontFamily :"Noto Sans Thai , sans-seriff",
+                                            padding: "10px 20px",
+                                            textTransform: "none",
+                                          }}
+                                          >
+                                            <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>ประเมินการนิเทศน์ครั้งที่ 1</div>
+                                          </Button>
+                                        </div>  
+                                    </div>                             
+                                    
+                                  )
+                                  ) : (
+                                    <div style={{ display: "flex", justifyContent: "center", alignItems: "center" }}>
+
+                                    </div>
+                      )} */}
                       </DialogContent>
 
                       

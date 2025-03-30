@@ -9,7 +9,13 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
 import { 
+  Grid,
     Button,
+    TextField,
+    FormControl,
+    InputLabel,
+    Select,
+    MenuItem,
     Container, 
     Table, 
     TableBody, 
@@ -21,6 +27,7 @@ import {
     FormControlLabel, 
     Radio, 
     RadioGroup,
+    Box,
   } from "@mui/material";
   import { Radar } from 'react-chartjs-2';
   import { Chart as ChartJS, RadialLinearScale, PointElement, LineElement, Filler, Tooltip, Legend } from 'chart.js';
@@ -986,13 +993,17 @@ const Evaluation = () => {
     const [username, setUsername] = useState(null); // เก็บข้อมูลทั้งหมด
 
     const [coopData, setCoopData] = useState(null); // เก็บข้อมูลทั้งหมด
+    const [toolData, setToolData] = useState({
+      work:"",
+      tool:""
+    });
+    const [isDataFetched, setIsDataFetched] = useState(false);
+
     const [studentInfo, setStudentInfo] = useState(null); // เก็บข้อมูลทั้งหมด
     const [evaluationData, setEvaluationData] = useState();
 
     const [isApprove, setIsApprove] = useState(null);
     const navigate = useNavigate();
-
-
 
       // ดึงข้อมูลจาก Backend
       useEffect(() => {
@@ -1037,6 +1048,23 @@ const Evaluation = () => {
         });
       };
 
+      const getWorkLabel = (value) => {
+        const workOptions = {
+          'Web_Dev': 'พัฒนาเว็บไซต์สำหรับบริษัท',
+          'App_Dev': 'พัฒนาแอปพลิเคชันสำหรับบริษัท',
+          'Software': 'พัฒนาซอฟต์แวร์สำหรับบริษัท',
+          'Hardware_System': 'พัฒนาฮาร์ดแวร์และระบบสำหรับบริษัท',
+          'System': 'พัฒนาระบบทั่วไปสำหรับบริษัท',
+          'Other': 'อื่นๆ'
+        };
+        return workOptions[value] || value;
+      };
+      
+      const handleWorkChange = (e) => {
+        const { name, value } = e.target;
+        setToolData(prev => ({ ...prev, [name]: value }));
+      };
+
       const checkExistingEvaluation = async (studentID, version) => {
         if(version === 1){
             try {
@@ -1066,6 +1094,16 @@ const Evaluation = () => {
                 console.log(response.data)
                 if (response.data && response.data.evaluation_id) {
                   setEvaluationData({ evaluation_id: response.data.evaluation_id });
+                  const work_response = await axios.get(`http://localhost:5000/getjob_language/${studentID}`);
+                  if(work_response.data){
+                    console.log(work_response.data)
+                    setToolData({
+                      work: work_response.data.data[0].job_description || '',
+                      tool: work_response.data.data[0].tool_used || ''
+                    })
+                    setIsDataFetched(true);
+
+                  }   
                 }
               } catch (error) {
                 console.error('Error fetching evaluation data:', error);
@@ -1098,6 +1136,12 @@ const Evaluation = () => {
         
             if (response.data && response.data.evaluation_id) {
               console.log('Data submitted successfully:', response.data);
+              const job_response = await axios.post(`http://localhost:5000/addjob_language/${studentInfo.student_id}`, {
+                job_description: toolData.work,
+                tool_used: toolData.tool
+              });
+              console.log('Data submitted successfully:', job_response.data);
+
               alert('บันทึกข้อมูลสำเร็จ!');
               setEvaluationData({ evaluation_id: response.data.evaluation_id }); // บันทึก evaluation_id ลงใน state
             } else {
@@ -1203,21 +1247,23 @@ const Evaluation = () => {
                     <div className="main-container">
                         <div className="Side-Space"/>
                         <div className="petition-content-container">
+                          <div>
                             <div className="request-header">
-                                <div style={{flex:'1'}}>
-                                    <h1>แบบบันทึกการนิเทศงานสหกิจศึกษา</h1>
-                                </div>
-                                <div className="request-back" style={{flex:'1'}}>
-                                    <ReturnButton stroked="black"/>
-                                </div>
-                            </div>
-                            <div className="petition-detail-container">
-                                            <div className="loading-text">กำลังโหลดข้อมูล...
-                                                <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
-                                                    <div class="loader"></div>
-                                                </div>
-                                            </div>      
-                            </div>
+                                  <div style={{flex:'1'}}>
+                                      <h1>แบบบันทึกการนิเทศงานสหกิจศึกษา</h1>
+                                  </div>
+                                  <div className="request-back" style={{flex:'1'}}>
+                                      <ReturnButton stroked="black"/>
+                                  </div>
+                              </div>
+                              <div className="petition-detail-container">
+                                              <div className="loading-text">กำลังโหลดข้อมูล...
+                                                  <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
+                                                      <div class="loader"></div>
+                                                  </div>
+                                              </div>      
+                              </div>
+                          </div>
                         </div>
                     </div>
         
@@ -1231,6 +1277,7 @@ const Evaluation = () => {
                 <div className="main-container">
                     <div className="Side-Space"/>
                     <div className="petition-content-container">
+                      <div>
                         <div className="request-header">
                             <div style={{flex:'1'}}>
                                 <h1>แบบบันทึกการนิเทศงานสหกิจศึกษา</h1>
@@ -1240,7 +1287,7 @@ const Evaluation = () => {
                             </div>
                         </div>
                         <div className="petition-detail-container">
-                        <div style={{marginTop:'20px'}}>
+                            <div style={{marginTop:'20px'}}>
                                         <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
                                             <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
                                             <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>ข้อมูลสหกิจศึกษา </h1>
@@ -1278,6 +1325,77 @@ const Evaluation = () => {
                                                 </div>
                                             </div>
                                         </div>
+                            </div>
+                            <div style={{marginTop:'20px'}}>
+                                        <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
+                                            <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
+                                            <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>ตำแหน่งงานและเครื่องมือที่ใช้ </h1>
+                                        </div>                    
+                                        <div>
+                                        <Box>
+                                          <Paper sx={{
+                                            flex: '1',
+                                            borderRadius: '5px',
+                                            padding: '20px 30px',
+                                            background: 'rgba(255, 255, 255)',
+                                            border: '1px solid #ddd'
+                                          }}>
+                                            <Grid container spacing={2}>
+                                              <Grid item xs={10}>
+                                                <FormControl fullWidth margin="normal">
+                                                  {isDataFetched ? (
+                                                    // แสดงข้อมูลแบบอ่านอย่างเดียวเมื่อมีข้อมูลแล้ว
+                                                    <TextField
+                                                      label="ตำแหน่งงาน/งานที่ได้รับมอบหมาย"
+
+                                                      value={getWorkLabel(toolData.work)}
+                                                      InputProps={{
+                                                        readOnly: true,
+                                                      }}
+                                                      variant="outlined"
+                                                      fullWidth
+                                                    />
+                                                  ) : (
+                                                    // แสดง Select เมื่อยังไม่มีข้อมูล
+                                                    <Select
+                                                      label="ตำแหน่งงาน/งานที่ได้รับมอบหมาย"
+                                                      name="work"
+                                                      value={toolData.work}
+                                                      onChange={handleWorkChange}
+                                                      sx={{
+                                                        textAlign: 'left',
+                                                        '& .MuiSelect-select': {
+                                                          padding: '16.5px 14px'
+                                                        }
+                                                      }}
+                                                    >
+                                                      <MenuItem value="Web_Dev">พัฒนาเว็บไซต์สำหรับบริษัท</MenuItem>
+                                                      <MenuItem value="App_Dev">พัฒนาแอปพลิเคชันสำหรับบริษัท</MenuItem>
+                                                      <MenuItem value="Software">พัฒนาซอฟต์แวร์สำหรับบริษัท</MenuItem>
+                                                      <MenuItem value="Hardware_System">พัฒนาฮาร์ดแวร์และระบบสำหรับบริษัท</MenuItem>
+                                                      <MenuItem value="System">พัฒนาระบบทั่วไปสำหรับบริษัท</MenuItem>
+                                                      <MenuItem value="Other">อื่นๆ</MenuItem>
+                                                    </Select>
+                                                  )}
+                                                </FormControl>
+                                              </Grid>  
+                                              <Grid item xs={10}>
+                                                <TextField
+                                                  label="ภาษาหลักที่ใช้ในการพัฒนา"
+                                                  fullWidth
+                                                  margin="normal"
+                                                  name="tool"
+                                                  value={toolData.tool}
+                                                  onChange={handleWorkChange}
+                                                  InputProps={{
+                                                    readOnly: isDataFetched, // ทำให้อ่านอย่างเดียวเมื่อมีข้อมูลแล้ว
+                                                  }}
+                                                />
+                                              </Grid>  
+                                            </Grid>
+                                          </Paper>
+                                        </Box>
+                                        </div>
                                         {(evaluationData)?(
                                        <div style={{display: 'flex',alignItems: 'center',justifyContent: 'flex-start',marginTop:'10px'}}>
                                                     <div style={{marginRight:'10px',marginTop:'5px'}}>
@@ -1305,7 +1423,7 @@ const Evaluation = () => {
                                                         style={{fontSize:"12px"}}>ยืนยันการตรวจสอบและข้อมูลสหกิจศึกษาของนิสิตดังกล่าว</p>
                                             </div>
                                         )}
-                                    </div>
+                            </div>
                             <div style={{marginTop:'20px'}}>
                                             <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
                                                 <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
@@ -1325,7 +1443,8 @@ const Evaluation = () => {
                                             </div>
     
                             </div>
-                        </div>
+                        </div> 
+                      </div>
                     </div>
                 </div>
     
@@ -1341,21 +1460,23 @@ const Evaluation = () => {
                     <div className="main-container">
                         <div className="Side-Space"/>
                         <div className="petition-content-container">
+                          <div >
                             <div className="request-header">
-                                <div style={{flex:'1'}}>
-                                    <h1>แบบบันทึกการนิเทศงานสหกิจศึกษา ครั้งที่ 2</h1>
-                                </div>
-                                <div className="request-back" style={{flex:'1'}}>
-                                    <ReturnButton stroked="black"/>
-                                </div>
-                            </div>
-                            <div className="petition-detail-container">
-                                            <div className="loading-text">กำลังโหลดข้อมูล...
-                                                <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
-                                                    <div class="loader"></div>
-                                                </div>
-                                            </div>      
-                            </div>
+                                  <div style={{flex:'1'}}>
+                                      <h1>แบบบันทึกการนิเทศงานสหกิจศึกษา ครั้งที่ 2</h1>
+                                  </div>
+                                  <div className="request-back" style={{flex:'1'}}>
+                                      <ReturnButton stroked="black"/>
+                                  </div>
+                              </div>
+                              <div className="petition-detail-container">
+                                              <div className="loading-text">กำลังโหลดข้อมูล...
+                                                  <div style={{display: 'flex',alignItems: 'center',justifyContent: 'center',marginTop:'20px'}}>
+                                                      <div class="loader"></div>
+                                                  </div>
+                                              </div>      
+                              </div>
+                          </div>
                         </div>
                     </div>
         
