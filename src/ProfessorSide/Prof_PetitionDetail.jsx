@@ -8,7 +8,7 @@ import { useLocation } from "react-router-dom";
 import axios from "axios";
 import PetitionStepper from "../StudentSide/Component/Petition/PetitionStepper";
 import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
-
+import Swal from "sweetalert2";
 
 const Prof_PetitionDetail = () => {
     const location = useLocation();
@@ -16,6 +16,8 @@ const Prof_PetitionDetail = () => {
     const [data, setData] = useState(null); // เก็บข้อมูลทั้งหมด
     const [isVerified, setVerified] = useState(false);
     const [isApprove, setIsApprove] = useState(null);
+    const [isReject, setIsReject] = useState(0);
+    
     const navigate = useNavigate();
 
     const [statuses, setStatuses] = useState({
@@ -37,6 +39,7 @@ const Prof_PetitionDetail = () => {
             };
         } else if (key === "notApprove") {
             setIsApprove(0);
+            setIsReject(1);
 
 
             return {
@@ -103,7 +106,11 @@ const Prof_PetitionDetail = () => {
      // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleStudentUpdate = async () => {
         if (isApprove === null) {
-        alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+            Swal.fire({
+                icon: 'warning',
+                title: 'กรุณาเลือกสถานะ',
+                text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
+            });
         return;
         }
 
@@ -111,17 +118,26 @@ const Prof_PetitionDetail = () => {
         const response = await axios.put("http://localhost:5000/updateStudentApplication", {
             ApplicationID: ApplicationID,
             Is_approve: isApprove,
+            Is_reject: isReject,
             Progress_State: 2,
         });
 
         if (response.status === 200) {
-            alert("อัปเดตสถานะสำเร็จ!");
-            navigate(-1);
+
+            Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: 'อัปเดตสถานะสำเร็จ!',}).then(() => {
+            navigate(-1); });
 
         }
         } catch (err) {
         console.error("Error updating data:", err);
-        alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });
         }
         
     };
@@ -129,11 +145,19 @@ const Prof_PetitionDetail = () => {
          // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleCoopUpdate = async () => {
             if (isApprove === null) {
-            alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณาเลือกสถานะ',
+                    text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
+                });
             return;
             }
             if (isVerified === false) {
-                alert("กรุณายืนยันการลงนาม");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณายืนยันการลงนาม',
+                    text: 'กรุณายืนยันการลงนามก่อนดำเนินการ',
+                });
                 return;
             }
     
@@ -141,17 +165,25 @@ const Prof_PetitionDetail = () => {
             const response = await axios.put("http://localhost:5000/updateCoopApplication", {
                 ApplicationID: ApplicationID,
                 Is_approve: isApprove,
+                Is_reject: isReject,
                 Progress_State: 2,
             });
     
-            if (response.status === 200) {
-                alert("อัปเดตสถานะสำเร็จ!");
-                navigate(-1);
-    
+            if (response.status === 200) {Swal.fire({
+                icon: 'success',
+                title: 'สำเร็จ',
+                text: 'อัปเดตสถานะสำเร็จ!',
+                }).then(() => {
+                    navigate(-1);
+                });
             }
             } catch (err) {
             console.error("Error updating data:", err);
-            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'Error updating data',
+                    text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+                });
             }
             
     };

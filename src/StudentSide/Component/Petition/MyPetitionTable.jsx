@@ -39,12 +39,12 @@ const MyPetitionTable = () => {
     "เสร็จสิ้น",
   ];
 
-  const getState = (step,IsApprove)=>{
-    console.log(IsApprove)
-    if(IsApprove){
+  const getState = (step,Is_reject)=>{
+    console.log(Is_reject)
+    if(!Is_reject){
       return steps[step]
     }
-    else if (!IsApprove){
+    else if (Is_reject){
       return "คำร้องถูกปฏิเสธ"
     }
   }
@@ -219,12 +219,12 @@ const MyPetitionTable = () => {
                 <TableCell 
                   sx={{
                     fontFamily: "Noto Sans Thai, sans-serif",
-                    ...(!item.Is_approve && {
+                    ...(item.Is_reject && {
                       color: 'red',
                       fontWeight: 'bold'
                     })
                   }}
-                >{getState(item.Progress_State,item.Is_approve)}</TableCell>
+                >{getState(item.Progress_State,item.Is_reject)}</TableCell>
               </TableRow>
             ))
           )}

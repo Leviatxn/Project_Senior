@@ -9,7 +9,7 @@ import axios from "axios";
 import PetitionStepper from "../StudentSide/Component/Petition/PetitionStepper";
 import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
 import ReturnButton from "../MainComponent/ReturnButton";
-
+import Swal from "sweetalert2";
 
 const Admin_PetitionDetail = () => {
     const location = useLocation();
@@ -17,6 +17,8 @@ const Admin_PetitionDetail = () => {
     const [data, setData] = useState(null); // เก็บข้อมูลทั้งหมด
     const [isVerified, setVerified] = useState(false);
     const [isApprove, setIsApprove] = useState(null);
+    const [isReject, setIsReject] = useState(0);
+
     const navigate = useNavigate();
 
     const [statuses, setStatuses] = useState({
@@ -38,7 +40,7 @@ const Admin_PetitionDetail = () => {
             };
         } else if (key === "notApprove") {
             setIsApprove(0);
-
+            setIsReject(1);
 
             return {
             ...prevState,
@@ -103,7 +105,11 @@ const Admin_PetitionDetail = () => {
      // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleStudentUpdate = async () => {
         if (isApprove === null) {
-        alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+            Swal.fire({
+                icon: 'warning',
+                title: 'กรุณาเลือกสถานะ',
+                text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
+                            });
         return;
         }
 
@@ -111,6 +117,7 @@ const Admin_PetitionDetail = () => {
         const response = await axios.put("http://localhost:5000/updateStudentApplication", {
             ApplicationID: ApplicationID,
             Is_approve: isApprove,
+            Is_reject: isReject,
             Progress_State: 4,
             Is_inprogress:0,
         });
@@ -125,7 +132,11 @@ const Admin_PetitionDetail = () => {
         }
         } catch (err) {
         console.error("Error updating data:", err);
-        alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+            });
         }
         
     };
@@ -141,24 +152,40 @@ const Admin_PetitionDetail = () => {
             });
 
             if (response.status === 200) {
-                alert("อัปเดตสถานะสำเร็จ!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: 'อัปเดตสถานะสำเร็จ!',
+                        })
                 await navigate(-1);
     
             }
             } catch (err) {
             console.error("Error updating data:", err);
-            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error updating data',
+                text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+                });
             }
     }
 
          // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleCoopUpdate = async () => {
             if (isApprove === null) {
-            alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณาเลือกสถานะ',
+                    text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
+                });
             return;
             }
             if (isVerified === false) {
-                alert("กรุณายืนยันการลงนาม");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณายืนยันการลงนาม',
+                    text: 'กรุณายืนยันการลงนามก่อนดำเนินการ',
+                });
                 return;
             }
     
@@ -171,12 +198,20 @@ const Admin_PetitionDetail = () => {
             });
     
             if (response.status === 200) {
-                alert("อัปเดตสถานะสำเร็จ!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: 'อัปเดตสถานะสำเร็จ!',
+                        })
                 navigate(-1);
             }
             } catch (err) {
             console.error("Error updating data:", err);
-            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error updating data',
+                text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+                });
             }
             
     };

@@ -22,7 +22,7 @@ import {
     Radio, 
     RadioGroup,
   } from "@mui/material";
-
+  import Swal from "sweetalert2";
 
   const FirstEvaluation = ({ evaluationID , studentID }) => {
     const [responses, setResponses] = useState({});
@@ -126,20 +126,31 @@ import {
         // ส่งข้อมูลไปยัง API
         const response = await axios.post('http://localhost:5000/evaluation_scores', { scores });
         console.log('Data submitted successfully:', response.data);
-        alert('บันทึกข้อมูลสำเร็จ!');
       } catch (error) {
         console.error('Error submitting data:', error);
-        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Error updating data',
+          text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+      });
       }
       try{
         // ส่งข้อมูลไปยัง API
         const response = await axios.put(`http://localhost:5000/updateFirstevaluation/${studentID}`,{});
         console.log('Data submitted successfully:', response.data);
-        alert('บันทึกข้อมูลสำเร็จ!');
+        Swal.fire({
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'บันทึกข้อมูลสำเร็จ',
+      });
       }
       catch(error){
         console.error('Error submitting data:', error);
-        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Error updating data',
+          text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+      });
       }
     };
     if (isEvaluated) {
@@ -220,7 +231,7 @@ import {
                               <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '10px 0px 10px 80px', fontSize: '12px' }}>{sub.criteria_text}</TableCell>
                               <TableCell colSpan={6} align="center">
                                 <RadioGroup row sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                                  {[5, 4, 3, 2, 1, 0].map((score) => (
+                                  {[5, 4, 3, 2, 1].map((score) => (
                                     <FormControlLabel
                                       key={score}
                                       value={score.toString()}
@@ -363,21 +374,26 @@ import {
           // ส่งข้อมูลไปยัง API
           const response = await axios.post('http://localhost:5000/evaluation_scores', { scores });
           console.log('Data submitted successfully:', response.data);
-          alert('บันทึกข้อมูลสำเร็จ!');
         } catch (error) {
           console.error('Error submitting data:', error);
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
         }
         try{
           // ส่งข้อมูลไปยัง API
           const response = await axios.put(`http://localhost:5000/updateSecondevaluation/${studentID}`,{});
           console.log('Data submitted successfully:', response.data);
-          alert('บันทึกข้อมูลสำเร็จ!');
+          Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'บันทึกข้อมูลสำเร็จ',
+        });
         }
         catch(error){
           console.error('Error submitting data:', error);
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-        }
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });        }
       };
       if (isEvaluated) {
           return (
@@ -457,7 +473,7 @@ import {
                                 <TableCell sx={{ fontFamily: "Noto Sans Thai, sans-serif", padding: '10px 0px 10px 80px', fontSize: '12px' }}>{sub.criteria_text}</TableCell>
                                 <TableCell colSpan={6} align="center">
                                   <RadioGroup row sx={{ display: 'flex', justifyContent: 'space-around' }}>
-                                    {[5, 4, 3, 2, 1, 0].map((score) => (
+                                    {[5, 4, 3, 2, 1].map((score) => (
                                       <FormControlLabel
                                         key={score}
                                         value={score.toString()}
@@ -639,12 +655,19 @@ const Prof_evaluation = () => {
       
           if (response.data && response.data.evaluation_id) {
             console.log('Data submitted successfully:', response.data);
-            alert('บันทึกข้อมูลสำเร็จ!');
+            Swal.fire({
+              icon: 'success',
+              title: 'สำเร็จ',
+              text: 'ยืนยันข้อมูลสำเร็จ',
+          });
             setEvaluationData({ evaluation_id: response.data.evaluation_id }); // บันทึก evaluation_id ลงใน state
           } else {
             console.error('Invalid response from server');
-            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
-          }
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error updating data',
+              text: 'เกิดข้อผิดพลาดในการยืนยันข้อมูล',
+          });          }
         } catch (error) {
           console.error('Error submitting data:', error);
           alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');

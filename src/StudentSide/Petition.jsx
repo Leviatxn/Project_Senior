@@ -17,6 +17,7 @@ const Petition = () => {
     const [state, setState] = useState(-1); 
     const [isCoop, setIsCoop] = useState(0); 
     const [isInProgress, setIsinProgress] = useState(0); 
+    const [isReject, setIsReject] = useState(0); 
 
     const steps = [
         "ยื่นคำร้องรอการตรวจสอบ",
@@ -49,9 +50,11 @@ const Petition = () => {
                 setUser(response.data); // เก็บข้อมูลผู้ใช้ทั้งหมด
                 setCurrentPetition(response.data.Petition_name); // อัปเดต current_petition
                 setCurrentApplicationID(response.data.ApplicationID);
-
+                setCurrentApplicationID(response.data.ApplicationID);
+                setIsReject(response.data.Is_reject)
                 setState(response.data.Progress_State)
                 setIsinProgress(response.data.Is_inprogress)
+                console.log(response.data)
             } catch (err) {
                 console.error("Error fetching user data:", err);
             }
@@ -137,7 +140,7 @@ const Petition = () => {
     const handlePetitionBClick = (url) => {
         console.log(isInProgress,state)
 
-        if (isInProgress === 1 && state >= 4) {
+        if ((isInProgress === 1 && state != 1)&& state <= 4) {
           Swal.fire({
             title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
             text: "คำร้องคุณกำลังดำเนินการอยู่!",
@@ -186,7 +189,7 @@ const Petition = () => {
                                     </a>
                                 </h3>
                             </div>
-                            <PetitionStepper steps={steps} activeStep={state} />
+                            <PetitionStepper steps={steps} activeStep={state} isReject={isReject}/>
                         </div>
                     </div>
                     <div className="main-petition">
