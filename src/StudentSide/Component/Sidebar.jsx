@@ -96,7 +96,6 @@ const Sidebar = () => {
               <li><a href="/cooperative">การฝึกงานสหกิจ</a></li>
               <li><a href="/overview">สถิติ</a></li>
               <li><a href="/profile">ข้อมูลนิสิต</a></li>
-              <li><a href="/contact">ติดต่อสหกิจ</a></li>
               </ul>
             </nav>
             
@@ -156,7 +155,6 @@ const Sidebar = () => {
             )}
             <li><a href="/overview">สถิติ</a></li>
             <li><a href="/profile">ข้อมูลนิสิต</a></li>
-            <li><a href="/contact">ติดต่อสหกิจ</a></li>
           </ul>
         </nav>
         

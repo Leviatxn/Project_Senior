@@ -14,9 +14,10 @@ import InternshipByProvinceDonut from "../MainComponent/DataVisualization/Intern
 import MostCoopProvince from "../MainComponent/DataVisualization/MostCoopProvince";
 import JobChart from "../MainComponent/DataVisualization/JobChart";
 import ToolsDonutChart from "../MainComponent/DataVisualization/ToolDonutChart";
+import Overview from "../MainComponent/DataVisualization/Overview";
 
 
-const Overview = () => {
+const Student_Overview = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const studentID = localStorage.getItem("studentId");
@@ -145,89 +146,11 @@ const Overview = () => {
             <div className="main-container">
                 <div className="Side-Space" />
                 <div className="cooperative-content-container">
-                    <div className="cooperative-header" style={{marginTop:'20px'}}>
-                        <div style={{flex:'1'}}>
-                            <h1>สถิติโดยรวม </h1>
-                            <p style={{marginTop:'10px',color:'#006765'}}>วันที่ {today}</p>
-                        </div>
-                        <div className="cooperative-detail">
-                            <a href="/cooperative-detail">รายละเอียดการฝึกงานสหกิจ</a>
-                        </div>
-                    </div>
-
-                    <div className="first-cooperative-container" style={{paddingBottom:'0'}}>
-                        <div className="coop-status-box" style={{paddingBottom:'10px',flex:'1',marginTop:'50px',height:'250px'}}>
-                            <div className="sub-header">
-                                <div className="sub-header-square" />
-                                <h3 style={{fontSize:'18px'}}>
-                                จำนวนนิสิตสหกิจ
-                                </h3>
-                            </div>
-                            <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-                              <h1 style={{color:'#00A6A2',fontSize:'48px',fontWeight:'600'}}>{dataLengh} คน</h1>
-                            </div>
-
-                        </div>
-                        <div className="coop-schedule-box" style={{marginLeft:'40px',paddingBottom:'10px',flex:'3',height:'300px'}}>
-                          <div style={{display:'flex',flex:'1'}}>
-                            <div style={{flex:'1'}}>
-                              <div className="sub-header" style={{flex:'1',display:'flex',alignItems:'center',marginTop:'10px'}}>
-                                  <div className="sub-header-square" />
-                                    <h3 style={{fontSize:'18px'}}>
-                                        อัตราส่วนการฝึกงานในแต่ละจังหวัด
-                                    </h3>
-                              </div>
-                              <div style={{flex:'1',paddingLeft:'30px'}}>
-                                  <MostCoopProvince/>
-                              </div>
-                            </div>
-                            <div style={{flex:'1',paddingTop:'10px'}}>
-                              <InternshipByProvinceDonut/>
-                            </div>
-                          </div>
-                        </div>
-                    </div>
-
-                    <div className="coop-project-container">
-                        <div style={{flex:'7'}}>
-                            <div className="coop-document-box" >
-                                <div style={{display:'flex',flexDirection:'column',justifyContent:'center',alignItems:'center'}}>
-                                    <div className="sub-header" style={{display:'flex',alignItems:'center',marginTop:'20px'}}>
-                                        <div className="sub-header-square" />
-                                        <h3 style={{fontSize:'18px'}}>ตำแหน่งงาน/งานที่ได้รับมอบหมายที่นิยม</h3>
-                                    </div>
-                                    <div style={{flex:'1',padding:'10px'}}>
-                                      <JobChart/>
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="coop-document-box" style={{marginTop: '30px'}}>
-                                    <div className="sub-header" style={{flex:'1'}}>
-                                        <div className="sub-header-square" />
-                                        <h3 style={{fontSize:'18px'}}>เครื่องมือที่บริษัทนิยมใช้งาน</h3>
-                                    </div>
-                                    <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-                                      <ToolsDonutChart/>
-                                    </div>
-                            </div>
-                        </div>
-                        <div style={{marginLeft:'30px',flex:'3'}}>
-                            <div className="coop-document-box" style={{flex:'1',height:'400px'}}>
-                                <div className="sub-header">
-                                    <div className="sub-header-square" />
-                                    <h3>คุณภาพนิสิตหลังฝึกงาน</h3>
-                                </div>
-                                <div style={{paddingBottom:'10px'}}>
-                                  <StudentEvaluation_Chart evaluationID={'self_evaluate'}/>
-                                </div>
-                            </div>
-
-                        </div>
-                    </div>
+                  <Overview/>
                 </div>
             </div>
         </div>
     );
 };
 
-export default Overview;
+export default  Student_Overview;

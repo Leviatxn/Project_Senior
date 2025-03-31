@@ -88,7 +88,7 @@ const Prof_ProjectDetail = () => {
         <div className="main-container">
           <div className="Side-Space" />
           <div className="home-content-container">
-            <div className="prof_detail-table-container">
+            <div className="prof_detail-table-container" >
               <div className="prof_detail-table-box" style={{ position: "relative" }}>
                 <div
                   className="header-row"
@@ -101,7 +101,7 @@ const Prof_ProjectDetail = () => {
                 >
                   <div style={{ display: "flex", alignItems: "center" }}>
                     <div className="sub-header-square" />
-                    <h2 style={{ marginLeft: "10px" }}>
+                    <h2 style={{ marginLeft: "20px" }}>
                       โครงงานของนิสิตรหัส : {projectDetails?.student_id || "ไม่พบข้อมูล"}
                     </h2>
                   </div>
@@ -139,11 +139,12 @@ const Prof_ProjectDetail = () => {
                 <div className="prof_detail-table-box">
                   {projectDetails?.FilePath ? (
                     <a
-                      href={projectDetails.FilePath}
                       target="_blank"
                       rel="noopener noreferrer"
+                      onClick={() => window.open(`http://localhost:5000/${projectDetails.FilePath}`)}
+                      style={{ display: 'flex', alignItems: 'center', marginBottom: '5px',cursor:'pointer',textDecoration:'underline'}}
                     >
-                      {projectDetails.FilePath}
+                      {projectDetails.student_id}_Project.pdf
                     </a>
                   ) : (
                     "ไม่มีไฟล์ที่แนบ"

@@ -195,6 +195,9 @@ const Admin_PetitionDetail = () => {
                 ApplicationID: ApplicationID,
                 Is_approve: isApprove,
                 Progress_State: 3,
+                Is_reject: isReject,
+                Is_inprogress:0,
+
                 
             });
     

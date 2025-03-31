@@ -645,6 +645,20 @@ const ProfCoopTable = ({currentstate}) => {
       )
       
     }
+
+    const handleForm08 = (student_id) =>{
+      navigate(`/professor/form08`, { 
+        state: { studentID: student_id
+        }
+      });
+    }
+
+    const handleForm09 = (student_id) =>{
+      navigate(`/professor/form09`, { 
+        state: { studentID: student_id
+        }
+      });
+    }
   
    if(currentstate == 'students'){
       return (
@@ -866,7 +880,7 @@ const ProfCoopTable = ({currentstate}) => {
                                       <div >
                                         <Button 
                                           variant="contained" color="success"
-                                          onClick={() => (handleFirstAppointmentAccept(firstSupervisor.student_id))} 
+                                          onClick={() => (handleForm08(studentInfo.student_id))} 
                                           sx={{
                                             mt: 3,
                                             width: "190px",
@@ -886,7 +900,7 @@ const ProfCoopTable = ({currentstate}) => {
                                       <div >
                                         <Button 
                                           variant="contained" color="success"
-                                          onClick={() => (handleFirstAppointmentAccept(firstSupervisor.student_id))} 
+                                          onClick={() => (handleForm09(studentInfo.student_id))} 
                                           sx={{
                                             mt: 3,
                                             width: "190px",

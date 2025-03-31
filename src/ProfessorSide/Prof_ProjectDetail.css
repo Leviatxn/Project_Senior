@@ -5,13 +5,12 @@
 }
 
 .prof_detail-table-box {
-    width: 95%; /* กำหนดให้กว้าง 95% ของ parent เพื่อให้ไม่เกินขอบ */
+    width: 90%; /* กำหนดให้กว้าง 95% ของ parent เพื่อให้ไม่เกินขอบ */
     max-width: 1200px; /* จำกัดขนาดสูงสุดให้ไม่กว้างเกินไป */
     background-color: #f9f9f9; /* สีขาวอ่อน */
     border-radius: 10px; /* ลดความโค้งมนลงเล็กน้อย */
     box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1); /* ลดเงาให้พอดี */
-    padding: 25px; /* ลด padding ให้พอดี */
-    margin: 20px auto; /* จัดกึ่งกลางและลดระยะห่างรอบข้าง */
+    padding: 20px 40px 40px 80px; /* ลด padding ให้พอดี */
     overflow: hidden; /* ป้องกันเนื้อหาล้น */
 }
 

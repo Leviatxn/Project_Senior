@@ -187,8 +187,6 @@ const AdminUserTable = ({role}) => {
               ) : (
                 filteredData.map((item, index) => (
                   <tr key={index} className={index % 2 === 0 ? "row-even" : "row-odd"}
-                  onClick={() => handleRowClick(item)} // เมื่อคลิกจะส่งค่าไปยังหน้าใหม่
-                  style={{ cursor: "pointer" }}
                   >
                     <td style={{fontSize:'12px'}}>{index+1}</td>
                     <td>{item.username}</td>

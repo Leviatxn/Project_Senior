@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState,useRef  } from "react";
 import Sidebar from "./Component/Prof_Sidebar";
 import Banner from "./Component/ฺBanner";
 import './Prof_Home.css';
@@ -7,7 +7,9 @@ import './Prof_Petition.css';
 import { useLocation } from "react-router-dom";
 import axios from "axios";
 import PetitionStepper from "../StudentSide/Component/Petition/PetitionStepper";
-import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
+import { useNavigate } from "react-router-dom";
+import { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 import { 
     Button,
     Container, 
@@ -23,19 +25,19 @@ import {
     RadioGroup,
   } from "@mui/material";
   import Swal from "sweetalert2";
+import ReturnButton from "../MainComponent/ReturnButton";
 
   const FirstEvaluation = ({ evaluationID , studentID }) => {
     const [responses, setResponses] = useState({});
     const [evaluationData, setEvaluationData] = useState([]);
     const [isEvaluated, setIsEvaluated] = useState(false);
-
     useEffect(() => {
 
         if (evaluationID) {
           console.log(evaluationID)
           fetchScores(evaluationID);
         }
-      }, [evaluationID, evaluationData]); // เพิ่ม evaluationData ใน dependency array
+      }, [evaluationID, evaluationData]);
       
       const fetchScores = async (evaluationID) => {
         try {
@@ -153,11 +155,32 @@ import {
       });
       }
     };
-    if (isEvaluated) {
-        return (
-          <div>
-            <Container sx={{ marginTop: 4, marginBottom: 4 }}>
-              <TableContainer component={Paper} sx={{ borderRadius: '10px', border: '1px solid rgba(0, 166, 162, 0.6)' }}>
+
+    
+  const handleDownloadPDF = () => {
+    const input = pdfRef.current;
+    html2canvas(input).then((canvas) => {
+      const imgData = canvas.toDataURL('image/png');
+      const pdf = new jsPDF('p', 'mm', 'a4', true);
+      const pdfWidth = pdf.internal.pageSize.getWidth();
+      const pdfHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = canvas.width;
+      const imgHeight = canvas.height;
+      const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+      const imgX = (pdfWidth - imgWidth * ratio) / 2;
+      const imgY = 30;
+      
+      pdf.addImage(imgData, 'PNG', imgX, imgY, imgWidth * ratio, imgHeight * ratio);
+      pdf.save(`การประเมินครั้งแรก_${studentID}.pdf`);
+    });
+  };
+
+  
+  if (isEvaluated) {
+    return (
+      <div>
+        <Container sx={{ marginTop: 4, marginBottom: 4 }}>
+          <TableContainer component={Paper} sx={{ borderRadius: '10px', border: '1px solid rgba(0, 166, 162, 0.6)' }}>
                 <Table>
                   <TableHead>
                     <TableRow>
@@ -193,10 +216,11 @@ import {
                   </TableBody>
                 </Table>
               </TableContainer>
-            </Container>
-          </div>
-        );
-      }
+        </Container>
+      </div>
+    );
+  }
+
     else if(!isEvaluated){
         return (
             <div>
@@ -208,7 +232,7 @@ import {
                         <TableCell sx={{ padding: '25px 0px 25px 60px', fontFamily: "Noto Sans Thai, sans-serif", background: 'linear-gradient(90deg, rgba(0, 166, 162, 0.6) 40%, #00A6A2 100%)', color: 'white', fontWeight: '400', fontSize: '16px' }}>
                           หัวข้อการประเมิน
                         </TableCell>
-                        {[5, 4, 3, 2, 1, 0].map((score) => (
+                        {[5, 4, 3, 2, 1].map((score) => (
                           <TableCell key={score} align="center" sx={{ fontFamily: "Noto Sans Thai, sans-serif", background: '#00A6A2', color: 'white', fontWeight: '400' }}>
                             {score}
                           </TableCell>
@@ -529,7 +553,7 @@ const Prof_evaluation = () => {
 
     const [isApprove, setIsApprove] = useState(null);
     const navigate = useNavigate();
-
+    const pdfRef = useRef();
     const [statuses, setStatuses] = useState({
         approve: false,
         notApprove: false,
@@ -558,6 +582,111 @@ const Prof_evaluation = () => {
               return "วิศวกรรมยานยนต์";                  
           default:
             return "default";
+        }
+      };
+      const handleDownloadFirstPDF = async () => {
+        try {
+          const input = pdfRef.current;
+          if (!input) throw new Error('Element not found');
+      
+          // เพิ่ม style ชั่วคราว
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap');
+            * {
+              font-family: 'Noto Sans Thai', sans-serif !important;
+              box-sizing: border-box;
+            }
+            table {
+              border-collapse: collapse !important;
+            }
+          `;
+          document.head.appendChild(style);
+      
+          const canvas = await html2canvas(input, {
+            scale: 2,
+            logging: true,
+            useCORS: true,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: input.scrollWidth,
+            windowHeight: input.scrollHeight
+          });
+      
+          document.head.removeChild(style);
+      
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF({
+            orientation: 'p',
+            unit: 'mm',
+            format: 'a4'
+          });
+      
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = pdf.internal.pageSize.getHeight();
+          const imgWidth = canvas.width;
+          const imgHeight = canvas.height;
+          const ratio = Math.min((pdfWidth - 20) / imgWidth, (pdfHeight - 20) / imgHeight);
+          
+          pdf.addImage(imgData, 'PNG', 10, 10, imgWidth * ratio, imgHeight * ratio);
+          pdf.save(`การประเมินการนิเทศงานสหกิจศึกษา ครั้งที่ 1_${studentID}.pdf`);
+          
+        } catch (error) {
+          console.error('PDF generation error:', error);
+          Swal.fire('ผิดพลาด', 'ไม่สามารถสร้าง PDF ได้', 'error');
+        }
+      };
+
+      const handleDownloadSecondPDF = async () => {
+        try {
+          const input = pdfRef.current;
+          if (!input) throw new Error('Element not found');
+      
+          // เพิ่ม style ชั่วคราว
+          const style = document.createElement('style');
+          style.innerHTML = `
+            @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+Thai&display=swap');
+            * {
+              font-family: 'Noto Sans Thai', sans-serif !important;
+              box-sizing: border-box;
+            }
+            table {
+              border-collapse: collapse !important;
+            }
+          `;
+          document.head.appendChild(style);
+      
+          const canvas = await html2canvas(input, {
+            scale: 2,
+            logging: true,
+            useCORS: true,
+            scrollX: 0,
+            scrollY: 0,
+            windowWidth: input.scrollWidth,
+            windowHeight: input.scrollHeight
+          });
+      
+          document.head.removeChild(style);
+      
+          const imgData = canvas.toDataURL('image/png');
+          const pdf = new jsPDF({
+            orientation: 'p',
+            unit: 'mm',
+            format: 'a4'
+          });
+      
+          const pdfWidth = pdf.internal.pageSize.getWidth();
+          const pdfHeight = pdf.internal.pageSize.getHeight();
+          const imgWidth = canvas.width;
+          const imgHeight = canvas.height;
+          const ratio = Math.min((pdfWidth - 20) / imgWidth, (pdfHeight - 20) / imgHeight);
+          
+          pdf.addImage(imgData, 'PNG', 10, 10, imgWidth * ratio, imgHeight * ratio);
+          pdf.save(`แบบประเมินการนิเทศงานสหกิจศึกษา ครั้งที่ 2_${studentID}.pdf`);
+          
+        } catch (error) {
+          console.error('PDF generation error:', error);
+          Swal.fire('ผิดพลาด', 'ไม่สามารถสร้าง PDF ได้', 'error');
         }
       };
 
@@ -724,17 +853,38 @@ const Prof_evaluation = () => {
                 <div className="home-content-container">
                     <div className="petition-table-container">
                         <div className="petition-table-box" >
-                            <div className="table-container">
-                                <div className="petition-detail-header">
-                                    <div className="sub-header-square" />
-                                    <h1 className="table-title">แบบบันทึกการนิเทศงานสหกิจศึกษา ครั้งที่ 1</h1>    
+                            <div className="table-container">                  
+                              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px',alignItems:'center' }}>
+                                          <a
+                                            onClick={handleDownloadFirstPDF}
+                                            style={{
+                                              cursor:'pointer',
+                                              textDecoration:'underline',
+                                              fontSize: "14px",
+                                              fontFamily: "Noto Sans Thai, sans-serif",
+                                              position:'absolute'
+                                            }}
+                                          >
+                                            ดาวน์โหลดเป็น PDF
+                                          </a>
+                                </div>
+                              <div ref={pdfRef}>
+                                <div className="petition-detail-header" >
+                                    <div style={{flex:'1',display:'flex',alignItems:'center'}}>
+                                      <div className="sub-header-square" />
+                                      <h1 className="table-title">แบบบันทึกการนิเทศงานสหกิจศึกษา ครั้งที่ 1</h1>
+                                    </div>   
+                                    <div>
+                                          <ReturnButton stroked={"black"}/>
+                                        </div> 
                                 </div>
                                 <div className="petition-detail-container">
                                     <div style={{marginTop:'20px'}}>
                                         <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
                                             <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
                                             <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>ข้อมูลสหกิจศึกษา </h1>
-                                        </div>                    
+                                        </div>
+
                                         <div style={{flex:'1',display:'flex',borderRadius:'5px',padding:'20px 30px 20px 30px',background:'rgba(0, 103, 101, 0.2)'}}>
                                             <div style={{flex: '3',display:'flex',borderRight:'1px solid #ddd'}}>
                                                 <div style={{flex: '1'}}>
@@ -815,6 +965,7 @@ const Prof_evaluation = () => {
 
                                     </div>
                                 </div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -837,95 +988,116 @@ const Prof_evaluation = () => {
                     <div className="petition-table-container">
                         <div className="petition-table-box" >
                             <div className="table-container">
-                                <div className="petition-detail-header">
-                                    <div className="sub-header-square" />
-                                    <h1 className="table-title">แบบบันทึกการนิเทศงานสหกิจศึกษา ครั้งที่ 2</h1>    
-                                </div>
-                                <div className="petition-detail-container">
-                                    <div style={{marginTop:'20px'}}>
-                                        <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
-                                            <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
-                                            <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>ข้อมูลสหกิจศึกษา </h1>
-                                        </div>                    
-                                        <div style={{flex:'1',display:'flex',borderRadius:'5px',padding:'20px 30px 20px 30px',background:'rgba(0, 103, 101, 0.2)'}}>
-                                            <div style={{flex: '3',display:'flex',borderRight:'1px solid #ddd'}}>
-                                                <div style={{flex: '1'}}>
-                                                    <p style={{color:'#767676'}}>ชื่อนิสิต  :</p>
-                                                    <p style={{color:'#767676'}}>ชื่อบริษัท/สถานประกอบการ  :</p>
-                                                    <p style={{color:'#767676'}}>ที่อยู่ :</p>
-                                                    <p style={{color:'#767676'}}>จังหวัด:</p>
-                                                </div>
-                                                <div style={{flex: '1'}}>
-                                                    <p>{studentInfo.first_name} {studentInfo.last_name}</p>
-                                                    <p>{coopData.CompanyNameTH}</p>
-                                                    <p>{coopData.CompanyAddress}</p>
-                                                    <p>{coopData.CompanyProvince}</p>
-    
-                                                </div>
-                                            </div>
-                                            <div style={{flex: '3',marginLeft:"30px"}}>
-                                                <div style={{flex: '1',display: 'flex'}}>
-                                                    <div style={{flex: '1'}}>
-                                                    <p style={{color:'#767676'}}>เบอร์โทรติดต่อ :</p>
-                                                    <p style={{color:'#767676'}}>เบี้ยเลี้ยง :</p>
-                                                    <p style={{color:'#767676'}}>ระยะเวลาการฝึกงานสหกิจ:</p>
-    
-                                                    </div>
-                                                    <div style={{flex: '2',textAlign:'end'}}>
-                                                        <p>{coopData.CompanyPhoneNumber}</p>
-                                                        <p>{coopData.Allowance} บาท / ต่อวัน</p>
-                                                        <p>{formatCoopDate(coopData.Coop_StartDate)} - {formatCoopDate(coopData.Coop_EndDate)}</p>
-    
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        {(evaluationData)?(
-                                       <div style={{display: 'flex',alignItems: 'center',justifyContent: 'flex-start',marginTop:'10px'}}>
-                                                    <div style={{marginRight:'10px',marginTop:'5px'}}>
-                                                        <input type="checkbox" id="cbx2" style={{display: 'none'}}/>
-                                                        <label htmlFor="cbx2" className="check">
-                                                        </label>
-                                                    </div>
-                                                    <p 
-                                                
-                                                        style={{fontSize:"12px"}}>ยืนยันการตรวจสอบและข้อมูลสหกิจศึกษาของนิสิตดังกล่าวแล้ว</p>
-                                        </div>
-                                        ):(
-                                            <div style={{display: 'flex',alignItems: 'center',justifyContent: 'flex-start',marginTop:'10px'}}>
-                                                        <div style={{marginRight:'10px',marginTop:'5px'}}>
-                                                            <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => handleAppoveInfo("second ")} />
-                                                            <label htmlFor="cbx2" className="check">
-                                                            <svg width="18px" height="18px" viewBox="0 0 18 18">
-                                                                <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
-                                                                <polyline points="1 9 7 14 15 4" />
-                                                            </svg>
-                                                            </label>
-                                                        </div>
-                                                        <p 
-                                                    
-                                                        style={{fontSize:"12px"}}>ยืนยันการตรวจสอบและข้อมูลสหกิจศึกษาของนิสิตดังกล่าว</p>
-                                            </div>
-                                        )}
-                                    </div>
-                                    <div style={{marginTop:'20px'}}>
-                                        <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
-                                            <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
-                                            <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>สำหรับการประเมินสถานประกอบการ (อาจารย์ประเมิน)</h1>
-                                        </div>
+                              <div style={{ display: 'flex', justifyContent: 'flex-end', marginBottom: '16px',alignItems:'center' }}>
+                                            <a
+                                              onClick={handleDownloadSecondPDF}
+                                              style={{
+                                                cursor:'pointer',
+                                                textDecoration:'underline',
+                                                fontSize: "14px",
+                                                fontFamily: "Noto Sans Thai, sans-serif",
+                                                position:'absolute'
+                                              }}
+                                            >
+                                              ดาวน์โหลดเป็น PDF
+                                            </a>
+                                  </div>
+                                <div ref={pdfRef}>
+                                  <div className="petition-detail-header">
+                                      <div style={{flex:'1',display:'flex',alignItems:'center'}}>
+                                          <div className="sub-header-square" />
+                                          <h1 className="table-title">แบบบันทึกการนิเทศงานสหกิจศึกษา ครั้งที่ 2</h1>
+                                        </div>   
                                         <div>
-                                        {
-                                            evaluationData && evaluationData.evaluation_id ? (
-                                                <SecondEvaluation evaluationID={evaluationData.evaluation_id} ststudentID={studentInfo.student_id} />
-                                            ) : (
-                                                <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
-                                                    <p style={{color:'#ddd'}}>รอการยืนยัน</p>
-                                                </div>
-                                            )
-                                        }              
-                                        </div>                                  
-                                    </div>
-                                </div>
+                                              <ReturnButton stroked={"black"}/>
+                                            </div> 
+                                  </div>
+                                  <div className="petition-detail-container">
+                                      <div style={{marginTop:'20px'}}>
+                                          <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
+                                              <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
+                                              <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>ข้อมูลสหกิจศึกษา </h1>
+                                          </div>                    
+                                          <div style={{flex:'1',display:'flex',borderRadius:'5px',padding:'20px 30px 20px 30px',background:'rgba(0, 103, 101, 0.2)'}}>
+                                              <div style={{flex: '3',display:'flex',borderRight:'1px solid #ddd'}}>
+                                                  <div style={{flex: '1'}}>
+                                                      <p style={{color:'#767676'}}>ชื่อนิสิต  :</p>
+                                                      <p style={{color:'#767676'}}>ชื่อบริษัท/สถานประกอบการ  :</p>
+                                                      <p style={{color:'#767676'}}>ที่อยู่ :</p>
+                                                      <p style={{color:'#767676'}}>จังหวัด:</p>
+                                                  </div>
+                                                  <div style={{flex: '1'}}>
+                                                      <p>{studentInfo.first_name} {studentInfo.last_name}</p>
+                                                      <p>{coopData.CompanyNameTH}</p>
+                                                      <p>{coopData.CompanyAddress}</p>
+                                                      <p>{coopData.CompanyProvince}</p>
+      
+                                                  </div>
+                                              </div>
+                                              <div style={{flex: '3',marginLeft:"30px"}}>
+                                                  <div style={{flex: '1',display: 'flex'}}>
+                                                      <div style={{flex: '1'}}>
+                                                      <p style={{color:'#767676'}}>เบอร์โทรติดต่อ :</p>
+                                                      <p style={{color:'#767676'}}>เบี้ยเลี้ยง :</p>
+                                                      <p style={{color:'#767676'}}>ระยะเวลาการฝึกงานสหกิจ:</p>
+      
+                                                      </div>
+                                                      <div style={{flex: '2',textAlign:'end'}}>
+                                                          <p>{coopData.CompanyPhoneNumber}</p>
+                                                          <p>{coopData.Allowance} บาท / ต่อวัน</p>
+                                                          <p>{formatCoopDate(coopData.Coop_StartDate)} - {formatCoopDate(coopData.Coop_EndDate)}</p>
+      
+                                                      </div>
+                                                  </div>
+                                              </div>
+                                          </div>
+                                          {(evaluationData)?(
+                                        <div style={{display: 'flex',alignItems: 'center',justifyContent: 'flex-start',marginTop:'10px'}}>
+                                                      <div style={{marginRight:'10px',marginTop:'5px'}}>
+                                                          <input type="checkbox" id="cbx2" style={{display: 'none'}}/>
+                                                          <label htmlFor="cbx2" className="check">
+                                                          </label>
+                                                      </div>
+                                                      <p 
+                                                  
+                                                          style={{fontSize:"12px"}}>ยืนยันการตรวจสอบและข้อมูลสหกิจศึกษาของนิสิตดังกล่าวแล้ว</p>
+                                          </div>
+                                          ):(
+                                              <div style={{display: 'flex',alignItems: 'center',justifyContent: 'flex-start',marginTop:'10px'}}>
+                                                          <div style={{marginRight:'10px',marginTop:'5px'}}>
+                                                              <input type="checkbox" id="cbx2" style={{display: 'none'}} onClick={() => handleAppoveInfo("second ")} />
+                                                              <label htmlFor="cbx2" className="check">
+                                                              <svg width="18px" height="18px" viewBox="0 0 18 18">
+                                                                  <path d="M 1 9 L 1 9 c 0 -5 3 -8 8 -8 L 9 1 C 14 1 17 5 17 9 L 17 9 c 0 4 -4 8 -8 8 L 9 17 C 5 17 1 14 1 9 L 1 9 Z" />
+                                                                  <polyline points="1 9 7 14 15 4" />
+                                                              </svg>
+                                                              </label>
+                                                          </div>
+                                                          <p 
+                                                      
+                                                          style={{fontSize:"12px"}}>ยืนยันการตรวจสอบและข้อมูลสหกิจศึกษาของนิสิตดังกล่าว</p>
+                                              </div>
+                                          )}
+                                      </div>
+                                      <div style={{marginTop:'20px'}}>
+                                          <div style={{display: 'flex',justifyContent: 'flex-start',alignItems: 'center',flex:'1'}}>
+                                              <div className="sub-header-square" style={{backgroundColor:'#46E10E'}}/>
+                                              <h1 className="table-title" style={{fontWeight:'400',fontSize:'18px',fontFamily:"Noto Sans Thai, sans-serif"}}>สำหรับการประเมินสถานประกอบการ (อาจารย์ประเมิน)</h1>
+                                          </div>
+                                          <div>
+                                          {
+                                              evaluationData && evaluationData.evaluation_id ? (
+                                                  <SecondEvaluation evaluationID={evaluationData.evaluation_id} ststudentID={studentInfo.student_id} />
+                                              ) : (
+                                                  <div style={{display:'flex',justifyContent:'center',alignItems:'center'}}>
+                                                      <p style={{color:'#ddd'}}>รอการยืนยัน</p>
+                                                  </div>
+                                              )
+                                          }              
+                                          </div>                                  
+                                      </div>
+                                  </div>
+                                </div>  
                             </div>
                         </div>
                     </div>

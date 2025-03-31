@@ -38,9 +38,14 @@ import Company_Home from './CompanySide/Company_Home';
 import Company_Form8 from './CompanySide/Company_Form8';
 import Company_Form9 from './CompanySide/Company_Form9';
 import Evaluation from './StudentSide/Evaluation';
-import Overview from './StudentSide/Overview';
+import Overview from './StudentSide/Student_Overview';
 import Company_LoginPage from './Company_LoginPage';
 import Admin_CompanyRegister from './AdminSide/Admin_CompanyRegister';
+import Student_Overview from './StudentSide/Student_Overview';
+import Prof_Overview from './ProfessorSide/Prof_Overview';
+import Admin_Overview from './AdminSide/Admin_Overview';
+import Prof_Form08 from './ProfessorSide/Prof_Form08';
+import Prof_Form09 from './ProfessorSide/Prof_Form09';
 
 
 
@@ -103,7 +108,7 @@ function App() {
       <Route path="/appointment-1" element={<PrivateRoute allowedRoles={['student']}><First_appointment/> </PrivateRoute>} />
       <Route path="/appointment-2" element={<PrivateRoute allowedRoles={['student']}><Second_appointment/></PrivateRoute>} />
       <Route path="/evaluation" element={<PrivateRoute allowedRoles={['student']}>< Evaluation/></PrivateRoute>} />
-      <Route path="/overview" element={<PrivateRoute allowedRoles={['student']}>< Overview/></PrivateRoute>} />
+      <Route path="/overview" element={<PrivateRoute allowedRoles={['student']}><Student_Overview/></PrivateRoute>} />
 
 
       <Route path="/professor" element={<Prof_LoginPage />} />
@@ -115,6 +120,9 @@ function App() {
       <Route path="/professor/cooperative" element={<PrivateRoute allowedRoles={['professor']}><Prof_Coop/></PrivateRoute>} />
       <Route path="/professor/project-detail" element={<PrivateRoute allowedRoles={['professor']}><Prof_ProjectDetail/></PrivateRoute>} />
       <Route path="/professor/evaluation" element={<PrivateRoute allowedRoles={['professor']}><Prof_evaluation/></PrivateRoute>} />
+      <Route path="/professor/overview" element={<PrivateRoute allowedRoles={['professor']}><Prof_Overview/></PrivateRoute>} />
+      <Route path="/professor/form08" element={<PrivateRoute allowedRoles={['professor']}><Prof_Form08/></PrivateRoute>} />
+      <Route path="/professor/form09" element={<PrivateRoute allowedRoles={['professor']}><Prof_Form09/></PrivateRoute>} />
 
 
       <Route path="/admin" element={<Admin_LoginPage />} />
@@ -129,6 +137,7 @@ function App() {
       <Route path="/admin/petition-detail" element={<PrivateRoute allowedRoles={['admin']}><Admin_PetitionDetail /></PrivateRoute>} />
       <Route path="/admin/cooperative" element={<PrivateRoute allowedRoles={['admin']}><Admin_Cooperative/></PrivateRoute>} />
       <Route path="/admin/user-management" element={<PrivateRoute allowedRoles={['admin']}><Admin_UserManagement/></PrivateRoute>} />
+      <Route path="/admin/overview" element={<PrivateRoute allowedRoles={['admin']}><Admin_Overview/></PrivateRoute>} />
 
 
       <Route path="/company" element={<Company_LoginPage />} />
