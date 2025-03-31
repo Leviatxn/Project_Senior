@@ -11,6 +11,7 @@ import { useNavigate } from "react-router-dom"; // นำเข้า useNavigat
 import ReturnButton from "../MainComponent/ReturnButton";
 import Swal from "sweetalert2";
 
+
 const Admin_PetitionDetail = () => {
     const location = useLocation();
     const { ApplicationID, Petition_name } = location.state || {}; // รับค่าที่ส่งมา

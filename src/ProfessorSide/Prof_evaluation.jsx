@@ -670,7 +670,11 @@ const Prof_evaluation = () => {
           });          }
         } catch (error) {
           console.error('Error submitting data:', error);
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });
         }
       }
 
