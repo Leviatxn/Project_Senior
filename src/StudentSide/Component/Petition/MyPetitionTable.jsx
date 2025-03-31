@@ -39,6 +39,16 @@ const MyPetitionTable = () => {
     "เสร็จสิ้น",
   ];
 
+  const getState = (step,IsApprove)=>{
+    console.log(IsApprove)
+    if(IsApprove){
+      return steps[step]
+    }
+    else if (!IsApprove){
+      return "คำร้องถูกปฏิเสธ"
+    }
+  }
+
   const getMajorName= (major) => {
     switch (major) {
       case 'T12':
@@ -107,6 +117,7 @@ const MyPetitionTable = () => {
     fetch(`http://localhost:5000/petitions/${studentId}`)
       .then((response) => response.json())
       .then((fetchedData) => {
+        console.log(fetchedData)
         setData(fetchedData);
         setFilteredData(fetchedData);
         setLoading(false);
@@ -205,7 +216,15 @@ const MyPetitionTable = () => {
                 <TableCell sx={{fontFamily: "Noto Sans Thai, sans-serif"}}>{formatDate(item.SubmissionDate)}</TableCell>
                 <TableCell sx={{fontFamily: "Noto Sans Thai, sans-serif"}}>{item.Petition_name}</TableCell>
                 <TableCell sx={{fontFamily: "Noto Sans Thai, sans-serif"}}>{item.Petition_version}</TableCell>
-                <TableCell sx={{fontFamily: "Noto Sans Thai, sans-serif"}}>{steps[item.Progress_State]}</TableCell>
+                <TableCell 
+                  sx={{
+                    fontFamily: "Noto Sans Thai, sans-serif",
+                    ...(!item.Is_approve && {
+                      color: 'red',
+                      fontWeight: 'bold'
+                    })
+                  }}
+                >{getState(item.Progress_State,item.Is_approve)}</TableCell>
               </TableRow>
             ))
           )}
@@ -345,10 +364,13 @@ const MyPetitionTable = () => {
                                                         "ไม่มีไฟล์"
                                                     )}
                       </div>
-
                   </div>  
                 </div>
+                 <div>
+                  <p>สถานะคำร้อง</p>
+                </div>
               </div>
+
             ) : 
             (
             <>

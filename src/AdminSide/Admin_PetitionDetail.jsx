@@ -112,10 +112,16 @@ const Admin_PetitionDetail = () => {
             ApplicationID: ApplicationID,
             Is_approve: isApprove,
             Progress_State: 4,
+            Is_inprogress:0,
         });
 
         if (response.status === 200) {
-            updateCoopState();
+            if(isApprove){
+                updateCoopState();
+            }
+            else{
+                return;
+            }
         }
         } catch (err) {
         console.error("Error updating data:", err);
@@ -129,6 +135,7 @@ const Admin_PetitionDetail = () => {
             const response = await axios.put("http://localhost:5000/updateiscoopstudent", {
                 student_id: data.StudentID,
                 company_name: data.CompanyNameTH,
+                
                 is_coopstudent: 1,
                 
             });

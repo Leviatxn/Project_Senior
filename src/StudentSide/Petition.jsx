@@ -135,7 +135,7 @@ const Petition = () => {
     };
     
     const handlePetitionBClick = (url) => {
-        console.log(isInProgress)
+        console.log(isInProgress,state)
 
         if (isInProgress === 1 && state >= 4) {
           Swal.fire({
@@ -171,7 +171,6 @@ const Petition = () => {
                     <div className="petition-header">
                         <h1>คำร้องสหกิจ</h1>
                         <div className="petition-detail">
-                            <a href="/petition-detail">รายละเอียดการฝึกงานสหกิจ</a>
                         </div>
                     </div>
                     <div className="showing-petition-container">

@@ -100,7 +100,7 @@ const Form08 = () => {
     console.log(offer)
     try {
         // ตรวจสอบว่ามีการประเมินแล้วหรือไม่
-        const checkResponse = await axios.get(`http://localhost:5000/checkEvaluation/${info.studentID}/coop_project/last}`);
+        const checkResponse = await axios.get(`http://localhost:5000/checkEvaluation/${info.studentID}/coop_project/last`);
         if (checkResponse.data.exists) {
           // แสดงข้อความแจ้งเตือนถ้ามีการประเมินแล้ว
           Swal.fire({
