@@ -22,6 +22,7 @@ import {
     Radio, 
     RadioGroup,
   } from "@mui/material";
+  import Swal from "sweetalert2";
 
 
   const FirstEvaluation = ({ evaluationID , studentID }) => {
@@ -126,20 +127,36 @@ import {
         // ส่งข้อมูลไปยัง API
         const response = await axios.post('http://localhost:5000/evaluation_scores', { scores });
         console.log('Data submitted successfully:', response.data);
-        alert('บันทึกข้อมูลสำเร็จ!');
+        Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: 'บันทึกข้อมูลสำเร็จ',
+                });
       } catch (error) {
         console.error('Error submitting data:', error);
-        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        Swal.fire({
+                    icon: 'warning',
+                    title: 'Error updating data',
+                    text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+                });
       }
       try{
         // ส่งข้อมูลไปยัง API
         const response = await axios.put(`http://localhost:5000/updateFirstevaluation/${studentID}`,{});
         console.log('Data submitted successfully:', response.data);
-        alert('บันทึกข้อมูลสำเร็จ!');
+        Swal.fire({
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'บันทึกข้อมูลสำเร็จ',
+      });
       }
       catch(error){
         console.error('Error submitting data:', error);
-        alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+        Swal.fire({
+          icon: 'warning',
+          title: 'Error updating data',
+          text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+      });
       }
     };
     if (isEvaluated) {
@@ -363,20 +380,36 @@ import {
           // ส่งข้อมูลไปยัง API
           const response = await axios.post('http://localhost:5000/evaluation_scores', { scores });
           console.log('Data submitted successfully:', response.data);
-          alert('บันทึกข้อมูลสำเร็จ!');
+          Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'บันทึกข้อมูลสำเร็จ',
+        });
         } catch (error) {
           console.error('Error submitting data:', error);
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });
         }
         try{
           // ส่งข้อมูลไปยัง API
           const response = await axios.put(`http://localhost:5000/updateSecondevaluation/${studentID}`,{});
           console.log('Data submitted successfully:', response.data);
-          alert('บันทึกข้อมูลสำเร็จ!');
+          Swal.fire({
+            icon: 'success',
+            title: 'สำเร็จ',
+            text: 'บันทึกข้อมูลสำเร็จ',
+        });
         }
         catch(error){
           console.error('Error submitting data:', error);
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });
         }
       };
       if (isEvaluated) {
@@ -639,15 +672,27 @@ const Prof_evaluation = () => {
       
           if (response.data && response.data.evaluation_id) {
             console.log('Data submitted successfully:', response.data);
-            alert('บันทึกข้อมูลสำเร็จ!');
+            Swal.fire({
+              icon: 'success',
+              title: 'สำเร็จ',
+              text: 'บันทึกข้อมูลสำเร็จ',
+          });
             setEvaluationData({ evaluation_id: response.data.evaluation_id }); // บันทึก evaluation_id ลงใน state
           } else {
             console.error('Invalid response from server');
-            alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+            Swal.fire({
+              icon: 'warning',
+              title: 'Error updating data',
+              text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+          });
           }
         } catch (error) {
           console.error('Error submitting data:', error);
-          alert('เกิดข้อผิดพลาดในการบันทึกข้อมูล');
+          Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });
         }
       }
 

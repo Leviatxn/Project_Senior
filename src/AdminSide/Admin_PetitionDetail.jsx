@@ -9,6 +9,7 @@ import axios from "axios";
 import PetitionStepper from "../StudentSide/Component/Petition/PetitionStepper";
 import { useNavigate } from "react-router-dom"; // นำเข้า useNavigate
 import ReturnButton from "../MainComponent/ReturnButton";
+import Swal from "sweetalert2";
 
 
 const Admin_PetitionDetail = () => {
@@ -103,7 +104,11 @@ const Admin_PetitionDetail = () => {
      // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleStudentUpdate = async () => {
         if (isApprove === null) {
-        alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+        Swal.fire({
+            icon: 'warning',
+            title: 'กรุณาเลือกสถานะ',
+            text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
+                        });
         return;
         }
 
@@ -125,7 +130,11 @@ const Admin_PetitionDetail = () => {
         }
         } catch (err) {
         console.error("Error updating data:", err);
-        alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+        Swal.fire({
+            icon: 'warning',
+            title: 'Error updating data',
+            text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+            });
         }
         
     };
@@ -141,24 +150,40 @@ const Admin_PetitionDetail = () => {
             });
 
             if (response.status === 200) {
-                alert("อัปเดตสถานะสำเร็จ!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: 'อัปเดตสถานะสำเร็จ!',
+                        })
                 await navigate(-1);
     
             }
             } catch (err) {
             console.error("Error updating data:", err);
-            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error updating data',
+                text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+                });
             }
     }
 
          // ฟังก์ชันสำหรับอัปเดตข้อมูลไปยัง Backend
     const handleCoopUpdate = async () => {
             if (isApprove === null) {
-            alert("กรุณาเลือกสถานะก่อนดำเนินการ");
+             Swal.fire({
+                icon: 'warning',
+                title: 'กรุณาเลือกสถานะ',
+                text: 'กรุณาเลือกสถานะก่อนดำเนินการ',
+            });
             return;
             }
             if (isVerified === false) {
-                alert("กรุณายืนยันการลงนาม");
+                Swal.fire({
+                    icon: 'warning',
+                    title: 'กรุณายืนยันการลงนาม',
+                    text: 'กรุณายืนยันการลงนามก่อนดำเนินการ',
+                });
                 return;
             }
     
@@ -171,12 +196,20 @@ const Admin_PetitionDetail = () => {
             });
     
             if (response.status === 200) {
-                alert("อัปเดตสถานะสำเร็จ!");
+                Swal.fire({
+                    icon: 'success',
+                    title: 'สำเร็จ',
+                    text: 'อัปเดตสถานะสำเร็จ!',
+                        })
                 navigate(-1);
             }
             } catch (err) {
             console.error("Error updating data:", err);
-            alert("เกิดข้อผิดพลาดในการอัปเดตข้อมูล");
+            Swal.fire({
+                icon: 'warning',
+                title: 'Error updating data',
+                text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+                });
             }
             
     };
