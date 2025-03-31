@@ -206,7 +206,7 @@ const Form09 = () => {
                     onChange={(e) => handleScoredChange(section.section_id, criteria.criteria_id, e.target.value)}
                     inputProps={{ 
                       min: 0, 
-                      max: 5, // หรือค่าสูงสุดตามที่กำหนด
+                      max: 5,
                       step: 0.5
                     }}
                     size="small"
