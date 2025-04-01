@@ -315,7 +315,7 @@ const Prof_PetitionDetail = () => {
                                                     </div>
                                                     <p style={{fontSize:"12px"}}>ลงนามและผ่านการตรวจสอบโดย {username} (อาจารย์สหกิจศึกษาของภาควิชา)</p>
                                                 </div> */}
-                                                                                        {(data.Progress_State >= 2) ? ( 
+                                        {(data.Progress_State >= 2) ? ( 
                                             <div style={{flex:'1'}}>
                                                 <div style={{flex:'1'}}>
                                                     <p className="pettion-subtitle">สถานะคำร้องบัจจุบัน</p>
@@ -458,7 +458,7 @@ const Prof_PetitionDetail = () => {
                                             ) : (
                                             <p>ไม่มีไฟล์</p>
                                             )}
-                      </div>
+                                        </div>
                                     </div>
                                     <div style={{display:'flex',borderTop:'1px solid #ddd',textAlign:'center',paddingTop:'20px'}}>
                                         {(data.Progress_State >= 2) ? ( 

@@ -102,8 +102,11 @@ const Prof_ProjectDetail = () => {
         })
       ]);
 
-      if (!statusResponse.ok || !advisorResponse.ok) {
-        throw new Error("Update failed");
+      if (!statusResponse.ok) {
+        throw new Error("Update failed statusResponse");
+      }
+      if(!advisorResponse.ok){
+        throw new Error("Update failed advisorResponse");
       }
 
       Swal.fire({

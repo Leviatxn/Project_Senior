@@ -140,7 +140,7 @@ const Petition = () => {
     const handlePetitionBClick = (url) => {
         console.log(isInProgress,state)
 
-        if ((isInProgress === 1 && state != 1)&& state <= 4) {
+        if (isInProgress === 1 || state !== 1 ) {
           Swal.fire({
             title: "ต้องการยกเลิกคำร้องล่าสุดหรือไม่?",
             text: "คำร้องคุณกำลังดำเนินการอยู่!",
