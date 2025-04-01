@@ -10,6 +10,8 @@ import {
     Button,
     Grid,
   } from "@mui/material";
+    import Swal from "sweetalert2";
+  
 const StudentInfoForm = () => {
   const [formData, setFormData] = useState({
     first_name: "",
@@ -38,7 +40,11 @@ const StudentInfoForm = () => {
       });
 
       if (response.ok) {
-        alert("บันทึกข้อมูลสำเร็จ!");
+        Swal.fire({
+          icon: 'success',
+          title: 'สำเร็จ',
+          text: 'บันทึกข้อมูลสำเร็จ',
+        });
         setFormData({
           first_name: "",
           last_name: "",
@@ -49,7 +55,11 @@ const StudentInfoForm = () => {
           phone_number: "",
         });
       } else {
-        alert("เกิดข้อผิดพลาด!");
+        Swal.fire({
+          icon: 'warning',
+          title: 'Error updating data',
+          text: 'เกิดข้อผิดพลาดในการอัปเดตข้อมูล',
+        });
       }
     } catch (error) {
       console.error("Error:", error);

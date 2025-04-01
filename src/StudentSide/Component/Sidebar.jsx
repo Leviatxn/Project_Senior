@@ -3,7 +3,7 @@ import axios from "axios";
 import {useNavigate } from 'react-router-dom';
 import './Sidebar.css';
 import Logo from "../../MainComponent/Logo";
-import { Box, Typography, Grid, TextField, Button, Avatar, IconButton } from "@mui/material";
+import {Avatar} from "@mui/material";
 
 const Sidebar = () => {
     const [user, setUser] = useState(null);
@@ -16,14 +16,14 @@ const Sidebar = () => {
         navigate("/"); // นำไปหน้า Login
     };
 
-      // ฟังก์ชันเมื่อกดเลือกแถว
-  const handleEvaluationClick = (version) => {
-    navigate(`/evaluation`, { 
-      state: {
-               version: version
-      }
-    });
-};
+
+    const handleEvaluationClick = (version) => {
+        navigate(`/evaluation`, { 
+          state: {
+                  version: version
+          }
+        });
+    };
     
     useEffect(() => {
         const fetchUserData = async () => {

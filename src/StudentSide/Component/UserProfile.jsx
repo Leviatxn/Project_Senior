@@ -12,13 +12,6 @@ const UserProfile = () => {
 
     const navigate = useNavigate();
 
-    // ฟังก์ชันออกจากระบบ
-    const handleLogout = () => {
-        localStorage.removeItem("authToken");
-        localStorage.removeItem("studentId");
-        navigate("/");
-    };
-
     useEffect(() => {
         const fetchUserData = async () => {
             const studentId = localStorage.getItem("studentId");
@@ -110,7 +103,6 @@ const UserProfile = () => {
                     style={{ display: "none" }}
                     onChange={handleFileChange}
                     disabled={!isEditing}
-
                 />
                 <label htmlFor="upload-button">
                     <IconButton component="span" sx={{ mt: 1 }}>
@@ -118,7 +110,6 @@ const UserProfile = () => {
                     </IconButton>
                 </label>
             </Box>
-
             <form onSubmit={handleSubmit}>
                 <Grid container spacing={2} justifyContent="center">
                     {/* ชื่อ */}

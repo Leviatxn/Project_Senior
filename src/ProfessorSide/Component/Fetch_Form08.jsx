@@ -24,6 +24,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import ReturnButton from "../../MainComponent/ReturnButton";
 
 const Fetch_Form08 = ({evaluationID}) => {
   const pdfRef = useRef();
@@ -81,7 +82,7 @@ const Fetch_Form08 = ({evaluationID}) => {
           case 'T22':
               return "วิศวกรรมยานยนต์";                  
           default:
-            return "default";
+            return "-";
         }
       };
 
@@ -330,10 +331,16 @@ const Fetch_Form08 = ({evaluationID}) => {
       >
         หมายเลขเอกสาร 08
       </Typography>
-      <div style={{flex:'1',display:'flex',alignItems:'center'}}>
-                                      <div className="sub-header-square" />
-                                      <h1 className="table-title">แบบบันทึกการประเมินผลนิสิตสหกิจศึกษา</h1>
+      <div  style={{flex:'1',display:'flex'}}>
+        <div style={{flex:'1',display:'flex',alignItems:'center'}}>
+                                        <div className="sub-header-square" />
+                                        <h1 className="table-title">แบบบันทึกการประเมินผลนิสิตสหกิจศึกษา</h1>
+        </div>
+        <div>
+          <ReturnButton stroked="black"/>
+        </div>
       </div>
+
                                        
 
       {/* ข้อมูลทั่วไป */}

@@ -335,36 +335,6 @@ const Cooperative = () => {
                     <div className="coop-project-container">
                         <div>
                             <div className="coop-document-box" >
-                                <div className="sub-header">
-                                    <div className="sub-header-square" />
-                                    <h3 style={{fontSize:'18px'}}>เอกสารฝึกงาน</h3>
-                                </div>
-                                <div className="petition-underline" />
-                                <div className="coop-document-menu">
-                                    <nav>
-                                        <ul>
-                                            <li>
-                                                <a href="/petition/request-a">
-                                                    หนังสือส่งตัว
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="/petition/request-a">
-                                                    กฎการฝึกงาน
-                                                </a>
-                                            </li>
-                                            <li>
-                                                <a href="/petition/request-b">
-                                                    แบบฟอร์มต่างๆที่เกี่ยวข้อง
-                                                </a>
-                                            </li>
-                                        </ul>
-                                    </nav>
-                                    <div className="petition-underline" />
-                                </div>
-
-                            </div>
-                            <div className="coop-document-box" style={{marginTop: '30px'}}>
                                     <div className="sub-header">
                                         <div className="sub-header-square" />
                                         <h3 style={{fontSize:'18px'}}>การนิเทศสหกิจ</h3>
@@ -387,6 +357,17 @@ const Cooperative = () => {
                                         </nav>
                                         <div className="petition-underline" />
                                     </div>
+                            </div>
+                            <div className="coop-document-box" style={{marginTop: '30px'}} >
+                                <div className="sub-header">
+                                    <div className="sub-header-square" />
+                                    <h3 style={{fontSize:'18px'}}>เอกสารที่เกี่ยวข้อง</h3>
+                                </div>
+                                <div className="petition-underline" />
+                                    <div style={{justifyContent:'center',alignItems:'center',padding:'0px 30px 0px 30px'}}>
+                                        <p>คุณสามารถตรวจสอบเอกสารที่เกี่ยวข้องได้ทางอีเมล์ของคุณ</p>
+                                    </div>
+
                             </div>
                         </div>
                         <div  className="coop-project-box" style={{marginLeft:'30px',flex:'7'}}>

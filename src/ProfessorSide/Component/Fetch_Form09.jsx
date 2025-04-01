@@ -14,6 +14,7 @@ import axios from "axios";
 import Swal from "sweetalert2";
 import { jsPDF } from 'jspdf';
 import html2canvas from 'html2canvas';
+import ReturnButton from "../../MainComponent/ReturnButton";
 
 const Fetch_Form09 = ({ evaluationID }) => {
   const pdfRef = useRef();
@@ -49,7 +50,7 @@ const Fetch_Form09 = ({ evaluationID }) => {
       case 'T18': return "วิศวกรรมเครื่องกลและระบบการผลิต";
       case 'T19': return "วิศวกรรมหุ่นยนต์และระบบอัตโนมัติ";
       case 'T22': return "วิศวกรรมยานยนต์";
-      default: return "default";
+      default: return "-";
     }
   };
 
@@ -303,10 +304,16 @@ const Fetch_Form09 = ({ evaluationID }) => {
             หมายเลขเอกสาร 09
           </Typography>
           
-          <div style={{ flex: '1', display: 'flex', alignItems: 'center' }}>
-            <div className="sub-header-square" />
-            <h1 className="table-title">แบบประเมินผลรายงานนิสิตสหกิจศึกษา</h1>
+          <div style={{display:'flex'}}>
+            <div style={{ flex: '1', display: 'flex', alignItems: 'center' }}>
+              <div className="sub-header-square" />
+              <h1 className="table-title">แบบประเมินผลรายงานนิสิตสหกิจศึกษา</h1>
+            </div>
+            <div>
+              <ReturnButton stroked="black"/>
+            </div>
           </div>
+
 
           {/* ข้อมูลทั่วไป */}
           <Paper sx={{ 

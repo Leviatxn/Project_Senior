@@ -46,8 +46,9 @@ import Prof_Overview from './ProfessorSide/Prof_Overview';
 import Admin_Overview from './AdminSide/Admin_Overview';
 import Prof_Form08 from './ProfessorSide/Prof_Form08';
 import Prof_Form09 from './ProfessorSide/Prof_Form09';
-
-
+import Admin_Form08 from './AdminSide/Admin_Form08';
+import Admin_Form09 from './AdminSide/Admin_Form09';
+import Admin_Evaluation from './AdminSide/Admin_Evaluation';
 
 const PrivateRoute = ({ children, allowedRoles }) => {
   const token = localStorage.getItem("authToken");
@@ -131,14 +132,15 @@ function App() {
       <Route path="/admin/company-register" element={<PrivateRoute allowedRoles={['admin']}><Admin_CompanyRegister /></PrivateRoute>} />
       <Route path="/admin/project" element={<PrivateRoute allowedRoles={['admin']}><Admin_Project /></PrivateRoute>} />
       <Route path="/admin/project-detail" element={<PrivateRoute allowedRoles={['admin']}><Admin_ProjectDetail /></PrivateRoute>} />
-
       <Route path="/admin/home" element={<PrivateRoute allowedRoles={['admin']}><Admin_Home /></PrivateRoute>} />
       <Route path="/admin/petition" element={<PrivateRoute allowedRoles={['admin']}><Admin_Pettion /></PrivateRoute>} />
       <Route path="/admin/petition-detail" element={<PrivateRoute allowedRoles={['admin']}><Admin_PetitionDetail /></PrivateRoute>} />
       <Route path="/admin/cooperative" element={<PrivateRoute allowedRoles={['admin']}><Admin_Cooperative/></PrivateRoute>} />
       <Route path="/admin/user-management" element={<PrivateRoute allowedRoles={['admin']}><Admin_UserManagement/></PrivateRoute>} />
       <Route path="/admin/overview" element={<PrivateRoute allowedRoles={['admin']}><Admin_Overview/></PrivateRoute>} />
-
+      <Route path="/admin/evaluation" element={<PrivateRoute allowedRoles={['admin']}><Admin_Evaluation /></PrivateRoute>} />
+      <Route path="/admin/form08" element={<PrivateRoute allowedRoles={['admin']}><Admin_Form08/></PrivateRoute>} />
+      <Route path="/admin/form09" element={<PrivateRoute allowedRoles={['admin']}><Admin_Form09/></PrivateRoute>} />
 
       <Route path="/company" element={<Company_LoginPage />} />
 

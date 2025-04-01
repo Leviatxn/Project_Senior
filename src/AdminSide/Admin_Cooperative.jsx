@@ -633,12 +633,27 @@ const AdminCoopTable = ({currentstate}) => {
   };
 
     // ฟังก์ชันเมื่อกดเลือกแถว
-  const handleEvaluationClick = (item) => {
-    navigate(`/professor/evaluation`, { 
-      state: { studentID: item }
+  const handleEvaluationClick = (student_id,version) => {
+    navigate(`/admin/evaluation`, { 
+      state: { studentID: student_id ,
+        version: version
+      }
     });
   };
 
+  const handleForm08 = (student_id) =>{
+    navigate(`/admin/form08`, { 
+      state: { studentID: student_id
+      }
+    });
+  }
+
+  const handleForm09 = (student_id) =>{
+    navigate(`/admin/form09`, { 
+      state: { studentID: student_id
+      }
+    });
+  }
   if (loading) {
     return(
     <div className="loading-text">กำลังโหลดข้อมูล...
@@ -865,6 +880,48 @@ const AdminCoopTable = ({currentstate}) => {
                           </div>
                         </div>
                     )}
+                                          <div style={{display:'flex'}}>
+                                            <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
+                                                          <div >
+                                                            <Button 
+                                                              variant="contained" color="success"
+                                                              onClick={() => (handleForm08(studentInfo.student_id))} 
+                                                              sx={{
+                                                                mt: 3,
+                                                                width: "190px",
+                                                                color: "#FFFFFF", 
+                                                                borderRadius: "16px",
+                                                                fontSize: "14px",
+                                                                fontFamily :"Noto Sans Thai , sans-seriff",
+                                                                padding: "10px 20px",
+                                                                textTransform: "none",
+                                                            }}
+                                                            >
+                                                              <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>แบบประเมินผล</div>
+                                                            </Button>
+                                                          </div>
+                                                </div>
+                                                <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
+                                                          <div >
+                                                            <Button 
+                                                              variant="contained" color="success"
+                                                              onClick={() => (handleForm09(studentInfo.student_id))} 
+                                                              sx={{
+                                                                mt: 3,
+                                                                width: "190px",
+                                                                color: "#FFFFFF", 
+                                                                borderRadius: "16px",
+                                                                fontSize: "14px",
+                                                                fontFamily :"Noto Sans Thai , sans-seriff",
+                                                                padding: "10px 20px",
+                                                                textTransform: "none",
+                                                            }}
+                                                            >
+                                                              <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>แบบประเมินผลรายงาน</div>
+                                                            </Button>
+                                                          </div>
+                                                </div>
+                                          </div>
                     </DialogContent>
 
                     
@@ -1112,43 +1169,7 @@ else if(currentstate == 'first_supervisor'){
                                (firstSupervisor.is_accept === 0) ? (
                                 <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
                                   <div >
-                                    <Button 
-                                      variant="contained" color="success"
-                                      onClick={() => (handleFirstAppointmentAccept(firstSupervisor.student_id))} 
-                                      sx={{
-                                        mt: 3,
-                                        width: "190px",
-                                        color: "#FFFFFF", 
-                                        borderRadius: "16px",
-                                        fontSize: "14px",
-                                        fontFamily :"Noto Sans Thai , sans-seriff",
-                                        padding: "10px 20px",
-                                        textTransform: "none",
-                                    }}
-                                    >
-                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>ยืนยันวันเวลาดังกล่าว</div>
-                                    </Button>
-                                  </div>
-                                  <div>
-                                    <Button onClick={() => (handleSetScheduleClick(firstSupervisor.student_id))} 
-                                    sx={{
-                                      ml:5,
-                                      mt: 3,
-                                      width: "150px",
-                                      backgroundColor: "#00A6A2",
-                                      color: "#FFFFFF", 
-                                      borderRadius: "16px",
-                                      fontSize: "14px",
-                                      fontFamily :"Noto Sans Thai , sans-seriff",
-                                      padding: "10px 20px",
-                                      textTransform: "none",
-                                      "&:hover": {
-                                        backgroundColor: "#006765",
-                                      },
-                                    }}
-                                    >
-                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>กำหนดวันเวลาใหม่</div>
-                                    </Button>
+ 
                                   </div>
                                 </div>
                                 ) : (
@@ -1159,7 +1180,7 @@ else if(currentstate == 'first_supervisor'){
                                       <div style={{flex:1,display:'flex',justifyContent:'center',alignItems:'center'}}>
                                         <Button 
                                         variant="contained" color="success"
-                                        onClick={()=>{handleEvaluationClick(studentInfo.student_id)}}
+                                        onClick={()=>{handleEvaluationClick(studentInfo.student_id,1)}}
                                         sx={{
                                           width: "200px",
                                           color: "#FFFFFF", 
@@ -1603,43 +1624,6 @@ else if(currentstate == 'second_supervisor'){
                                (secondSupervisor.is_accept === 0) ? (
                                 <div style={{display:'flex',flex:1,justifyContent:'center',alignItems:'center'}}>
                                   <div >
-                                    <Button 
-                                      variant="contained" color="success"
-                                      onClick={() => (handleSecondAppointmentAccept(secondSupervisor.student_id))} 
-                                      sx={{
-                                        mt: 3,
-                                        width: "190px",
-                                        color: "#FFFFFF", 
-                                        borderRadius: "16px",
-                                        fontSize: "14px",
-                                        fontFamily :"Noto Sans Thai , sans-seriff",
-                                        padding: "10px 20px",
-                                        textTransform: "none",
-                                    }}
-                                    >
-                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>ยืนยันวันเวลาดังกล่าว</div>
-                                    </Button>
-                                  </div>
-                                  <div>
-                                    <Button onClick={() => (handleSetScheduleClick(secondSupervisor.student_id))} 
-                                    sx={{
-                                      ml:5,
-                                      mt: 3,
-                                      width: "150px",
-                                      backgroundColor: "#00A6A2",
-                                      color: "#FFFFFF", 
-                                      borderRadius: "16px",
-                                      fontSize: "14px",
-                                      fontFamily :"Noto Sans Thai , sans-seriff",
-                                      padding: "10px 20px",
-                                      textTransform: "none",
-                                      "&:hover": {
-                                        backgroundColor: "#006765",
-                                      },
-                                    }}
-                                    >
-                                      <div style={{fontFamily: "Noto Sans Thai, sans-serif"}}>กำหนดวันเวลาใหม่</div>
-                                    </Button>
                                   </div>
                                 </div>
                                 ) : (
